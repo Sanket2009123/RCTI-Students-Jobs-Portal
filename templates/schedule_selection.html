@@ -1,0 +1,888 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Schedule Selection{% endblock %}
+{% block page_title %}Schedule Selection{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+<style>
+/* ==========================================================
+   PROFESSIONAL SCHEDULE SELECTION PAGE
+   ========================================================== */
+
+.schedule-page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 4px 0 42px;
+}
+
+/* Hero */
+.schedule-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 30px;
+    margin-bottom: 22px;
+    border: 1px solid #e7edf5;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #ffffff 0%, #f7faff 100%);
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.07);
+}
+
+.schedule-hero-left {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.schedule-hero-icon {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 17px;
+    background: #eef4ff;
+    color: #2563eb;
+    font-size: 23px;
+}
+
+.schedule-hero h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+}
+
+.schedule-hero p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 15px;
+    border: 1px solid #dbe3ee;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #334155;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .2s ease;
+}
+
+.back-btn:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    transform: translateY(-1px);
+}
+
+/* Main grid */
+.schedule-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(290px, .75fr);
+    gap: 22px;
+    align-items: start;
+}
+
+/* Cards */
+.schedule-card {
+    border: 1px solid #e6ebf2;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.055);
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.card-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.card-title-icon {
+    width: 39px;
+    height: 39px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.card-title h2 {
+    margin: 0;
+    color: #172033;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.card-title p {
+    margin: 4px 0 0;
+    color: #7b8798;
+    font-size: 13px;
+}
+
+/* Candidate */
+.candidate-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 25px;
+    border: 1px solid #e5eaf1;
+    border-radius: 15px;
+    background: #f8fafc;
+}
+
+.candidate-avatar {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: #e8efff;
+    color: #2563eb;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.candidate-info {
+    min-width: 0;
+}
+
+.candidate-info strong {
+    display: block;
+    color: #172033;
+    font-size: 16px;
+}
+
+.candidate-info span {
+    display: block;
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.candidate-status {
+    margin-left: auto;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #ecfdf3;
+    color: #15803d;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* Type selection */
+.type-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.type-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.type-option {
+    position: relative;
+}
+
+.type-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.type-option label {
+    display: block;
+    padding: 16px;
+    border: 1px solid #dfe6ef;
+    border-radius: 14px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.type-option label:hover {
+    border-color: #9fb8eb;
+    background: #f8fbff;
+}
+
+.type-option input:checked + label {
+    border-color: #2563eb;
+    background: #f4f7ff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .09);
+}
+
+.type-option-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: #eef4ff;
+    color: #2563eb;
+}
+
+.type-option strong {
+    display: block;
+    color: #1e293b;
+    font-size: 14px;
+}
+
+.type-option small {
+    display: block;
+    margin-top: 4px;
+    color: #718096;
+    line-height: 1.45;
+}
+
+/* Form */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.field label span {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 13px;
+    border: 1px solid #d8e0ea;
+    border-radius: 11px;
+    outline: none;
+    background: #ffffff;
+    color: #1e293b;
+    font: inherit;
+    font-size: 13px;
+    transition: .2s ease;
+}
+
+.field textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+    color: #a1adbd;
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .09);
+}
+
+/* Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 22px;
+    margin-top: 22px;
+    border-top: 1px solid #edf1f5;
+}
+
+.btn-cancel,
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 0 17px;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.btn-cancel {
+    border: 1px solid #dbe3ed;
+    background: #ffffff;
+    color: #475569;
+}
+
+.btn-submit {
+    border: 1px solid #2563eb;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-cancel:hover {
+    background: #f8fafc;
+}
+
+.btn-submit:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Side information */
+.info-card {
+    position: sticky;
+    top: 20px;
+}
+
+.info-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #edf1f5;
+}
+
+.info-item:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.info-item:first-child {
+    padding-top: 0;
+}
+
+.info-icon {
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.info-item strong {
+    display: block;
+    color: #263246;
+    font-size: 13px;
+}
+
+.info-item p {
+    margin: 4px 0 0;
+    color: #718096;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Previous events */
+.events-card {
+    margin-top: 22px;
+}
+
+.event-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px 0;
+    border-bottom: 1px solid #edf1f5;
+}
+
+.event-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.event-icon {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: #eef4ff;
+    color: #2563eb;
+}
+
+.event-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.event-content strong {
+    display: block;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.event-content span {
+    display: block;
+    margin-top: 3px;
+    color: #7b8798;
+    font-size: 11px;
+}
+
+.event-status {
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-card {
+        position: static;
+    }
+}
+
+@media (max-width: 650px) {
+    .schedule-page {
+        padding: 0 0 28px;
+    }
+
+    .schedule-hero {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 21px;
+    }
+
+    .schedule-hero h1 {
+        font-size: 23px;
+    }
+
+    .schedule-hero .back-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .card-body {
+        padding: 19px;
+    }
+
+    .type-options,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .candidate-box {
+        align-items: flex-start;
+    }
+
+    .candidate-status {
+        margin-left: auto;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .btn-cancel,
+    .btn-submit {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="schedule-page">
+
+    <!-- Page Header -->
+    <section class="schedule-hero">
+        <div class="schedule-hero-left">
+            <div class="schedule-hero-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div>
+                <h1>Schedule Selection</h1>
+                <p>Arrange the next recruitment step for your shortlisted candidate.</p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('company_applicants') }}" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Applicants
+        </a>
+    </section>
+
+
+    <div class="schedule-grid">
+
+        <!-- Main Form -->
+        <section class="schedule-card">
+            <div class="card-body">
+
+                <div class="card-title">
+                    <div class="card-title-icon">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+
+                    <div>
+                        <h2>Candidate & Selection Details</h2>
+                        <p>Create a professional interview or test invitation.</p>
+                    </div>
+                </div>
+
+
+                <!-- Candidate -->
+                <div class="candidate-box">
+
+                    <div class="candidate-avatar">
+                        {{ application.fullname[:1]|upper }}
+                    </div>
+
+                    <div class="candidate-info">
+                        <strong>{{ application.fullname }}</strong>
+                        <span>{{ application.email }}</span>
+                        <span>{{ application.title }}</span>
+                    </div>
+
+                    <div class="candidate-status">
+                        <i class="fa-solid fa-check"></i>
+                        Accepted
+                    </div>
+
+                </div>
+
+
+                <form method="POST">
+
+                    <!-- Selection Type -->
+                    <span class="type-label">Select Selection Type</span>
+
+                    <div class="type-options">
+
+                        <div class="type-option">
+                            <input
+                                type="radio"
+                                id="eventInterview"
+                                name="event_type"
+                                value="Interview"
+                                required>
+
+                            <label for="eventInterview">
+                                <div class="type-option-icon">
+                                    <i class="fa-solid fa-video"></i>
+                                </div>
+
+                                <strong>Interview</strong>
+
+                                <small>
+                                    Schedule a video or in-person interview.
+                                </small>
+                            </label>
+                        </div>
+
+
+                        <div class="type-option">
+                            <input
+                                type="radio"
+                                id="eventTest"
+                                name="event_type"
+                                value="Test">
+
+                            <label for="eventTest">
+                                <div class="type-option-icon">
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                </div>
+
+                                <strong>Online Test</strong>
+
+                                <small>
+                                    Send an assessment or test link to the candidate.
+                                </small>
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Details -->
+                    <div class="form-grid">
+
+                        <div class="field full">
+                            <label for="title">Selection Title</label>
+
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                placeholder="e.g. Technical Interview – Software Developer"
+                                required>
+                        </div>
+
+
+                        <div class="field">
+                            <label for="event_date">Date</label>
+
+                            <input
+                                type="date"
+                                id="event_date"
+                                name="event_date"
+                                required>
+                        </div>
+
+
+                        <div class="field">
+                            <label for="event_time">Time</label>
+
+                            <input
+                                type="time"
+                                id="event_time"
+                                name="event_time"
+                                required>
+                        </div>
+
+
+                        <div class="field full">
+                            <label for="meeting_link">
+                                Meeting / Test Link
+                                <span>Optional</span>
+                            </label>
+
+                            <input
+                                type="url"
+                                id="meeting_link"
+                                name="meeting_link"
+                                placeholder="https://meet.google.com/... or your test URL">
+                        </div>
+
+
+                        <div class="field full">
+                            <label for="message">
+                                Message / Instructions
+                                <span>Optional</span>
+                            </label>
+
+                            <textarea
+                                id="message"
+                                name="message"
+                                placeholder="Add instructions for the candidate, preparation details, or anything they should know before the selection round..."></textarea>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <a
+                            href="{{ url_for('company_applicants') }}"
+                            class="btn-cancel">
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn-submit">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            Schedule Selection
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </section>
+
+
+        <!-- Information Sidebar -->
+        <aside>
+
+            <section class="schedule-card info-card">
+                <div class="card-body">
+
+                    <div class="card-title">
+                        <div class="card-title-icon">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+
+                        <div>
+                            <h2>Scheduling Guide</h2>
+                            <p>Keep the candidate informed.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+
+                        <div>
+                            <strong>Choose a clear date & time</strong>
+                            <p>
+                                Give the candidate enough notice before the selection round.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+
+                        <div>
+                            <strong>Add the correct link</strong>
+                            <p>
+                                Use a Google Meet link for interviews or an assessment link for tests.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fa-solid fa-message"></i>
+                        </div>
+
+                        <div>
+                            <strong>Provide instructions</strong>
+                            <p>
+                                Mention preparation requirements, duration, or joining instructions.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <div>
+                            <strong>Candidate access</strong>
+                            <p>
+                                Only the accepted candidate assigned to this selection can access it.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+
+            {% if events %}
+            <section class="schedule-card events-card">
+                <div class="card-body">
+
+                    <div class="card-title">
+                        <div class="card-title-icon">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+
+                        <div>
+                            <h2>Previous Schedules</h2>
+                            <p>Selection activity for this candidate.</p>
+                        </div>
+                    </div>
+
+
+                    {% for event in events %}
+
+                    <div class="event-row">
+
+                        <div class="event-icon">
+                            {% if event.event_type == "Interview" %}
+                            <i class="fa-solid fa-video"></i>
+                            {% else %}
+                            <i class="fa-solid fa-clipboard-check"></i>
+                            {% endif %}
+                        </div>
+
+                        <div class="event-content">
+                            <strong>{{ event.title }}</strong>
+
+                            <span>
+                                {{ event.event_type }}
+                                · {{ event.event_date }}
+                                · {{ event.event_time }}
+                            </span>
+                        </div>
+
+                        <div class="event-status">
+                            {{ event.status }}
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+            </section>
+            {% endif %}
+
+        </aside>
+
+    </div>
+
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const dateInput = document.getElementById("event_date");
+
+    if (dateInput) {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        dateInput.min = `${year}-${month}-${day}`;
+    }
+
+});
+</script>
+
+{% endblock %}

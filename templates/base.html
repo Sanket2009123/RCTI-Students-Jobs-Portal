@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    window.firebaseModules = {
+        initializeApp,
+        getAuth
+    };
+
+</script>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}RCTI Students Jobs Portal{% endblock %}
+    </title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- ================= Global CSS ================= -->
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Navbar -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+
+    <!-- Footer -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+    <!-- Responsive -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <!-- Page CSS -->
+    {% block css %}
+    {% endblock %}
+
+</head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<body>
+
+    <!-- ================= Navbar ================= -->
+
+    {% include "includes/navbar.html" %}
+
+    <!-- ================= Flash Messages ================= -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+    <div class="container mt-3">
+
+        {% for category, message in messages %}
+
+        <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+            {{ message }}
+
+            <button class="btn-close" data-bs-dismiss="alert"></button>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+    {% endwith %}
+    <!-- <div class="container mt-3">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+        {% for category, message in messages %}
+
+        <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+            {{ message }}
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+        {% endwith %}
+
+    </div> -->
+    <!-- ================= Main Content ================= -->
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+    <!-- ================= Footer ================= -->
+
+    {% block footer %}
+    {% endblock %}
+
+    <!-- Bootstrap JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main Responsive JS -->
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    {% block js %}
+
+    {% endblock %}
+    <script>
+
+        setTimeout(function () {
+
+            let alerts = document.querySelectorAll(".alert");
+
+            alerts.forEach(function (alert) {
+
+                let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+
+                bsAlert.close();
+
+            });
+
+        }, 3000);
+
+    </script>
+</body>
+
+</html>

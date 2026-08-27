@@ -1,0 +1,202 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Manage Students
+{% endblock %}
+
+{% block page_title %}
+Manage Students
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/manage_students.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Registered Students</h2>
+
+            <p class="text-muted">
+
+                View, search and manage all student accounts.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('student_register') }}" class="btn btn-primary">
+
+            <i class="fa-solid fa-user-plus"></i>
+
+            Add Student
+
+        </a>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <input type="text" class="form-control" placeholder="Search by Name, Email or Branch">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <select class="form-select">
+
+                        <option>All Branches</option>
+                        <option>Computer Engineering</option>
+                        <option>Mechanical Engineering</option>
+                        <option>Civil Engineering</option>
+                        <option>Electrical Engineering</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <button class="btn btn-success w-100">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Students Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Branch</th>
+                        <th>Semester</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% if students %}
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td>{{ student.id }}</td>
+
+                        <td>
+                            <img src="{{ url_for('static', filename='images/student.png') }}" width="45" height="45"
+                                class="rounded-circle">
+                        </td>
+
+                        <td>
+                            {{ student.firstname }} {{ student.lastname }}
+                        </td>
+
+                        <td>
+                            {{ student.email }}
+                        </td>
+
+                        <td>
+                            {{ student.branch }}
+                        </td>
+
+                        <td>
+                            {{ student.semester }}
+                        </td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                Active
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="btn btn-sm btn-warning">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="{{ url_for('delete_student', student_id=student.id) }}"
+                                class="btn btn-sm btn-danger" onclick="return confirm('Delete this student?')">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center text-muted py-4">
+
+                            No Students Registered Yet
+
+                        </td>
+
+                    </tr>
+
+                    {% endif %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/manage_students.js') }}"></script>
+
+{% endblock %}

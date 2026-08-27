@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Login - RCTI Students Jobs Portal
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_login.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="admin-login-page">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-5 col-md-7 col-sm-10">
+
+                <div class="card admin-login-card">
+
+                    <!-- ================= HEADER ================= -->
+
+                    <div class="card-header admin-login-header text-center">
+
+                        <div class="admin-logo">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+
+                        <h2>Administrator Portal</h2>
+
+                        <p>
+                            Secure access to your management dashboard
+                        </p>
+
+                        <div class="admin-security-badge">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            Protected Admin Area
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= BODY ================= -->
+
+                    <div class="card-body">
+
+                        <form action="{{ url_for('admin_login') }}" method="POST" id="adminLoginForm">
+
+                            <!-- ================= EMAIL ================= -->
+
+                            <div class="admin-form-group">
+
+                                <label for="adminEmail" class="form-label">
+                                    Admin Email
+                                </label>
+
+                                <div class="admin-input-wrapper">
+
+                                    <i class="fa-solid fa-envelope admin-input-icon"></i>
+
+                                    <input type="email" name="email" id="adminEmail" class="form-control admin-input"
+                                        placeholder="Enter Admin Email" autocomplete="username" required>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ================= PASSWORD ================= -->
+
+                            <div class="admin-form-group">
+
+                                <label for="adminPassword" class="form-label">
+                                    Password
+                                </label>
+
+                                <div class="admin-input-wrapper">
+
+                                    <i class="fa-solid fa-lock admin-input-icon"></i>
+
+                                    <input type="password" name="password" id="adminPassword"
+                                        class="form-control admin-input admin-password-input"
+                                        placeholder="Enter Password" autocomplete="current-password" required>
+
+                                    <button type="button" class="admin-password-toggle" id="toggleAdminPassword"
+                                        aria-label="Show password" title="Show password">
+
+                                        <i class="fa-solid fa-eye"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ================= OPTIONS ================= -->
+
+                            <div class="admin-login-options">
+
+                                <label class="admin-remember">
+
+                                    <input type="checkbox" name="remember" id="rememberAdmin">
+
+                                    <span>
+                                        Remember Me
+                                    </span>
+
+                                </label>
+
+
+                                <a href="#" class="admin-forgot">
+                                    Forgot Password?
+                                </a>
+
+                            </div>
+
+
+                            <!-- ================= LOGIN BUTTON ================= -->
+
+                            <button type="submit" class="btn admin-login-button" id="adminLoginButton">
+
+                                <i class="fa-solid fa-right-to-bracket"></i>
+
+                                <span>
+                                    Login
+                                </span>
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- ================= SECURITY FOOTER ================= -->
+
+                        <div class="admin-login-footer">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            Your connection is protected and secure
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/admin_login.js') }}">
+</script>
+
+{% endblock %}

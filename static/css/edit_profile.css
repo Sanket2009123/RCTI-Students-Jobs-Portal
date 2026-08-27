@@ -1,0 +1,31 @@
+.card{
+
+    border:none;
+
+    border-radius:15px;
+
+}
+
+.card-header{
+
+    border-radius:15px 15px 0 0;
+
+}
+
+.form-control{
+
+    border-radius:10px;
+
+}
+
+textarea{
+
+    resize:none;
+
+}
+
+.btn{
+
+    border-radius:10px;
+
+}

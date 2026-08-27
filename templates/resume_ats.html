@@ -1,0 +1,247 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+
+ATS Resume Score
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-dark text-white">
+
+                    <h3>
+
+                        ATS Resume Analysis
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body text-center">
+                    <div class="mb-4">
+
+                        <h1 class="display-2 text-{{ color }}">
+
+                            {{ score }}%
+
+                        </h1>
+
+                        <h3>
+
+                            {{ level }}
+
+                        </h3>
+
+                        <p class="text-muted">
+
+                            Overall ATS Resume Score
+
+                        </p>
+
+                    </div>
+                    <div class="row text-start mb-4">
+
+                        <div class="col-md-6">
+
+                            <strong>Resume Name</strong>
+
+                            <p>
+
+                                {{ resume.resume_name }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Template</strong>
+
+                            <p>
+
+                                {{ resume.template|capitalize }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+                    <h4 class="text-danger mb-3">
+
+                        Suggestions
+
+                    </h4>
+                    {% if suggestions %}
+
+                    <div class="list-group mb-4">
+
+                        {% for suggestion in suggestions %}
+
+                        <div class="list-group-item">
+
+                            <i class="fas fa-exclamation-circle text-warning me-2"></i>
+
+                            {{ suggestion }}
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="alert alert-success">
+
+                        <i class="fas fa-check-circle me-2"></i>
+
+                        Excellent! Your resume looks ATS friendly.
+
+                    </div>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <h4 class="mb-4">
+
+                        Resume Summary
+
+                    </h4>
+
+                    <div class="row text-center">
+
+                        <div class="col-md-4 mb-3">
+
+                            <div class="card border-success">
+
+                                <div class="card-body">
+
+                                    <h2 class="text-success">
+
+                                        {{ skills|length }}
+
+                                    </h2>
+
+                                    <p class="mb-0">
+
+                                        Skills
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <div class="card border-primary">
+
+                                <div class="card-body">
+
+                                    <h2 class="text-primary">
+
+                                        {{ projects|length }}
+
+                                    </h2>
+
+                                    <p class="mb-0">
+
+                                        Projects
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <div class="card border-warning">
+
+                                <div class="card-body">
+
+                                    <h2 class="text-warning">
+
+                                        {{ education|length }}
+
+                                    </h2>
+
+                                    <p class="mb-0">
+
+                                        Education
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="text-center mt-5">
+
+                        <a href="{{ url_for('resume_details', resume_id=resume.id) }}" class="btn btn-secondary me-2">
+
+                            <i class="fas fa-arrow-left me-2"></i>
+
+                            Back
+
+                        </a>
+
+                        <a href="{{ url_for('download_resume_pdf', resume_id=resume.id) }}" class="btn btn-danger">
+
+                            <i class="fas fa-file-pdf me-2"></i>
+
+                            Download PDF
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <style>
+        .card {
+
+            border-radius: 15px;
+
+        }
+
+        .list-group-item {
+
+            border-left: 5px solid #ffc107;
+
+        }
+
+        .display-2 {
+
+            font-weight: bold;
+
+        }
+    </style>
+
+    {% endblock %}

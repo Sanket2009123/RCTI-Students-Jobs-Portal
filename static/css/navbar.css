@@ -1,0 +1,551 @@
+/* ==========================================================
+   NAVBAR
+========================================================== */
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:85px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 80px;
+
+    background:linear-gradient(135deg,#1E3A8A,#2563EB);
+
+    /* box-shadow:0 4px 15px rgba(0,0,0,.15); */
+
+    z-index:999;
+
+    transition:.3s;
+
+}
+
+/* ==========================================================
+   LOGO
+========================================================== */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.logo img{
+
+    width:60px;
+
+    height:60px;
+
+    object-fit:contain;
+
+}
+
+.logo span{
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:#fff;
+
+    letter-spacing:1px;
+
+}
+
+/* ==========================================================
+   MENU
+========================================================== */
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:30px;
+
+    list-style:none;
+
+}
+
+.nav-links li{
+
+    position:relative;
+
+}
+
+.nav-links a{
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+    padding:8px 0;
+
+}
+
+/* underline animation */
+
+.nav-links a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-6px;
+
+    width:0;
+
+    height:3px;
+
+    background:#14B8A6;
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover{
+
+    color:#14B8A6;
+
+}
+
+.nav-links a:hover::after{
+
+    width:100%;
+
+}
+
+.nav-links a.active{
+
+    color:#14B8A6;
+
+}
+
+.nav-links a.active::after{
+
+    width:100%;
+
+}
+
+/* ==========================================================
+   RIGHT BUTTONS
+========================================================== */
+
+.nav-buttons{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.nav-login-btn,
+.nav-register-btn{
+
+    width:120px;
+
+    height:45px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.nav-login-btn{
+
+    border:2px solid white;
+
+    color:white;
+
+}
+
+.nav-login-btn:hover{
+
+    background:white;
+
+    color:#2563EB;
+
+}
+
+.nav-register-btn{
+
+    background:#14B8A6;
+
+    color:white;
+
+}
+
+.nav-register-btn:hover{
+
+    background:#11998e;
+
+}
+
+/* ==========================================================
+   MOBILE MENU ICON
+========================================================== */
+
+.menu-toggle{
+
+    display:none;
+
+    font-size:30px;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+/* ==========================================================
+   STICKY EFFECT
+========================================================== */
+
+.navbar.scrolled{
+
+    height:75px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.18);
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:992px){
+
+.navbar{
+
+    padding:0 20px;
+
+}
+
+.menu-toggle{
+
+    display:block;
+
+}
+
+.nav-buttons{
+
+    display:none;
+
+}
+
+.nav-links{
+
+    position:absolute;
+
+    top:85px;
+
+    left:0;
+
+    width:100%;
+
+    background:#1E3A8A;
+
+    flex-direction:column;
+
+    gap:0;
+
+    display:none;
+
+}
+
+.nav-links.show{
+
+    display:flex;
+
+}
+
+.nav-links li{
+
+    width:100%;
+
+    text-align:center;
+
+}
+
+.nav-links a{
+
+    display:block;
+
+    padding:18px;
+
+}
+
+.nav-links a::after{
+
+    display:none;
+
+}
+
+.logo span{
+
+    font-size:26px;
+
+}
+
+}
+
+@media(max-width:576px){
+
+.logo img{
+
+    width:48px;
+
+    height:48px;
+
+}
+
+.logo span{
+
+    font-size:22px;
+
+}
+
+}
+/* Dropdown */
+
+.dropdown{
+    position:relative;
+    display:inline-block;
+    margin-left:15px;
+}
+
+.dropbtn{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    right:0;
+    min-width:220px;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    z-index:999;
+}
+
+.dropdown-content a{
+    display:block;
+    padding:12px 16px;
+    text-decoration:none;
+    color:#333;
+}
+
+.dropdown-content a:hover{
+    background:#f4f4f4;
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+/* ==========================================================
+   MOBILE AUTH
+========================================================== */
+
+.mobile-auth {
+    display: none;
+}
+
+
+/* ==========================================================
+   MOBILE RESPONSIVE
+========================================================== */
+
+@media (max-width: 992px) {
+
+    .navbar {
+        height: 75px;
+        padding: 0 20px;
+    }
+
+
+    .logo {
+        gap: 8px;
+    }
+
+
+    .logo img {
+        width: 48px;
+        height: 48px;
+    }
+
+
+    .logo span {
+        font-size: 22px;
+    }
+
+
+    .menu-toggle {
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 45px;
+        height: 45px;
+
+        padding: 0;
+
+        border: none;
+        background: transparent;
+
+        color: #ffffff;
+
+        font-size: 26px;
+
+        cursor: pointer;
+
+        z-index: 1002;
+    }
+
+
+    .nav-links {
+
+        position: fixed;
+
+        top: 75px;
+        left: 0;
+
+        width: 100%;
+
+        max-height: calc(100vh - 75px);
+
+        overflow-y: auto;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 10px 0 20px;
+
+        margin: 0;
+
+        background: #1E3A8A;
+
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.20);
+
+        z-index: 1001;
+    }
+
+
+    .nav-links.show {
+        display: flex;
+    }
+
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+
+    .nav-links a {
+
+        display: block;
+
+        width: 100%;
+
+        padding: 14px 20px;
+
+        font-size: 16px;
+    }
+
+
+    .nav-links a::after {
+        display: none;
+    }
+
+
+    .mobile-auth {
+        display: block;
+    }
+
+
+    .nav-buttons {
+        display: none;
+    }
+
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 576px) {
+
+    .navbar {
+        padding: 0 12px;
+    }
+
+
+    .logo img {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    .logo span {
+        font-size: 18px;
+        letter-spacing: 0;
+    }
+
+
+    .menu-toggle {
+        width: 42px;
+        height: 42px;
+        font-size: 24px;
+    }
+
+}

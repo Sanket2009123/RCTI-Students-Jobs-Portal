@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>{{ resume.resume_name }}</title>
+
+    <style>
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            margin: 40px;
+
+            color: #222;
+
+        }
+
+        h1 {
+
+            margin-bottom: 5px;
+
+        }
+
+        .section {
+
+            margin-top: 25px;
+
+        }
+
+        .section h2 {
+
+            border-bottom: 2px solid #333;
+
+            padding-bottom: 5px;
+
+        }
+
+        ul {
+
+            padding-left: 20px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    {% if student.profile_photo and student.profile_photo != "default.png" %}
+    <img src="{{ url_for('static', filename='uploads/profile/' ~ student.profile_photo) }}" alt="Profile Photo"
+        class="resume-profile-photo">
+    {% endif %}
+    <h1>
+
+        {{ student.fullname }}
+
+    </h1>
+
+    <p>
+
+        {{ student.email }}
+
+        |
+
+        {{ student.mobile }}
+
+        |
+
+        {{ student.address }}
+
+    </p>
+    <div class="section">
+
+        <h2>
+
+            Career Objective
+
+        </h2>
+
+        <p>
+
+            {{ resume.objective }}
+
+        </p>
+
+    </div>
+    <div class="section">
+
+        <h2>
+
+            Skills
+
+        </h2>
+
+        <ul>
+
+            {% for skill in skills %}
+
+            <li>
+
+                {{ skill.skill }}
+
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+    <div class="section">
+
+        <h2>
+
+            Education
+
+        </h2>
+
+        {% for edu in education %}
+
+        <p>
+
+            <strong>{{ edu.degree }}</strong><br>
+
+            {{ edu.college }}<br>
+
+            {{ edu.year }}
+
+        </p>
+
+        {% endfor %}
+
+    </div>
+    <!-- ========================= -->
+    <!-- Projects -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>Projects</h2>
+
+        {% if projects %}
+
+        {% for project in projects %}
+
+        <div style="margin-bottom:15px;">
+
+            <strong>{{ project.project_title }}</strong><br>
+
+            <em>{{ project.project_technology }}</em>
+
+            <p>{{ project.project_description }}</p>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <p>No projects added.</p>
+
+        {% endif %}
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Experience -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>Experience</h2>
+
+        {% if experience %}
+
+        {% for exp in experience %}
+
+        <div style="margin-bottom:15px;">
+
+            <strong>{{ exp.role }}</strong>
+
+            - {{ exp.company }}
+
+            <br>
+
+            <small>{{ exp.duration }}</small>
+
+            <p>{{ exp.experience_description }}</p>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <p>Fresher</p>
+
+        {% endif %}
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Certificates -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>Certificates</h2>
+
+        <ul>
+
+            {% for cert in certificates %}
+
+            <li>
+
+                {{ cert.certificate_name }}
+
+                -
+
+                {{ cert.certificate_org }}
+
+                ({{ cert.certificate_year }})
+
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Languages -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>Languages</h2>
+
+        <ul>
+
+            {% for lang in languages %}
+
+            <li>{{ lang.language }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+    <!-- ========================= -->
+    <!-- Achievements -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>Achievements</h2>
+
+        {% if achievements %}
+
+        <ul>
+
+            {% for achievement in achievements %}
+
+            <li>
+
+                {{ achievement.achievement }}
+
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+        {% else %}
+
+        <p>No achievements added.</p>
+
+        {% endif %}
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Hobbies -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>Hobbies</h2>
+
+        {% if hobbies %}
+
+        <ul>
+
+            {% for hobby in hobbies %}
+
+            <li>
+
+                {{ hobby.hobby }}
+
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+        {% else %}
+
+        <p>No hobbies added.</p>
+
+        {% endif %}
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Professional Profiles -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>Professional Profiles</h2>
+
+        <table style="width:100%; border-collapse:collapse;">
+
+            {% if resume.linkedin %}
+
+            <tr>
+
+                <td style="width:120px;"><strong>LinkedIn</strong></td>
+
+                <td>{{ resume.linkedin }}</td>
+
+            </tr>
+
+            {% endif %}
+
+            {% if resume.github %}
+
+            <tr>
+
+                <td><strong>GitHub</strong></td>
+
+                <td>{{ resume.github }}</td>
+
+            </tr>
+
+            {% endif %}
+
+            {% if resume.portfolio %}
+
+            <tr>
+
+                <td><strong>Portfolio</strong></td>
+
+                <td>{{ resume.portfolio }}</td>
+
+            </tr>
+
+            {% endif %}
+
+        </table>
+
+    </div>
+
+    <hr style="margin-top:40px;">
+
+    <div style="text-align:center; font-size:12px; color:#666;">
+
+        <p>
+
+            This resume was generated using the <strong>RCTI Student Jobs Portal</strong>.
+
+        </p>
+
+        <p>
+
+            Generated on: {{ resume.updated_at if resume.updated_at else resume.created_at }}
+
+        </p>
+
+    </div>
+
+</body>
+
+</html>

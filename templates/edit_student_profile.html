@@ -1,0 +1,112 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+
+Edit Profile
+
+{% endblock %}
+
+{% block page_title %}
+
+Edit Profile
+
+{% endblock %}
+{% block css %}
+
+<link
+rel="stylesheet"
+href="{{ url_for('static', filename='css/edit_profile.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>Edit Profile</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+                <div class="mb-3">
+
+                    <label>Full Name</label>
+
+                    <input type="text" name="fullname" class="form-control" value="{{ student.fullname }}" required>
+
+                </div>
+                <div class="mb-3">
+
+                    <label>Mobile</label>
+
+                    <input type="text" name="mobile" class="form-control" value="{{ student.mobile }}">
+
+                </div>
+                <div class="mb-3">
+
+                    <label>Branch</label>
+
+                    <input type="text" name="branch" class="form-control" value="{{ student.branch }}">
+
+                </div>
+                <div class="mb-3">
+
+                    <label>Semester</label>
+
+                    <input type="text" name="semester" class="form-control" value="{{ student.semester }}">
+
+                </div>
+                <div class="mb-3">
+
+                    <label>College</label>
+
+                    <input type="text" name="college" class="form-control" value="{{ student.college }}">
+
+                </div>
+                <div class="mb-3">
+
+                    <label>Skills</label>
+
+                    <textarea name="skills" class="form-control" rows="3">{{ student.skills }}</textarea>
+
+                </div>
+                <div class="mb-3">
+
+                    <label>About Me</label>
+
+                    <textarea name="about" class="form-control" rows="5">{{ student.about }}</textarea>
+
+                </div>
+                <div class="mb-3">
+
+                    <label>Address</label>
+
+                    <textarea name="address" class="form-control" rows="3">{{ student.address }}</textarea>
+
+                </div>
+                <button class="btn btn-success">
+
+                    Save Changes
+
+                </button>
+
+                <a href="/student/profile" class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,567 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Upload Resume
+{% endblock %}
+
+{% block page_title %}
+Upload Resume
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/upload_resume.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="resume-upload-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="resume-page-header">
+
+        <div class="header-content">
+
+            <div class="breadcrumb">
+                <a href="{{ url_for('student_dashboard') }}">
+                    Dashboard
+                </a>
+
+                <span>/</span>
+
+                <span>Resume</span>
+
+                <span>/</span>
+
+                <strong>Upload</strong>
+            </div>
+
+            <div class="page-heading">
+
+                <div class="heading-icon">
+                    <i class="fa-solid fa-file-arrow-up"></i>
+                </div>
+
+                <div>
+                    <h1>Upload Your Resume</h1>
+
+                    <p>
+                        Upload your latest resume and keep your profile
+                        ready for new job opportunities.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN GRID
+    ====================================================== -->
+
+    <div class="resume-upload-grid">
+
+
+        <!-- =================================================
+             LEFT - UPLOAD SECTION
+        ================================================== -->
+
+        <div class="upload-main-card">
+
+            <div class="card-top">
+
+                <div>
+                    <h2>Upload Resume</h2>
+
+                    <p>
+                        Choose a professional resume to upload to your
+                        student profile.
+                    </p>
+                </div>
+
+                <div class="secure-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Secure Upload
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 FORM
+            ============================================== -->
+
+            <form id="resumeUploadForm"
+                  action="{{ url_for('upload_resume') }}"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+
+                <!-- =========================================
+                     DROP AREA
+                ========================================== -->
+
+                <div class="upload-area"
+                     id="uploadArea">
+
+                    <input type="file"
+                           id="resumeInput"
+                           name="resume"
+                           accept=".pdf,.doc,.docx"
+                           hidden
+                           required>
+
+
+                    <div class="upload-icon">
+
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Drag & Drop Your Resume
+                    </h3>
+
+
+                    <p>
+                        or
+                    </p>
+
+
+                    <button type="button"
+                            class="choose-file-btn"
+                            id="chooseFileBtn">
+
+                        <i class="fa-solid fa-folder-open"></i>
+
+                        Choose Resume
+
+                    </button>
+
+
+                    <div class="upload-requirements">
+
+                        <span>
+                            <i class="fa-regular fa-file"></i>
+                            PDF
+                        </span>
+
+                        <span>
+                            <i class="fa-regular fa-file-word"></i>
+                            DOC
+                        </span>
+
+                        <span>
+                            <i class="fa-regular fa-file-word"></i>
+                            DOCX
+                        </span>
+
+                        <span class="separator"></span>
+
+                        <span>
+                            Max 5 MB
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     SELECTED FILE
+                ========================================== -->
+
+                <div class="selected-file"
+                     id="selectedFile"
+                     style="display:none;">
+
+                    <div class="selected-file-left">
+
+                        <div class="file-type-icon"
+                             id="fileTypeIcon">
+
+                            <i class="fa-solid fa-file-pdf"></i>
+
+                        </div>
+
+
+                        <div class="file-details">
+
+                            <h4 id="fileName">
+                                Resume.pdf
+                            </h4>
+
+                            <p id="fileSize">
+                                0 KB
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="button"
+                            class="remove-file-btn"
+                            id="removeFileBtn"
+                            aria-label="Remove selected file">
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     ERROR
+                ========================================== -->
+
+                <div class="upload-message error-message"
+                     id="errorMessage"
+                     style="display:none;">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    <span id="errorText">
+                        Please select a valid resume.
+                    </span>
+
+                </div>
+
+
+                <!-- =========================================
+                     UPLOAD BUTTON
+                ========================================== -->
+
+                <button type="submit"
+                        class="upload-submit-btn"
+                        id="uploadSubmitBtn">
+
+                    <span class="button-content">
+
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                        Upload Resume
+
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- =============================================
+                 INFO
+            ============================================== -->
+
+            <div class="upload-info">
+
+                <div class="info-item">
+
+                    <div class="info-icon">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+
+                    <div>
+                        <strong>Private & Secure</strong>
+
+                        <span>
+                            Your resume is stored securely.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <div class="info-icon">
+                        <i class="fa-solid fa-rotate"></i>
+                    </div>
+
+                    <div>
+                        <strong>Easy Replacement</strong>
+
+                        <span>
+                            Upload a newer version anytime.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             RIGHT - STATUS CARD
+        ================================================== -->
+
+        <div class="resume-side-column">
+
+
+            <!-- =============================================
+                 RESUME STATUS
+            ============================================== -->
+
+            <div class="status-card">
+
+                <div class="status-card-header">
+
+                    <div class="status-title">
+
+                        <div class="status-icon">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <div>
+                            <h3>Resume Status</h3>
+
+                            <span>
+                                Your current resume
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-dot"
+                         title="Resume status">
+                    </div>
+
+                </div>
+
+
+                {% if student is defined and student.resume %}
+
+                <!-- =========================================
+                     RESUME AVAILABLE
+                ========================================== -->
+
+                <div class="resume-available">
+
+                    <div class="current-file-icon">
+
+                        <i class="fa-solid fa-file-pdf"></i>
+
+                    </div>
+
+
+                    <div class="current-file-info">
+
+                        <h4>
+                            {{ student.resume }}
+                        </h4>
+
+                        <span>
+                            <i class="fa-solid fa-circle-check"></i>
+                            Resume uploaded
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="resume-status-actions">
+
+                    <a href="#"
+                       class="status-action download-action">
+
+                        <i class="fa-solid fa-download"></i>
+
+                        Download
+
+                    </a>
+
+
+                    <button type="button"
+                            class="status-action replace-action"
+                            onclick="document.getElementById('resumeInput').click();">
+
+                        <i class="fa-solid fa-rotate"></i>
+
+                        Replace
+
+                    </button>
+
+                </div>
+
+                {% else %}
+
+                <!-- =========================================
+                     NO RESUME
+                ========================================== -->
+
+                <div class="empty-resume">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-regular fa-file"></i>
+
+                    </div>
+
+                    <h4>No Resume Uploaded</h4>
+
+                    <p>
+                        Upload your resume to make your profile
+                        job-ready.
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- =============================================
+                 REQUIREMENTS CARD
+            ============================================== -->
+
+            <div class="requirements-card">
+
+                <div class="requirements-header">
+
+                    <div class="requirements-icon">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Upload Requirements</h3>
+
+                        <span>
+                            Before uploading
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <ul>
+
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            PDF, DOC or DOCX format
+                        </span>
+                    </li>
+
+
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            Maximum file size 5 MB
+                        </span>
+                    </li>
+
+
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            Use a clear professional resume
+                        </span>
+                    </li>
+
+
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            Keep your information updated
+                        </span>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RESUME TIPS
+    ====================================================== -->
+
+    <div class="resume-tips-card">
+
+        <div class="tips-icon">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+        </div>
+
+
+        <div class="tips-content">
+
+            <h3>
+                Make Your Resume Job-Ready
+            </h3>
+
+            <p>
+                A strong resume helps recruiters quickly understand
+                your skills, education and experience.
+            </p>
+
+
+            <div class="tips-list">
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Keep it concise
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Add latest skills
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Include projects
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                    Mention certifications
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/upload_resume.js') }}"></script>
+
+{% endblock %}

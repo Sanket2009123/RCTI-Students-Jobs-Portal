@@ -1,0 +1,477 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Active Jobs
+{% endblock %}
+
+{% block page_title %}
+Active Jobs
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jobs.css') }}">
+
+<style>
+/* ==========================================================
+   PROFESSIONAL JOB STATUS PAGE
+   ========================================================== */
+
+.jobs-page {
+    padding-bottom: 28px;
+}
+
+.jobs-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 26px 28px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #e7ebf0;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, .06);
+}
+
+.jobs-hero-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.jobs-hero-icon {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #ecfdf3;
+    color: #16a34a;
+    font-size: 22px;
+}
+
+.jobs-eyebrow {
+    display: block;
+    margin-bottom: 4px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.jobs-hero h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 26px;
+    font-weight: 750;
+}
+
+.jobs-hero p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.jobs-post-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    border-radius: 11px !important;
+    padding: 11px 17px !important;
+    font-weight: 650 !important;
+}
+
+.jobs-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.jobs-summary .summary-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 11px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: #fff;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.jobs-table-card {
+    overflow: hidden;
+    border: 1px solid #e7ebf0 !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, .06) !important;
+}
+
+.jobs-table-wrap {
+    overflow-x: auto;
+}
+
+.jobs-table {
+    min-width: 920px;
+    margin: 0 !important;
+}
+
+.jobs-table thead th {
+    padding: 15px 16px !important;
+    border: 0 !important;
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.jobs-table tbody td {
+    padding: 17px 16px !important;
+    border-top: 1px solid #eef2f6 !important;
+    color: #334155;
+    font-size: 14px;
+    vertical-align: middle !important;
+}
+
+.jobs-table tbody tr {
+    transition: background .18s ease;
+}
+
+.jobs-table tbody tr:hover {
+    background: #fafcff;
+}
+
+.job-id {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.job-title-cell {
+    min-width: 210px;
+}
+
+.job-title-main {
+    display: block;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.job-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+}
+
+.job-location i {
+    font-size: 12px;
+}
+
+.job-salary {
+    color: #0f172a;
+    font-weight: 650;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-badge.active {
+    color: #15803d;
+    background: #ecfdf3;
+}
+
+.status-badge.inactive {
+    color: #64748b;
+    background: #f1f5f9;
+}
+
+.applicant-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #475569;
+    font-weight: 600;
+}
+
+.job-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    min-width: 270px;
+}
+
+.job-action {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 8px !important;
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+    font-weight: 650 !important;
+}
+
+.job-action-edit {
+    color: #92400e !important;
+    background: #fffbeb !important;
+    border: 1px solid #fde68a !important;
+}
+
+.job-action-applicants {
+    color: #1d4ed8 !important;
+    background: #eff6ff !important;
+    border: 1px solid #bfdbfe !important;
+}
+
+.job-action-delete {
+    color: #b91c1c !important;
+    background: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+}
+
+.job-action-toggle {
+    color: #b45309 !important;
+    background: #fffbeb !important;
+    border: 1px solid #fde68a !important;
+}
+
+.empty-jobs {
+    padding: 70px 25px !important;
+    text-align: center;
+}
+
+.empty-jobs-icon {
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: #f8fafc;
+    color: #94a3b8;
+    font-size: 25px;
+}
+
+.empty-jobs h3 {
+    margin: 0 0 7px;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.empty-jobs p {
+    max-width: 480px;
+    margin: 0 auto;
+    color: #64748b;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .jobs-hero {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 21px;
+    }
+
+    .jobs-hero h2 {
+        font-size: 22px;
+    }
+
+    .jobs-post-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .jobs-table-card {
+        border-radius: 14px !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid jobs-page">
+
+    <!-- Header -->
+    <section class="jobs-hero">
+        <div class="jobs-hero-content">
+            <div class="jobs-hero-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <div>
+                <span class="jobs-eyebrow">Manage Jobs / Active</span>
+                <h2>Active Jobs</h2>
+                <p>Currently active job postings that are available for recruitment.</p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('post_job') }}" class="btn btn-primary jobs-post-btn">
+            <i class="fa-solid fa-plus"></i>
+            Post New Job
+        </a>
+    </section>
+
+    <!-- Summary -->
+    <div class="jobs-summary">
+        <span class="summary-pill">
+            <i class="fa-solid fa-circle-check"></i>
+            Active postings
+        </span>
+        <span class="summary-pill">
+            <i class="fa-solid fa-shield-halved"></i>
+            Company jobs only
+        </span>
+    </div>
+
+    <!-- Jobs Table -->
+    <div class="card jobs-table-card">
+        <div class="jobs-table-wrap">
+            <table class="table table-hover align-middle jobs-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Job Details</th>
+                        <th>Location</th>
+                        <th>Salary</th>
+                        <th>Status</th>
+                        <th>Applicants</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% if jobs %}
+                        {% for job in jobs %}
+                        <tr>
+                            <td>
+                                <span class="job-id">#{{ job.id }}</span>
+                            </td>
+
+                            <td class="job-title-cell">
+                                <span class="job-title-main">{{ job.title }}</span>
+                            </td>
+
+                            <td>
+                                <span class="job-location">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    {{ job.location or "Not specified" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="job-salary">
+                                    {{ job.salary or "Not specified" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if job.status == "Active" %}
+                                <span class="status-badge active">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Active
+                                </span>
+                                {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fa-solid fa-circle-pause"></i>
+                                    Inactive
+                                </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <span class="applicant-count">
+                                    <i class="fa-solid fa-users"></i>
+                                    0
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="job-actions">
+
+                                    <a href="{{ url_for('edit_job', job_id=job.id) }}"
+                                       class="btn btn-sm job-action job-action-edit"
+                                       title="Edit job">
+                                        <i class="fa-solid fa-pen"></i>
+                                        Edit
+                                    </a>
+
+                                    <a href="{{ url_for('company_applicants') }}"
+                                       class="btn btn-sm job-action job-action-applicants"
+                                       title="View applicants">
+                                        <i class="fa-solid fa-users"></i>
+                                        Applicants
+                                    </a>
+
+                                    <a href="{{ url_for('delete_job', job_id=job.id) }}"
+                                       class="btn btn-sm job-action job-action-delete"
+                                       title="Delete job"
+                                       onclick="return confirm('Delete this job?');">
+                                        <i class="fa-solid fa-trash"></i>
+                                        Delete
+                                    </a>
+
+                                    <a href="{{ url_for('job_status', job_id=job.id, status='Inactive') }}"
+                                       class="btn btn-sm job-action job-action-toggle"
+                                       title="Deactivate job">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Deactivate
+                                    </a>
+
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    {% else %}
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-jobs">
+                                <div class="empty-jobs-icon">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </div>
+                                <h3>No Active Jobs Found</h3>
+                                <p>There are no active job postings at the moment. Create a new job or activate an existing inactive posting.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/manage_jobs.js') }}"></script>
+{% endblock %}

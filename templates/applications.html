@@ -1,0 +1,725 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+My Applications | RCTI Students Jobs Portal
+{% endblock %}
+
+{% block page_title %}
+My Applications
+{% endblock %}
+
+
+{% block css %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/applications.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="applications-page">
+
+
+    <!-- =====================================================
+         PAGE HERO
+    ====================================================== -->
+
+    <section class="applications-hero">
+
+        <div class="hero-decoration hero-decoration-one"></div>
+        <div class="hero-decoration hero-decoration-two"></div>
+
+        <div class="applications-hero-content">
+
+            <div class="hero-icon">
+
+                <i class="fa-solid fa-file-circle-check"></i>
+
+            </div>
+
+            <div class="hero-text">
+
+                <span>
+                    STUDENT CAREER CENTER
+                </span>
+
+                <h1>
+                    My Applications
+                </h1>
+
+                <p>
+                    Track your job applications, monitor their
+                    status and stay updated throughout your
+                    career journey.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('all_jobs') }}"
+                class="hero-action">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Apply for New Job
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <section class="application-stats">
+
+
+        <div class="application-stat-card">
+
+            <div class="stat-icon blue">
+
+                <i class="fa-solid fa-layer-group"></i>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span>
+                    Total Applications
+                </span>
+
+                <strong
+                    class="counter"
+                    data-value="{{ applications|length }}">
+
+                    {{ applications|length }}
+
+                </strong>
+
+                <small>
+                    All submitted applications
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="application-stat-card">
+
+            <div class="stat-icon orange">
+
+                <i class="fa-solid fa-clock"></i>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span>
+                    Pending
+                </span>
+
+                <strong
+                    class="status-counter"
+                    data-status="Pending">
+
+                    0
+
+                </strong>
+
+                <small>
+                    Waiting for review
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="application-stat-card">
+
+            <div class="stat-icon green">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span>
+                    Accepted
+                </span>
+
+                <strong
+                    class="status-counter"
+                    data-status="Accepted">
+
+                    0
+
+                </strong>
+
+                <small>
+                    Successful applications
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="application-stat-card">
+
+            <div class="stat-icon red">
+
+                <i class="fa-solid fa-circle-xmark"></i>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span>
+                    Rejected
+                </span>
+
+                <strong
+                    class="status-counter"
+                    data-status="Rejected">
+
+                    0
+
+                </strong>
+
+                <small>
+                    Applications not selected
+                </small>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         APPLICATION CONTENT
+    ====================================================== -->
+
+    <section class="applications-container">
+
+
+        <!-- =================================================
+             SECTION HEADER
+        ================================================== -->
+
+        <div class="applications-section-header">
+
+            <div>
+
+                <span class="section-label">
+                    APPLICATION TRACKER
+                </span>
+
+                <h2>
+                    Your Applications
+                </h2>
+
+                <p>
+                    Keep track of every opportunity you have
+                    applied for.
+                </p>
+
+            </div>
+
+
+            <div class="application-count">
+
+                <i class="fa-solid fa-briefcase"></i>
+
+                <span id="visibleApplicationCount">
+                    {{ applications|length }}
+                </span>
+
+                Applications
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SEARCH & FILTER
+        ================================================== -->
+
+        <div class="application-toolbar">
+
+
+            <div class="application-search">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="applicationSearch"
+                    placeholder="Search company, job title or location..."
+                    autocomplete="off">
+
+                <button
+                    type="button"
+                    id="clearApplicationSearch"
+                    aria-label="Clear search">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+
+            <div class="application-filter">
+
+                <i class="fa-solid fa-filter"></i>
+
+                <select id="applicationStatusFilter">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Accepted">
+                        Accepted
+                    </option>
+
+                    <option value="Rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             APPLICATION LIST
+        ================================================== -->
+
+        {% if applications %}
+
+        <div
+            class="applications-list"
+            id="applicationsList">
+
+
+            {% for app in applications %}
+
+            <article
+                class="application-card"
+                data-company="{{ app.company_name|lower }}"
+                data-title="{{ app.title|lower }}"
+                data-location="{{ app.location|lower }}"
+                data-status="{{ app.status }}">
+
+
+                <!-- CARD TOP -->
+
+                <div class="application-card-top">
+
+
+                    <div class="company-section">
+
+                        <div class="company-logo">
+
+                            <i class="fa-solid fa-building"></i>
+
+                        </div>
+
+
+                        <div class="company-info">
+
+                            <span class="application-label">
+                                COMPANY
+                            </span>
+
+                            <h3>
+                                {{ app.company_name }}
+                            </h3>
+
+                            <p>
+
+                                <i class="fa-solid fa-briefcase"></i>
+
+                                {{ app.title }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STATUS -->
+
+                    <div class="application-status-wrapper">
+
+                        <span class="status-label">
+                            APPLICATION STATUS
+                        </span>
+
+
+                        {% if app.status == "Pending" %}
+
+                        <span class="application-status pending">
+
+                            <i class="fa-solid fa-clock"></i>
+
+                            Pending
+
+                        </span>
+
+
+                        {% elif app.status == "Accepted" %}
+
+                        <span class="application-status accepted">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Accepted
+
+                        </span>
+
+
+                        {% else %}
+
+                        <span class="application-status rejected">
+
+                            <i class="fa-solid fa-circle-xmark"></i>
+
+                            Rejected
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- APPLICATION DETAILS -->
+
+                <div class="application-details">
+
+
+                    <div class="application-detail">
+
+                        <div class="detail-icon blue">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Location
+                            </span>
+
+                            <strong>
+                                {{ app.location }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="application-detail">
+
+                        <div class="detail-icon purple">
+
+                            <i class="fa-solid fa-calendar-days"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Applied Date
+                            </span>
+
+                            <strong>
+                                {{ app.apply_date }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="application-detail">
+
+                        <div class="detail-icon green">
+
+                            <i class="fa-solid fa-file-circle-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Application
+                            </span>
+
+                            <strong>
+                                Submitted
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="application-detail">
+
+                        <div class="detail-icon orange">
+
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Applicant
+                            </span>
+
+                            <strong>
+                                Student
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- CARD FOOTER -->
+
+                <div class="application-card-footer">
+
+
+                    <div class="application-reference">
+
+                        <i class="fa-solid fa-shield-check"></i>
+
+                        Application submitted successfully
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('job_details', job_id=app.job_id) }}"
+                        class="view-application-btn">
+
+                        View Job
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+            </article>
+
+            {% endfor %}
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             FILTER EMPTY STATE
+        ================================================== -->
+
+        <div
+            class="filter-empty-state"
+            id="filterEmptyState"
+            style="display:none;">
+
+            <div class="filter-empty-icon">
+
+                <i class="fa-solid fa-filter-circle-xmark"></i>
+
+            </div>
+
+            <h3>
+                No Matching Applications
+            </h3>
+
+            <p>
+                We couldn't find any applications matching
+                your search or selected status.
+            </p>
+
+            <button
+                type="button"
+                id="resetApplicationFilters">
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Clear Filters
+
+            </button>
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =================================================
+             NO APPLICATIONS
+        ================================================== -->
+
+        <div class="no-applications">
+
+
+            <div class="empty-icon">
+
+                <i class="fa-solid fa-file-circle-plus"></i>
+
+            </div>
+
+
+            <span class="empty-label">
+                START YOUR CAREER JOURNEY
+            </span>
+
+
+            <h3>
+                No Applications Yet
+            </h3>
+
+
+            <p>
+                You haven't applied for any jobs yet.
+                Explore available opportunities and submit
+                your first application.
+            </p>
+
+
+            <a
+                href="{{ url_for('all_jobs') }}"
+                class="browse-jobs-btn">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                Browse Available Jobs
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CAREER CTA
+    ====================================================== -->
+
+    <section class="applications-cta">
+
+        <div class="applications-cta-inner">
+
+
+            <div class="cta-icon">
+
+                <i class="fa-solid fa-rocket"></i>
+
+            </div>
+
+
+            <div class="cta-content">
+
+                <span>
+                    KEEP MOVING FORWARD
+                </span>
+
+                <h2>
+                    Your Next Opportunity Is Waiting
+                </h2>
+
+                <p>
+                    Explore more jobs and keep building your
+                    professional career.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('all_jobs') }}"
+                class="cta-button">
+
+                Explore Jobs
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block js %}
+
+<script
+    src="{{ url_for('static', filename='js/applications.js') }}">
+</script>
+
+{% endblock %}

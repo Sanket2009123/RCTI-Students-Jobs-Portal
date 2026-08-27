@@ -1,0 +1,346 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Rejected Students{% endblock %}
+
+{% block page_title %}Rejected Students{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rejected.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="rejected-page">
+
+    <!-- HEADER -->
+    <section class="rejected-hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fa-solid fa-user-xmark"></i>
+            </div>
+
+            <div>
+                <span class="hero-kicker">
+                    <i class="fa-solid fa-ban"></i>
+                    APPLICATION REVIEW
+                </span>
+
+                <h1>Rejected Students</h1>
+
+                <p>
+                    Review candidates who were not selected for the current recruitment process.
+                </p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('company_applicants') }}" class="back-applications">
+            <i class="fa-solid fa-users"></i>
+            All Applications
+        </a>
+    </section>
+
+
+    {% if applicants %}
+
+    <!-- SUMMARY -->
+    <section class="rejected-summary">
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-user-xmark"></i>
+            </div>
+            <div>
+                <span>Total Rejected</span>
+                <strong>{{ applicants|length }}</strong>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-file-circle-xmark"></i>
+            </div>
+            <div>
+                <span>Applications Reviewed</span>
+                <strong>{{ applicants|length }}</strong>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </div>
+            <div>
+                <span>Current Status</span>
+                <strong>Rejected</strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CARD -->
+    <section class="rejected-card">
+
+        <div class="card-header">
+            <div>
+                <span class="section-kicker">REVIEWED APPLICATIONS</span>
+                <h2>Rejected Candidates</h2>
+                <p>Applications marked as rejected by your company.</p>
+            </div>
+
+            <div class="candidate-count">
+                <i class="fa-solid fa-users"></i>
+                {{ applicants|length }} candidate{{ '' if applicants|length == 1 else 's' }}
+            </div>
+        </div>
+
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                    type="text"
+                    id="rejectedSearch"
+                    placeholder="Search candidate, email or job..."
+                    autocomplete="off">
+            </div>
+
+            <span class="toolbar-status">
+                <i class="fa-solid fa-circle-xmark"></i>
+                Rejected candidates
+            </span>
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="rejected-table-wrap">
+
+            <table class="rejected-table" id="rejectedTable">
+
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Contact</th>
+                        <th>Applied For</th>
+                        <th>Applied Date</th>
+                        <th>Resume</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for applicant in applicants %}
+
+                    <tr
+                        class="rejected-row"
+                        data-search="{{ applicant.fullname }} {{ applicant.email }} {{ applicant.title }}">
+
+                        <!-- Candidate -->
+                        <td>
+                            <div class="candidate-cell">
+                                <div class="candidate-avatar">
+                                    {{ applicant.fullname[:1]|upper }}
+                                </div>
+
+                                <div class="candidate-details">
+                                    <strong>{{ applicant.fullname }}</strong>
+                                    <span>
+                                        Application #{{ applicant.id }}
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+
+
+                        <!-- Contact -->
+                        <td>
+                            <div class="contact-cell">
+                                <a href="mailto:{{ applicant.email }}">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <span>{{ applicant.email }}</span>
+                                </a>
+
+                                {% if applicant.mobile %}
+                                <a href="tel:{{ applicant.mobile }}">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <span>{{ applicant.mobile }}</span>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+
+
+                        <!-- Job -->
+                        <td>
+                            <div class="job-cell">
+                                <strong>{{ applicant.title }}</strong>
+                                <span>
+                                    <i class="fa-solid fa-briefcase"></i>
+                                    Applied position
+                                </span>
+                            </div>
+                        </td>
+
+
+                        <!-- Date -->
+                        <td>
+                            <span class="date-cell">
+                                <i class="fa-regular fa-calendar"></i>
+                                {{ applicant.apply_date }}
+                            </span>
+                        </td>
+
+
+                        <!-- Resume -->
+                        <td>
+                            {% if applicant.resume %}
+
+                            <div class="resume-actions">
+                                <a
+                                    href="{{ url_for('static', filename='uploads/resume/' + applicant.resume) }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="resume-view">
+                                    <i class="fa-solid fa-eye"></i>
+                                    View
+                                </a>
+
+                                <a
+                                    href="{{ url_for('static', filename='uploads/resume/' + applicant.resume) }}"
+                                    download
+                                    class="resume-download"
+                                    title="Download resume">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+                            </div>
+
+                            {% else %}
+
+                            <span class="resume-missing">
+                                <i class="fa-regular fa-file"></i>
+                                Not uploaded
+                            </span>
+
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Status -->
+                        <td>
+                            <span class="status-badge">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                                Rejected
+                            </span>
+                        </td>
+
+
+                        <!-- Action -->
+                        <td>
+                            <a
+                                href="{{ url_for('application_status',
+                                application_id=applicant.id,
+                                status='Accepted') }}"
+                                class="restore-candidate"
+                                onclick="return confirm('Move this candidate back to the shortlist?');">
+                                <i class="fa-solid fa-user-check"></i>
+                                Shortlist
+                            </a>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- SEARCH EMPTY -->
+        <div class="search-empty" id="rejectedSearchEmpty" hidden>
+            <div class="empty-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <h3>No rejected candidate found</h3>
+
+            <p>Try searching with another candidate name, email or job title.</p>
+        </div>
+
+    </section>
+
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+    <section class="rejected-empty">
+
+        <div class="empty-icon">
+            <i class="fa-solid fa-user-xmark"></i>
+        </div>
+
+        <span class="empty-kicker">APPLICATION REVIEW</span>
+
+        <h2>No Rejected Students</h2>
+
+        <p>
+            Candidates you reject from the Applications page will appear here.
+        </p>
+
+        <a href="{{ url_for('company_applicants') }}" class="empty-button">
+            <i class="fa-solid fa-users"></i>
+            View All Applications
+        </a>
+
+    </section>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.getElementById("rejectedSearch");
+    const rows = Array.from(document.querySelectorAll(".rejected-row"));
+    const empty = document.getElementById("rejectedSearchEmpty");
+
+    if (!input || !rows.length) {
+        return;
+    }
+
+    input.addEventListener("input", function () {
+
+        const value = input.value.trim().toLowerCase();
+        let visible = 0;
+
+        rows.forEach(function (row) {
+
+            const text = (row.dataset.search || "").toLowerCase();
+            const match = !value || text.includes(value);
+
+            row.style.display = match ? "" : "none";
+
+            if (match) {
+                visible++;
+            }
+        });
+
+        if (empty) {
+            empty.hidden = visible !== 0;
+        }
+    });
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,624 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Admin Reports
+{% endblock %}
+
+{% block css %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/admin_reports.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="admin-reports">
+
+    <!-- ==========================================
+         PAGE HEADER
+    =========================================== -->
+
+    <div class="reports-header">
+
+        <div>
+            <h1>
+                <i class="fa-solid fa-chart-pie"></i>
+                Admin Reports
+            </h1>
+
+            <p>
+                Complete overview of your RCTI Students Jobs Portal
+            </p>
+        </div>
+
+        <div class="reports-actions">
+
+            <button type="button"
+                    class="report-btn"
+                    onclick="window.print()">
+
+                <i class="fa-solid fa-print"></i>
+                Print Report
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         OVERALL STATISTICS
+    =========================================== -->
+
+    <div class="report-stats">
+
+        <!-- Students -->
+
+        <div class="report-stat-card students">
+
+            <div class="report-stat-icon">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+
+            <div>
+                <span>Total Students</span>
+
+                <strong>
+                    {{ total_students }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <!-- Companies -->
+
+        <div class="report-stat-card companies">
+
+            <div class="report-stat-icon">
+                <i class="fa-solid fa-building"></i>
+            </div>
+
+            <div>
+                <span>Total Companies</span>
+
+                <strong>
+                    {{ total_companies }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <!-- Jobs -->
+
+        <div class="report-stat-card jobs">
+
+            <div class="report-stat-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+
+            <div>
+                <span>Total Jobs</span>
+
+                <strong>
+                    {{ total_jobs }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <!-- Applications -->
+
+        <div class="report-stat-card applications">
+
+            <div class="report-stat-icon">
+                <i class="fa-solid fa-file-lines"></i>
+            </div>
+
+            <div>
+                <span>Total Applications</span>
+
+                <strong>
+                    {{ total_applications }}
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         STUDENT REPORT
+    =========================================== -->
+
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <div>
+                <h2>
+                    <i class="fa-solid fa-user-graduate"></i>
+                    Student Report
+                </h2>
+
+                <p>
+                    Recently registered students
+                </p>
+            </div>
+
+            <span class="report-count">
+                {{ recent_students|length }} Recent
+            </span>
+
+        </div>
+
+
+        <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Student</th>
+                        <th>Email</th>
+                        <th>Registered On</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for student in recent_students %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+
+                            <div class="person-cell">
+
+                                <div class="person-avatar student-avatar">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        {{ student["firstname"] }}
+                                        {{ student["lastname"] }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            {{ student["email"] }}
+                        </td>
+
+                        <td>
+                            {{ student["created_at"] or "N/A" }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="4"
+                            class="empty-state">
+
+                            No student records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         COMPANY REPORT
+    =========================================== -->
+
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-building"></i>
+                    Company Report
+                </h2>
+
+                <p>
+                    Recently registered companies
+                </p>
+
+            </div>
+
+            <span class="report-count">
+                {{ recent_companies|length }} Recent
+            </span>
+
+        </div>
+
+
+        <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Company</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Registered On</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for company in recent_companies %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+
+                            <div class="person-cell">
+
+                                <div class="person-avatar company-avatar">
+                                    <i class="fa-solid fa-building"></i>
+                                </div>
+
+                                <strong>
+                                    {{ company["company_name"] }}
+                                </strong>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            {{ company["email"] }}
+                        </td>
+
+                        <td>
+
+                            {% set company_status =
+                                company["status"] or "Pending"
+                            %}
+
+                            <span class="status-badge
+                                {% if company_status|lower == 'approved' %}
+                                    approved
+                                {% elif company_status|lower == 'rejected' %}
+                                    rejected
+                                {% else %}
+                                    pending
+                                {% endif %}">
+
+                                {{ company_status }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+                            {{ company["created_at"] or "N/A" }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="5"
+                            class="empty-state">
+
+                            No company records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         JOB REPORT
+    =========================================== -->
+
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-briefcase"></i>
+                    Job Report
+                </h2>
+
+                <p>
+                    Recently posted jobs
+                </p>
+
+            </div>
+
+            <span class="report-count">
+                {{ recent_jobs|length }} Recent
+            </span>
+
+        </div>
+
+
+        <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                        <th>Posted On</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for job in recent_jobs %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+
+                            <strong>
+                                {{ job["title"] }}
+                            </strong>
+
+                        </td>
+
+                        <td>
+                            {{ job["company_name"] or "N/A" }}
+                        </td>
+
+                        <td>
+
+                            {% set job_status =
+                                job["status"] or "Unknown"
+                            %}
+
+                            <span class="status-badge
+                                {% if job_status|lower == 'active' %}
+                                    approved
+                                {% elif job_status|lower == 'closed'
+                                      or job_status|lower == 'expired' %}
+                                    rejected
+                                {% else %}
+                                    pending
+                                {% endif %}">
+
+                                {{ job_status }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+                            {{ job["created_at"] or "N/A" }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="5"
+                            class="empty-state">
+
+                            No job records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         APPLICATION REPORT
+    =========================================== -->
+
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-file-lines"></i>
+                    Application Report
+                </h2>
+
+                <p>
+                    Recently submitted applications
+                </p>
+
+            </div>
+
+            <span class="report-count">
+                {{ recent_applications|length }} Recent
+            </span>
+
+        </div>
+
+
+        <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Student</th>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                        <th>Applied On</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for application in recent_applications %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+
+                            <strong>
+                                {{ application["student_name"] or "N/A" }}
+                            </strong>
+
+                        </td>
+
+                        <td>
+                            {{ application["job_title"] or "N/A" }}
+                        </td>
+
+                        <td>
+                            {{ application["company_name"] or "N/A" }}
+                        </td>
+
+                        <td>
+
+                            {% set application_status =
+                                application["status"] or "Pending"
+                            %}
+
+                            <span class="status-badge
+                                {% if application_status|lower == 'accepted' %}
+                                    approved
+                                {% elif application_status|lower == 'rejected' %}
+                                    rejected
+                                {% else %}
+                                    pending
+                                {% endif %}">
+
+                                {{ application_status }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+                            {{ application["apply_date"] or "N/A" }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="empty-state">
+
+                            No application records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static',
+    filename='js/admin_reports.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+<div class="topbar">
+
+    <div class="topbar-left">
+
+        <i class="fa-solid fa-bars menu-btn"></i>
+
+        <h3>{{ page_title }}</h3>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <div class="dashboard-search">
+
+            <i class="fa-solid fa-search"></i>
+
+            <input type="text"
+                   placeholder="Search jobs...">
+
+        </div>
+
+
+        <div class="profile-dropdown">
+
+            <div class="profile">
+
+                <img src="{{ url_for('static',
+                         filename='images/user.png') }}">
+
+                <div class="profile-info">
+
+                    <h4>{{ user_name }}</h4>
+
+                    <p>Student</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

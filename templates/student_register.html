@@ -1,0 +1,539 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Registration - RCTI Students Jobs Portal
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="register-page">
+
+    <!-- LEFT SIDE -->
+    <div class="register-hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <div class="brand-area">
+
+                <div class="brand-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div>
+                    <h1>RCTI</h1>
+                    <span>STUDENTS JOBS PORTAL</span>
+                </div>
+
+            </div>
+
+            <div class="hero-main">
+
+                <span class="hero-small-title">
+                    WELCOME TO RCTI
+                </span>
+
+                <h2>
+                    Start Your
+                    <span>Career Journey</span>
+                </h2>
+
+                <p>
+                    Create your account and discover job opportunities,
+                    internships and career opportunities made for students.
+                </p>
+
+            </div>
+
+            <div class="hero-features">
+
+                <div class="hero-feature">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+
+                    <div>
+                        <strong>Find Job Opportunities</strong>
+                        <small>Discover opportunities matching your skills.</small>
+                    </div>
+                </div>
+
+                <div class="hero-feature">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+
+                    <div>
+                        <strong>Build Your Profile</strong>
+                        <small>Create a professional student profile.</small>
+                    </div>
+                </div>
+
+                <div class="hero-feature">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <div>
+                        <strong>Grow Your Career</strong>
+                        <small>Connect with companies and opportunities.</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="security-card">
+
+                <div class="security-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+                    <strong>Your Data is Safe</strong>
+                    <p>
+                        We care about the security and privacy
+                        of your information.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="register-form-side">
+
+        <div class="register-card">
+
+            <!-- HEADER -->
+            <div class="register-header">
+
+                <div class="register-title-icon">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+
+                <div>
+                    <h2>Student Registration</h2>
+
+                    <p>
+                        Create your account to join the
+                        RCTI Students Jobs Portal
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="header-line"></div>
+
+
+            <!-- FORM -->
+            <form
+                id="registerForm"
+                action="{{ url_for('student_register') }}"
+                method="POST"
+                novalidate
+            >
+
+                <div class="form-grid">
+
+                    <!-- FIRST NAME -->
+                    <div class="form-field">
+
+                        <label for="firstname">
+                            First Name
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-regular fa-user input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="firstname"
+                                name="firstname"
+                                class="form-control"
+                                placeholder="Enter First Name"
+                                autocomplete="given-name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LAST NAME -->
+                    <div class="form-field">
+
+                        <label for="lastname">
+                            Last Name
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-regular fa-user input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="lastname"
+                                name="lastname"
+                                class="form-control"
+                                placeholder="Enter Last Name"
+                                autocomplete="family-name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+                    <div class="form-field">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-regular fa-envelope input-icon"></i>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter Email Address"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MOBILE -->
+                    <div class="form-field">
+
+                        <label for="mobile">
+                            Mobile Number
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-phone input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="mobile"
+                                name="mobile"
+                                class="form-control"
+                                maxlength="10"
+                                inputmode="numeric"
+                                placeholder="Enter 10 Digit Mobile Number"
+                                autocomplete="tel"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COLLEGE -->
+                    <div class="form-field">
+
+                        <label for="college">
+                            College
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-building-columns input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="college"
+                                name="college"
+                                class="form-control"
+                                placeholder="Enter College Name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BRANCH -->
+                    <div class="form-field">
+
+                        <label for="branch">
+                            Branch
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-book-open input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="branch"
+                                name="branch"
+                                class="form-control"
+                                placeholder="Enter Branch"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SEMESTER -->
+                    <div class="form-field">
+
+                        <label for="semester">
+                            Semester
+                        </label>
+
+                        <div class="input-wrapper select-wrapper">
+
+                            <i class="fa-solid fa-graduation-cap input-icon"></i>
+
+                            <select
+                                id="semester"
+                                name="semester"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Semester
+                                </option>
+
+                                <option value="1">
+                                    Semester 1
+                                </option>
+
+                                <option value="2">
+                                    Semester 2
+                                </option>
+
+                                <option value="3">
+                                    Semester 3
+                                </option>
+
+                                <option value="4">
+                                    Semester 4
+                                </option>
+
+                                <option value="5">
+                                    Semester 5
+                                </option>
+
+                                <option value="6">
+                                    Semester 6
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SKILLS -->
+                    <div class="form-field">
+
+                        <label for="skills">
+                            Skills
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-code input-icon"></i>
+
+                            <input
+                                type="text"
+                                id="skills"
+                                name="skills"
+                                class="form-control"
+                                placeholder="Example: Python, HTML, CSS, Java"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+                    <div class="form-field">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <i class="fa-solid fa-lock password-input-icon"></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control password-input"
+                                placeholder="Create Password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('password', this)"
+                                aria-label="Show password"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+                    <div class="form-field">
+
+                        <label for="confirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <i class="fa-solid fa-lock password-input-icon"></i>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirm_password"
+                                class="form-control password-input"
+                                placeholder="Confirm Password"
+                                autocomplete="new-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('confirmPassword', this)"
+                                aria-label="Show password"
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD INFO -->
+                <div class="password-info">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    <span>
+                        Password must be at least 6 characters long.
+                    </span>
+
+                </div>
+
+
+                <!-- TERMS -->
+                <div class="terms-box">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        required
+                    >
+
+                    <label for="terms">
+
+                        I agree to the
+                        <a href="#" onclick="return false;">
+                            Terms &amp; Conditions
+                        </a>
+                        and
+                        <a href="#" onclick="return false;">
+                            Privacy Policy
+                        </a>
+
+                    </label>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button
+                    type="submit"
+                    id="registerButton"
+                    class="register-button"
+                >
+
+                    <span class="button-content">
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+                        <span>Create Account</span>
+
+                    </span>
+
+                </button>
+
+
+                <!-- LOGIN -->
+                <div class="login-section">
+
+                    <span>Already have an account?</span>
+
+                    <a href="{{ url_for('student_login') }}">
+                        Login here
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

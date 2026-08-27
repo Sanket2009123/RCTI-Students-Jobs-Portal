@@ -1,0 +1,339 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Job Details
+{% endblock %}
+
+{% block page_title %}
+Job Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow border-0">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+
+                    <h2>{{ job.title }}</h2>
+
+                    <h5 class="text-primary">{{ job.company_name }}</h5>
+
+                    <p class="text-muted">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        {{ job.location }}
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <span class="badge bg-success fs-6">
+
+                        {{ job.job_type }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    <div class="card text-center">
+
+                        <div class="card-body">
+
+                            <i class="fa-solid fa-money-bill fa-2x text-success mb-2"></i>
+
+                            <h6>Salary</h6>
+
+                            {{ job.salary }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card text-center">
+
+                        <div class="card-body">
+
+                            <i class="fa-solid fa-user-tie fa-2x text-primary mb-2"></i>
+
+                            <h6>Experience</h6>
+
+                            {{ job.experience }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card text-center">
+
+                        <div class="card-body">
+
+                            <i class="fa-solid fa-graduation-cap fa-2x text-warning mb-2"></i>
+
+                            <h6>Qualification</h6>
+
+                            <p>{{ job.qualification }}</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="card text-center">
+
+                        <div class="card-body">
+
+                            <i class="fa-solid fa-clock fa-2x text-danger mb-2"></i>
+
+                            <h6>Deadline</h6>
+
+                            {{ job.last_date }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <br>
+
+            <!-- Job Description -->
+
+            <h4 class="mb-3">
+
+                Job Description
+
+            </h4>
+            <p>{{ job.description }}</p>
+
+            <hr>
+
+            <!-- Required Skills -->
+
+            <h4 class="mb-3">
+
+                Required Skills
+
+            </h4>
+            {% for skill in job.skills.split(",") %}
+
+            <span class="badge bg-primary me-2 mb-2">
+
+                {{ skill.strip() }}
+
+            </span>
+
+            {% endfor %}
+
+            <hr>
+
+            <!-- Responsibilities -->
+
+            <h4 class="mb-3">
+
+                Responsibilities
+
+            </h4>
+
+            <ul>
+
+                <li>Develop responsive web applications.</li>
+
+                <li>Write clean and maintainable code.</li>
+
+                <li>Fix bugs and improve application performance.</li>
+
+                <li>Work with frontend and backend teams.</li>
+
+                <li>Test applications before deployment.</li>
+
+                <li>Participate in team meetings.</li>
+
+            </ul>
+
+            <hr>
+
+            <!-- Benefits -->
+
+            <h4 class="mb-3">
+
+                Benefits
+
+            </h4>
+
+            <ul>
+
+                <li>Competitive Salary</li>
+
+                <li>Health Insurance</li>
+
+                <li>Flexible Working Hours</li>
+
+                <li>Paid Leave</li>
+
+                <li>Professional Training</li>
+
+                <li>Career Growth Opportunities</li>
+
+            </ul>
+
+            <hr>
+            <!-- Company Information -->
+
+            <h4 class="mb-3">
+
+                Company Information
+
+            </h4>
+
+            <div class="card bg-light border-0 mb-4">
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <p><strong>Company Name :</strong> {{ job.company_name }}</p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <p><strong>Website :</strong> {{ job.website }}</p>
+
+                            <p><strong>Email :</strong> {{ job.email }}</p>
+
+                            <p><strong>Phone :</strong> {{ job.phone }}</p>
+
+                           <p><strong>HR :</strong> {{ job.hr_name }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Additional Information -->
+
+            <h4 class="mb-3">
+
+                Additional Information
+
+            </h4>
+
+            <div class="row mb-4">
+
+                <div class="col-md-4">
+
+                    <div class="card text-center shadow-sm">
+
+                        <div class="card-body">
+
+                            <i class="fa-solid fa-calendar-plus fa-2x text-primary mb-2"></i>
+
+                            <h6>Posted On</h6>
+
+                            <p>{{ job.post_date }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card text-center shadow-sm">
+
+                        <div class="card-body">
+
+                            <i class="fa-solid fa-calendar-check fa-2x text-success mb-2"></i>
+
+                            <h6>Last Date</h6>
+
+                            <p>{{ job.last_date }}</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card text-center shadow-sm">
+
+                        <div class="card-body">
+
+                            <i class="fa-solid fa-users fa-2x text-danger mb-2"></i>
+
+                            <h6>Vacancies</h6>
+
+                            <p>{{ job.vacancies }} Openings</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Buttons -->
+
+            <div class="text-center mt-5">
+
+                <a href="{{ url_for('apply_job', job_id=job.id) }}" class="btn btn-success btn-lg me-3">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Apply Now
+
+                </a>
+
+                <a href="{{ url_for('student_jobs') }}" class="btn btn-outline-secondary btn-lg">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back to Jobs
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

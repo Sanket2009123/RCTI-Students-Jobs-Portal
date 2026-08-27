@@ -1,0 +1,330 @@
+/* ==========================================================
+   ABOUT PAGE
+========================================================== */
+
+/* ==========================================================
+   HERO SECTION
+========================================================== */
+
+.about-hero{
+
+    background:linear-gradient(rgba(30,58,138,.85),rgba(37,99,235,.85)),
+    url("../images/about-bg.jpg") center/cover no-repeat;
+
+    padding:120px 20px 80px;
+
+    text-align:center;
+
+    color:#fff;
+
+}
+
+.about-hero h1{
+
+    font-size:52px;
+
+    margin-bottom:15px;
+
+    color:#fff;
+
+}
+
+.about-hero p{
+
+    max-width:700px;
+
+    margin:auto;
+
+    font-size:18px;
+
+    color:#f1f1f1;
+
+}
+
+/* ==========================================================
+   ABOUT CONTENT
+========================================================== */
+
+.about-section{
+
+    padding:80px 20px;
+
+}
+
+.about-container{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:50px;
+
+    align-items:center;
+
+}
+
+.about-image img{
+
+    width:100%;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+}
+
+.about-content h2{
+
+    color:#2563EB;
+
+    margin-bottom:20px;
+
+}
+
+.about-content p{
+
+    color:#666;
+
+    line-height:1.8;
+
+    margin-bottom:20px;
+
+}
+
+/* ==========================================================
+   MISSION & VISION
+========================================================== */
+
+.mission-section{
+
+    background:#F5F7FB;
+
+    padding:80px 20px;
+
+}
+
+.mission-grid{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:30px;
+
+}
+
+.mission-card{
+
+    background:#fff;
+
+    padding:35px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.mission-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.mission-card i{
+
+    font-size:50px;
+
+    color:#2563EB;
+
+    margin-bottom:20px;
+
+}
+
+.mission-card h3{
+
+    margin-bottom:15px;
+
+    color:#1E3A8A;
+
+}
+
+/* ==========================================================
+   WHY CHOOSE US
+========================================================== */
+
+.choose-us{
+
+    padding:80px 20px;
+
+}
+
+.choose-grid{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:30px;
+
+}
+
+.choose-card{
+
+    background:#fff;
+
+    padding:30px;
+
+    text-align:center;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.choose-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.choose-card i{
+
+    font-size:45px;
+
+    color:#2563EB;
+
+    margin-bottom:15px;
+
+}
+
+.choose-card h4{
+
+    margin-bottom:15px;
+
+    color:#1E3A8A;
+
+}
+
+/* ==========================================================
+   ABOUT STATS
+========================================================== */
+
+.about-stats{
+
+    background:#2563EB;
+
+    color:#fff;
+
+    padding:70px 20px;
+
+}
+
+.about-stats-grid{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:30px;
+
+    text-align:center;
+
+}
+
+.about-stat h2{
+
+    font-size:42px;
+
+    color:#fff;
+
+}
+
+.about-stat p{
+
+    color:#e5e5e5;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:992px){
+
+.about-container{
+
+    grid-template-columns:1fr;
+
+}
+
+.choose-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+.about-stats-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.mission-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.choose-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.about-stats-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.about-hero h1{
+
+    font-size:36px;
+
+}
+
+.about-content{
+
+    text-align:center;
+
+}
+
+}
