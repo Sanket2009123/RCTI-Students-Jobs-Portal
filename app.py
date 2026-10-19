@@ -5,10 +5,6 @@ import config
 from database.db import create_database
 from routes import register_routes
 from authlib.integrations.flask_client import OAuth
-from flask import jsonify
-import firebase_admin
-from firebase_admin import auth
-from firebase.firebase_config import *
 app = Flask(__name__)
 app.config.from_object(config)
 
