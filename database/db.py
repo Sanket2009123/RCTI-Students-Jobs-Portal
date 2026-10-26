@@ -50,10 +50,10 @@ def column_exists(conn, table_name, column_name):
     cursor = conn.cursor()
     cursor.execute(f'PRAGMA table_info("{table_name}")')
 
-    return any(
-        row["name"] == column_name
-        for row in cursor.fetchall()
-    )
+   return any(
+    row[1] == column_name
+    for row in cursor.fetchall()
+)
 
 
 def add_column_if_missing(
