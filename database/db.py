@@ -6,12 +6,24 @@ SCHEMA_FILE = "database/schema.sql"
 
 
 def get_connection():
-    """Create and return a SQLite connection."""
+    """Connect to Turso database when credentials are configured."""
+    import os
+    import libsql
+
+    database_url = os.getenv("TURSO_DATABASE_URL")
+    auth_token = os.getenv("TURSO_AUTH_TOKEN")
+
+    if database_url and auth_token:
+        conn = libsql.connect(
+            database=database_url,
+            auth_token=auth_token
+        )
+        return conn
+
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
-
 
 def cleanup_sequence_if_empty(conn, table_name):
     """Remove sqlite_sequence entry only when the table is empty."""
