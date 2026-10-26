@@ -14,3 +14,4 @@ reportlab
 WeasyPrint
 gunicorn
 Authlib
+libsql
