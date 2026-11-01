@@ -1,207 +1,336 @@
-import sqlite3
+
 import os
+import sqlite3
+import turso_serverless
 
-DATABASE = "database/database.db"
-SCHEMA_FILE = "database/schema.sql"
 
+# ==========================================
+# DATABASE CONFIGURATION
+# ==========================================
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCHEMA_FILE = os.path.join(BASE_DIR, "database", "schema.sql")
+
+
+# ==========================================
+# ROW COMPATIBILITY
+# ==========================================
+
+class HybridRow:
+
+    def __init__(self, values, columns):
+        self._values = tuple(values)
+        self._data = {
+            column[0]: value
+            for column, value in zip(columns, self._values)
+        }
+
+    def __getitem__(self, key):
+        if isinstance(key, str):
+            return self._data[key]
+        return self._values[key]
+
+    def __iter__(self):
+        return iter(self._values)
+
+    def __len__(self):
+        return len(self._values)
+
+    def keys(self):
+        return self._data.keys()
+
+
+# ==========================================
+# CURSOR COMPATIBILITY
+# ==========================================
+
+class CompatibleCursor:
+
+    def __init__(self, cursor):
+        self._cursor = cursor
+
+    @property
+    def description(self):
+        return self._cursor.description
+
+    @property
+    def lastrowid(self):
+        return self._cursor.lastrowid
+
+    @property
+    def rowcount(self):
+        return self._cursor.rowcount
+
+    def execute(self, sql, params=()):
+        self._cursor.execute(sql, params)
+        return self
+
+    def executemany(self, sql, params):
+        self._cursor.executemany(sql, params)
+        return self
+
+    def _convert(self, row):
+
+        if row is None:
+            return None
+
+        columns = self._cursor.description or []
+
+        return HybridRow(row, columns)
+
+    def fetchone(self):
+        return self._convert(self._cursor.fetchone())
+
+    def fetchall(self):
+        return [
+            self._convert(row)
+            for row in self._cursor.fetchall()
+        ]
+
+    def fetchmany(self, size=None):
+
+        if size is None:
+            rows = self._cursor.fetchmany()
+        else:
+            rows = self._cursor.fetchmany(size)
+
+        return [
+            self._convert(row)
+            for row in rows
+        ]
+
+    def close(self):
+        self._cursor.close()
+
+
+# ==========================================
+# CONNECTION COMPATIBILITY
+# ==========================================
+
+class CompatibleConnection:
+
+    def __init__(self, connection):
+        self._connection = connection
+
+    def cursor(self):
+        return CompatibleCursor(
+            self._connection.cursor()
+        )
+
+    def execute(self, sql, params=()):
+        cursor = self.cursor()
+        cursor.execute(sql, params)
+        return cursor
+
+    def commit(self):
+        self._connection.commit()
+
+    def rollback(self):
+        self._connection.rollback()
+
+    def close(self):
+        self._connection.close()
+
+
+# ==========================================
+# TURSO CLOUD CONNECTION
+# ==========================================
 
 def get_connection():
-    """Connect to Turso database when credentials are configured."""
-    import os
-    import libsql
 
     database_url = os.getenv("TURSO_DATABASE_URL")
     auth_token = os.getenv("TURSO_AUTH_TOKEN")
 
-    if database_url and auth_token:
-        conn = libsql.connect(
-            database=database_url,
-            auth_token=auth_token
-        )
-        return conn
-
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys = ON")
-    return conn
-
-def cleanup_sequence_if_empty(conn, table_name):
-    """Remove sqlite_sequence entry only when the table is empty."""
-
-    if not table_name.replace("_", "").isalnum():
-        raise ValueError("Invalid table name.")
-
-    cursor = conn.cursor()
-    cursor.execute(f'SELECT COUNT(*) FROM "{table_name}"')
-
-    row = cursor.fetchone()
-    count = row[0] if row else 0
-
-    if count == 0:
-        cursor.execute(
-            "DELETE FROM sqlite_sequence WHERE name = ?",
-            (table_name,)
+    if not database_url:
+        raise RuntimeError(
+            "TURSO_DATABASE_URL is missing."
         )
 
+    if not auth_token:
+        raise RuntimeError(
+            "TURSO_AUTH_TOKEN is missing."
+        )
+
+    if not database_url.startswith("https://"):
+        raise RuntimeError(
+            "HTTPS Turso database URL required."
+        )
+
+    connection = turso_serverless.connect(
+        database_url,
+        auth_token=auth_token
+    )
+
+    return CompatibleConnection(connection)
+
+
+# ==========================================
+# TABLE CHECK
+# ==========================================
+
+def table_exists(conn, table_name):
+
+    cursor = conn.execute(
+        """
+        SELECT name
+        FROM sqlite_master
+        WHERE type = 'table'
+        AND name = ?
+        """,
+        (table_name,)
+    )
+
+    return cursor.fetchone() is not None
+
+
+# ==========================================
+# COLUMN CHECK
+# ==========================================
 
 def column_exists(conn, table_name, column_name):
-    """Check whether a SQLite table already contains a column."""
 
-    cursor = conn.cursor()
-    cursor.execute(f'PRAGMA table_info("{table_name}")')
+    if not table_exists(conn, table_name):
+        return False
 
-   return any(
-    row[1] == column_name
-    for row in cursor.fetchall()
-)
+    cursor = conn.execute(
+        f'PRAGMA table_info("{table_name}")'
+    )
 
+    return any(
+        row["name"] == column_name
+        for row in cursor.fetchall()
+    )
+
+
+# ==========================================
+# ADD MISSING COLUMN
+# ==========================================
 
 def add_column_if_missing(
     conn,
     table_name,
     column_name,
-    column_definition
+    column_type
 ):
-    """Add a column only when it does not already exist."""
 
-    if not table_name.replace("_", "").isalnum():
-        raise ValueError("Invalid table name.")
+    if not table_exists(conn, table_name):
+        return
 
-    if not column_name.replace("_", "").isalnum():
-        raise ValueError("Invalid column name.")
+    if not column_exists(conn, table_name, column_name):
 
-    if column_exists(conn, table_name, column_name):
-        return False
-
-    cursor = conn.cursor()
-
-    sql = (
-        f'ALTER TABLE "{table_name}" '
-        f'ADD COLUMN "{column_name}" {column_definition}'
-    )
-
-    cursor.execute(sql)
-    return True
+        conn.execute(
+            f'ALTER TABLE "{table_name}" '
+            f'ADD COLUMN "{column_name}" {column_type}'
+        )
 
 
-def migrate_jobs_table(conn):
-    """
-    Add the columns required by the current job-posting system.
-
-    Existing jobs and other database data are preserved.
-    """
-
-    changes = []
-
-    if add_column_if_missing(
-        conn,
-        "jobs",
-        "post_date",
-        "TEXT"
-    ):
-        changes.append("jobs.post_date")
-
-    if add_column_if_missing(
-        conn,
-        "jobs",
-        "responsibilities",
-        "TEXT"
-    ):
-        changes.append("jobs.responsibilities")
-
-    return changes
-
+# ==========================================
+# DATABASE MIGRATIONS
+# ==========================================
 
 def run_migrations(conn):
-    """Run all application database migrations."""
-    return migrate_jobs_table(conn)
 
+    # Students
+    add_column_if_missing(
+        conn, "students", "google_id", "TEXT"
+    )
+
+    # Companies
+    add_column_if_missing(
+        conn, "companies", "google_id", "TEXT"
+    )
+
+    # Jobs
+    add_column_if_missing(
+        conn, "jobs", "post_date", "TEXT"
+    )
+
+    add_column_if_missing(
+        conn, "jobs", "responsibilities", "TEXT"
+    )
+
+    # Resumes
+    add_column_if_missing(
+        conn, "resumes", "fullname", "TEXT"
+    )
+
+    add_column_if_missing(
+        conn, "resumes", "job_title", "TEXT"
+    )
+
+
+# ==========================================
+# EXECUTE DATABASE SCHEMA
+# ==========================================
+
+def execute_schema(conn):
+
+    if not os.path.exists(SCHEMA_FILE):
+        raise FileNotFoundError(
+            f"Schema file not found: {SCHEMA_FILE}"
+        )
+
+    with open(
+        SCHEMA_FILE,
+        "r",
+        encoding="utf-8"
+    ) as file:
+
+        schema = file.read()
+
+    statement = ""
+
+    for line in schema.splitlines():
+
+        statement += line + "\n"
+
+        if sqlite3.complete_statement(statement):
+
+            sql = statement.strip()
+
+            if sql:
+                conn.execute(sql)
+
+            statement = ""
+
+    if statement.strip():
+        raise RuntimeError(
+            "Incomplete SQL statement in schema.sql"
+        )
+
+
+# ==========================================
+# CREATE DATABASE
+# ==========================================
 
 def create_database():
-    """
-    Create the database if needed and always run migrations.
 
-    Existing database records are never deleted.
-    """
-
-    database_exists = os.path.exists(DATABASE)
     conn = get_connection()
 
     try:
-        cursor = conn.cursor()
 
-        # ------------------------------------------------------
-        # Create database for the first time
-        # ------------------------------------------------------
+        print("Connecting to Turso Cloud...")
 
-        if not database_exists:
+        execute_schema(conn)
 
-            if not os.path.exists(SCHEMA_FILE):
-                raise FileNotFoundError(
-                    f"Schema file not found: {SCHEMA_FILE}"
-                )
+        print("Schema checked successfully.")
 
-            with open(
-                SCHEMA_FILE,
-                "r",
-                encoding="utf-8"
-            ) as file:
-                conn.executescript(file.read())
+        run_migrations(conn)
 
-        # ------------------------------------------------------
-        # Run migrations on both new and existing databases
-        # ------------------------------------------------------
-
-        changes = run_migrations(conn)
-
-        # ------------------------------------------------------
-        # Default admin
-        # ------------------------------------------------------
-
-        cursor.execute(
-            "SELECT 1 FROM admins WHERE email = ?",
-            ("admin@gmail.com",)
-        )
-
-        if cursor.fetchone() is None:
-            cursor.execute(
-                """
-                INSERT INTO admins
-                (
-                    name,
-                    email,
-                    password
-                )
-                VALUES (?, ?, ?)
-                """,
-                (
-                    "Administrator",
-                    "admin@gmail.com",
-                    "Admin@2026"
-                )
-            )
+        print("Migrations completed.")
 
         conn.commit()
 
-        if changes:
-            print("Database migration completed.")
+        print("Turso database initialized successfully.")
 
-            for change in changes:
-                print(f"  Added: {change}")
+    except Exception as error:
 
-        elif database_exists:
-            print("Database checked. No new migration required.")
-
-        else:
-            print("Database created successfully.")
-
-    except Exception:
         conn.rollback()
+
+        print("Database error:", error)
+
         raise
 
     finally:
+
         conn.close()
-
-
-if __name__ == "__main__":
-    create_database()
