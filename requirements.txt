@@ -14,4 +14,4 @@ reportlab
 WeasyPrint
 gunicorn
 Authlib
-libsql
+turso_serverless
