@@ -1,0 +1,690 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block page_title %}
+Admin Dashboard
+{% endblock %}
+
+{% block css %}
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid admin-dashboard">
+
+    <!-- =====================================================
+         DASHBOARD HEADER
+    ====================================================== -->
+
+    <div class="dashboard-welcome">
+
+        <div>
+            <h1>Admin Dashboard</h1>
+
+            <p>
+                Monitor and manage your Students Jobs Portal
+            </p>
+        </div>
+
+        <div class="dashboard-date">
+            <i class="fa-regular fa-calendar me-2"></i>
+            {{ current_date if current_date is defined else "Today" }}
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- STUDENTS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card stat-blue">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+
+                    <i class="fa-solid fa-ellipsis text-muted"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ total_students }}
+                </div>
+
+                <div class="stat-title">
+                    Total Students
+                </div>
+
+                <a href="{{ url_for('manage_students') }}"
+                   class="stat-link">
+
+                    View Details →
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- COMPANIES -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card stat-green">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <i class="fa-solid fa-ellipsis text-muted"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ total_companies }}
+                </div>
+
+                <div class="stat-title">
+                    Registered Companies
+                </div>
+
+                <a href="{{ url_for('manage_companies') }}"
+                   class="stat-link">
+
+                    View Details →
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOBS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card stat-orange">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+
+                    <i class="fa-solid fa-ellipsis text-muted"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ total_jobs }}
+                </div>
+
+                <div class="stat-title">
+                    Active Jobs
+                </div>
+
+                <a href="{{ url_for('manage_jobs') }}"
+                   class="stat-link">
+
+                    View Details →
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- APPLICATIONS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card stat-red">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+
+                    <i class="fa-solid fa-ellipsis text-muted"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ total_applications }}
+                </div>
+
+                <div class="stat-title">
+                    Applications
+                </div>
+
+                <a href="{{ url_for('manage_applications') }}"
+                   class="stat-link">
+
+                    View Details →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ANALYTICS ROW
+    ====================================================== -->
+
+    <div class="row g-4 mt-1">
+
+
+        <!-- =================================================
+             JOBS BY CATEGORY
+        ================================================== -->
+
+        <div class="col-xl-7">
+
+            <div class="dashboard-panel h-100">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h4>
+                            Jobs by Category
+                        </h4>
+
+                        <span>
+                            Distribution of posted jobs
+                        </span>
+
+                    </div>
+
+
+                    <!-- CHART TYPE -->
+
+                    <select id="chartTypeSelect"
+                            class="form-select form-select-sm"
+                            style="width:150px;">
+
+                        <option value="bar" selected>
+                            Bar Chart
+                        </option>
+
+                        <option value="pie">
+                            Pie Chart
+                        </option>
+
+                        <option value="doughnut">
+                            Doughnut Chart
+                        </option>
+
+                        <option value="line">
+                            Line Chart
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="panel-body">
+
+                    <div class="chart-container"
+                         style="height:330px;">
+
+                        <canvas id="categoryChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PLATFORM OVERVIEW
+        ================================================== -->
+
+        <div class="col-xl-5">
+
+            <div class="dashboard-panel h-100">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h4>
+                            Platform Overview
+                        </h4>
+
+                        <span>
+                            Current portal statistics
+                        </span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chart-simple text-muted"></i>
+
+                </div>
+
+
+                <div class="panel-body">
+
+                    <div class="overview-list">
+
+
+                        <!-- STUDENTS -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-info">
+
+                                <div class="overview-icon">
+
+                                    <i class="fa-solid fa-user-graduate"></i>
+
+                                </div>
+
+                                <span class="overview-name">
+                                    Students
+                                </span>
+
+                            </div>
+
+                            <span class="overview-value">
+                                {{ total_students }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- COMPANIES -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-info">
+
+                                <div class="overview-icon">
+
+                                    <i class="fa-solid fa-building"></i>
+
+                                </div>
+
+                                <span class="overview-name">
+                                    Companies
+                                </span>
+
+                            </div>
+
+                            <span class="overview-value">
+                                {{ total_companies }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- JOBS -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-info">
+
+                                <div class="overview-icon">
+
+                                    <i class="fa-solid fa-briefcase"></i>
+
+                                </div>
+
+                                <span class="overview-name">
+                                    Jobs
+                                </span>
+
+                            </div>
+
+                            <span class="overview-value">
+                                {{ total_jobs }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- APPLICATIONS -->
+
+                        <div class="overview-item">
+
+                            <div class="overview-info">
+
+                                <div class="overview-icon">
+
+                                    <i class="fa-solid fa-file-lines"></i>
+
+                                </div>
+
+                                <span class="overview-name">
+                                    Applications
+                                </span>
+
+                            </div>
+
+                            <span class="overview-value">
+                                {{ total_applications }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ANALYTICS & INSIGHTS
+    ====================================================== -->
+
+    <div class="dashboard-panel mt-4">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h4>
+                    Analytics & Insights
+                </h4>
+
+                <span>
+                    Students, companies, jobs and applications analysis
+                </span>
+
+            </div>
+
+
+            <!-- TIME PERIOD -->
+
+            <div class="d-flex align-items-center gap-2">
+
+                <span class="text-muted small">
+                    Period
+                </span>
+
+                <select id="analyticsPeriod"
+                        class="form-select form-select-sm"
+                        style="width:140px;">
+
+                    <option value="day">
+                        Day
+                    </option>
+
+                    <option value="week">
+                        Week
+                    </option>
+
+                    <option value="month" selected>
+                        Month
+                    </option>
+
+                    <option value="year">
+                        Year
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="chart-container"
+                 style="height:380px;">
+
+                <canvas id="analyticsChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         QUICK MANAGEMENT
+    ====================================================== -->
+
+    <div class="dashboard-panel mt-4">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h4>
+                    Quick Management
+                </h4>
+
+                <span>
+                    Manage portal records
+                </span>
+
+            </div>
+
+            <i class="fa-solid fa-bolt text-muted"></i>
+
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="quick-actions">
+
+
+                <!-- STUDENTS -->
+
+                <a href="{{ url_for('manage_students') }}"
+                   class="quick-action">
+
+                    <div class="quick-icon"
+                         style="background:#eef4ff;color:#3867ff;">
+
+                        <i class="fa-solid fa-user-graduate"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Students
+                        </h6>
+
+                        <small>
+                            Manage students
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <!-- COMPANIES -->
+
+                <a href="{{ url_for('manage_companies') }}"
+                   class="quick-action">
+
+                    <div class="quick-icon"
+                         style="background:#ecfdf3;color:#12a150;">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Companies
+                        </h6>
+
+                        <small>
+                            Manage companies
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <!-- JOBS -->
+
+                <a href="{{ url_for('manage_jobs') }}"
+                   class="quick-action">
+
+                    <div class="quick-icon"
+                         style="background:#fff7e8;color:#e89400;">
+
+                        <i class="fa-solid fa-briefcase"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Jobs
+                        </h6>
+
+                        <small>
+                            Manage jobs
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <!-- APPLICATIONS -->
+
+                <a href="{{ url_for('manage_applications') }}"
+                   class="quick-action">
+
+                    <div class="quick-icon"
+                         style="background:#fff0f1;color:#e5484d;">
+
+                        <i class="fa-solid fa-file-lines"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Applications
+                        </h6>
+
+                        <small>
+                            Review applications
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block js %}
+
+<!-- =====================================================
+     CHART DATA FROM FLASK / SQLITE
+====================================================== -->
+
+<script>
+
+    /*
+     * Jobs by Category
+     */
+
+    window.categories =
+        {{ categories | default([]) | tojson }};
+
+    window.categoryCount =
+        {{ category_count | default([]) | tojson }};
+
+
+    /*
+     * Analytics
+     */
+
+    window.analyticsDates =
+        {{ analytics_dates | default([]) | tojson }};
+
+    window.studentCounts =
+        {{ student_counts | default([]) | tojson }};
+
+    window.companyCounts =
+        {{ company_counts | default([]) | tojson }};
+
+    window.jobCounts =
+        {{ job_counts | default([]) | tojson }};
+
+    window.applicationCounts =
+        {{ application_counts | default([]) | tojson }};
+
+</script>
+
+
+<!-- =====================================================
+     CHART.JS
+====================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<!-- =====================================================
+     ADMIN DASHBOARD JS
+====================================================== -->
+
+<script src="{{ url_for(
+    'static',
+    filename='js/admin_dashboard.js'
+) }}"></script>
+
+{% endblock %}

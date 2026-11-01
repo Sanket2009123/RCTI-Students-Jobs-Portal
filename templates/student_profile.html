@@ -1,0 +1,505 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Student Profile{% endblock %}
+
+{% block page_title %}My Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-page">
+
+    <!-- PROFILE HERO -->
+    <section class="profile-hero">
+
+        <div class="profile-hero-content">
+
+            <div class="profile-photo-column">
+
+                <div class="profile-avatar-wrap">
+
+                    {% if student and student.profile_photo %}
+                    <img src="{{ url_for('student_profile_photo', filename=student.profile_photo) }}"
+                        alt="Student Profile Photo" class="profile-avatar">
+                    {% else %}
+                    <img src="{{ url_for('student_profile_photo', filename='default.png') }}"
+                        alt="Student Profile Photo" class="profile-avatar">
+                    {% endif %}
+
+                    <label for="profilePhotoInput" class="photo-edit-btn">
+                        <i class="fa-solid fa-camera"></i>
+                    </label>
+
+                </div>
+
+                <form action="{{ url_for('change_photo') }}" method="POST" enctype="multipart/form-data"
+                    id="changePhotoForm" class="photo-upload-form">
+
+                    <input type="file" name="photo" id="profilePhotoInput" accept=".jpg,.jpeg,.png,.webp" hidden>
+
+                    <div id="selectedPhotoName" class="selected-photo-name"></div>
+
+                    <button type="submit" id="uploadPhotoBtn" class="upload-photo-btn" style="display:none;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        Upload Photo
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div class="profile-hero-info">
+
+                <div class="profile-status-row">
+                    <span class="profile-eyebrow">
+                        <i class="fa-solid fa-circle-check"></i>
+                        STUDENT PROFILE
+                    </span>
+
+                    <span class="profile-status">
+                        <span class="status-dot"></span>
+                        Active Student
+                    </span>
+                </div>
+
+                <h1>
+                    {{ student.firstname }} {{ student.lastname }}
+                </h1>
+
+                <p class="profile-subtitle">
+                    {{ student.branch or "Student" }}
+                    <span>•</span>
+                    Semester {{ student.semester or "-" }}
+                </p>
+
+                <div class="profile-contact-row">
+
+                    <span>
+                        <i class="fa-solid fa-envelope"></i>
+                        {{ student.email or "-" }}
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-phone"></i>
+                        {{ student.mobile or "-" }}
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        {{ student.college or "RCTI" }}
+                    </span>
+
+                </div>
+
+                <div class="profile-hero-actions">
+
+                    <a href="/student/edit-profile" class="profile-primary-btn">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Edit Profile
+                    </a>
+
+                    {% if student.resume %}
+                    <a href="{{ url_for('view_uploaded_resume') }}" target="_blank" class="resume-view-btn">
+                        <i class="fa-solid fa-eye"></i>
+                        View
+                    </a>
+                    {% else %}
+                    <a href="/student/upload-resume" class="profile-secondary-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        Upload Resume
+                    </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROFILE COMPLETION -->
+    <section class="profile-completion-card">
+
+        <div class="completion-icon">
+            <i class="fa-solid fa-chart-simple"></i>
+        </div>
+
+        <div class="completion-content">
+
+            <div class="completion-heading">
+                <div>
+                    <span class="section-kicker">PROFILE STRENGTH</span>
+                    <h3>Keep your profile complete</h3>
+                </div>
+
+                <span class="completion-label">
+                    Complete
+                </span>
+            </div>
+
+            <div class="completion-track">
+                <div class="completion-progress"></div>
+            </div>
+
+            <p>
+                Add your academic, contact and career information to make your profile job-ready.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- INFORMATION GRID -->
+    <div class="profile-grid">
+
+        <!-- PERSONAL INFORMATION -->
+        <section class="profile-card">
+
+            <div class="card-heading">
+
+                <div class="card-heading-icon blue">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">PERSONAL</span>
+                    <h2>Personal Information</h2>
+                </div>
+
+            </div>
+
+            <div class="info-list">
+
+                <div class="info-item">
+                    <span class="info-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+
+                    <div>
+                        <small>Email Address</small>
+                        <strong>{{ student.email or "-" }}</strong>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </span>
+
+                    <div>
+                        <small>Mobile Number</small>
+                        <strong>{{ student.mobile or "-" }}</strong>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </span>
+
+                    <div>
+                        <small>Address</small>
+                        <strong>{{ student.address or "-" }}</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACADEMIC INFORMATION -->
+        <section class="profile-card">
+
+            <div class="card-heading">
+
+                <div class="card-heading-icon indigo">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">EDUCATION</span>
+                    <h2>Academic Information</h2>
+                </div>
+
+            </div>
+
+            <div class="info-list">
+
+                <div class="info-item">
+                    <span class="info-icon">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </span>
+
+                    <div>
+                        <small>College</small>
+                        <strong>{{ student.college or "-" }}</strong>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-icon">
+                        <i class="fa-solid fa-code"></i>
+                    </span>
+
+                    <div>
+                        <small>Branch</small>
+                        <strong>{{ student.branch or "-" }}</strong>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+
+                    <div>
+                        <small>Current Semester</small>
+                        <strong>{{ student.semester or "-" }}</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+        <section class="profile-card profile-card-wide">
+
+            <div class="card-heading">
+
+                <div class="card-heading-icon teal">
+                    <i class="fa-solid fa-user-pen"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">INTRODUCTION</span>
+                    <h2>About Me</h2>
+                </div>
+
+            </div>
+
+            <div class="about-box">
+                <p>
+                    {{ student.about or "No information available. Add a short professional introduction about
+                    yourself." }}
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- SKILLS -->
+        <section class="profile-card profile-card-wide">
+
+            <div class="card-heading">
+
+                <div class="card-heading-icon purple">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">EXPERTISE</span>
+                    <h2>Skills</h2>
+                </div>
+
+            </div>
+
+            {% if student.skills %}
+
+            <div class="skills-list">
+
+                {% for skill in student.skills.split(',') %}
+                {% if skill.strip() %}
+                <span class="skill-tag">
+                    <i class="fa-solid fa-check"></i>
+                    {{ skill.strip() }}
+                </span>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-inline">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>Add your technical and professional skills.</span>
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- RESUME -->
+        <section class="profile-card profile-card-wide">
+
+            <div class="card-heading">
+
+                <div class="card-heading-icon red">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">CAREER DOCUMENT</span>
+                    <h2>Resume</h2>
+                </div>
+
+            </div>
+
+            {% if student.resume %}
+
+            <div class="resume-card">
+
+                <div class="resume-file-icon">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+
+                <div class="resume-file-info">
+                    <strong>{{ student.resume }}</strong>
+                    <span>Professional resume document</span>
+                </div>
+
+                <div class="resume-actions">
+
+                    <a href="{{ url_for('view_uploaded_resume') }}" target="_blank"
+                        class="resume-view-btn">
+                        <i class="fa-solid fa-eye"></i>
+                        View
+                    </a>
+
+                    <a href="{{ url_for('download_uploaded_resume') }}"
+                        class="resume-download-btn">
+                        <i class="fa-solid fa-download"></i>
+                        Download
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="resume-empty">
+
+                <div class="resume-empty-icon">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                </div>
+
+                <div>
+                    <h3>No Resume Uploaded</h3>
+                    <p>Upload your latest resume to keep your profile job-ready.</p>
+                </div>
+
+                <a href="/student/upload-resume" class="profile-primary-btn">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Upload Resume
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+    <section class="quick-actions">
+
+        <div>
+            <span class="section-kicker">CAREER TOOLS</span>
+            <h2>Quick Actions</h2>
+        </div>
+
+        <div class="quick-action-buttons">
+
+            <a href="/student/edit-profile" class="quick-action">
+                <i class="fa-solid fa-user-pen"></i>
+
+                <span>
+                    <strong>Edit Profile</strong>
+                    <small>Update your information</small>
+                </span>
+            </a>
+
+            <a href="/student/resume-builder" class="quick-action">
+                <i class="fa-solid fa-file-signature"></i>
+
+                <span>
+                    <strong>Resume Generator</strong>
+                    <small>Create a professional resume</small>
+                </span>
+            </a>
+
+            <a href="/student/upload-resume" class="quick-action">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                <span>
+                    <strong>Upload Resume</strong>
+                    <small>Keep your resume updated</small>
+                </span>
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/student_profile.js') }}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const input = document.getElementById("profilePhotoInput");
+        const uploadButton = document.getElementById("uploadPhotoBtn");
+        const selectedName = document.getElementById("selectedPhotoName");
+
+        if (!input) {
+            return;
+        }
+
+        input.addEventListener("change", function () {
+
+            if (this.files && this.files.length > 0) {
+
+                if (selectedName) {
+                    selectedName.textContent = this.files[0].name;
+                }
+
+                if (uploadButton) {
+                    uploadButton.style.display = "inline-flex";
+                }
+
+            } else {
+
+                if (selectedName) {
+                    selectedName.textContent = "";
+                }
+
+                if (uploadButton) {
+                    uploadButton.style.display = "none";
+                }
+
+            }
+
+        });
+
+    });
+</script>
+
+{% endblock %}

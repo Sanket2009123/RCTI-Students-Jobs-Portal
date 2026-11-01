@@ -1,0 +1,55 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Change Photo
+{% endblock %}
+
+{% block page_title %}
+Change Profile Photo
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>Upload Profile Photo</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <div class="mb-3">
+
+                    <label>Select Photo</label>
+
+                    <input type="file" name="photo" class="form-control" accept=".jpg,.jpeg,.png" required>
+
+                </div>
+
+                <button class="btn btn-success">
+
+                    Upload
+
+                </button>
+
+                <a href="/student/profile" class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

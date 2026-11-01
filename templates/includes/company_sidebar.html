@@ -1,0 +1,328 @@
+<aside class="sidebar">
+
+    <!-- Company Branding -->
+    <div class="sidebar-logo text-center">
+        {% if session.get("company_logo") %}
+        <img
+            src="{{ url_for('static', filename='uploads/company_logos/' + session['company_logo']) }}"
+            alt="Company Logo"
+            class="rounded-circle mb-2"
+            width="80"
+            height="80"
+            style="object-fit:cover; border:3px solid rgba(255,255,255,.9);"
+        >
+        {% else %}
+        <div class="company-logo-placeholder">
+            <i class="fa-solid fa-building"></i>
+        </div>
+        {% endif %}
+
+        <h2 class="text-white mb-1">
+            {{ session.get("company_name", "Company Panel") }}
+        </h2>
+        <small class="sidebar-subtitle">Recruitment Portal</small>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-menu" aria-label="Company navigation">
+        <ul>
+
+            <li>
+                <a href="{{ url_for('company_dashboard') }}"
+                   class="{% if request.endpoint == 'company_dashboard' %}active{% endif %}">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('post_job') }}"
+                   class="{% if request.endpoint == 'post_job' %}active{% endif %}">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Post Job</span>
+                </a>
+            </li>
+
+            <!-- Manage Jobs Parent -->
+            <li class="sidebar-section {% if request.endpoint in ['company_jobs', 'active_jobs', 'inactive_jobs'] %}submenu-open{% endif %}">
+
+                <button
+                    type="button"
+                    class="sidebar-section-title"
+                    id="manageJobsToggle"
+                    aria-expanded="{% if request.endpoint in ['company_jobs', 'active_jobs', 'inactive_jobs'] %}true{% else %}false{% endif %}"
+                    aria-controls="manageJobsSubmenu">
+
+                    <span>
+                        <i class="fa-solid fa-briefcase"></i>
+                        Manage Jobs
+                    </span>
+
+                    <i class="fa-solid fa-chevron-down submenu-arrow"></i>
+                </button>
+
+                <ul
+                    class="sidebar-submenu"
+                    id="manageJobsSubmenu"
+                    {% if request.endpoint not in ['company_jobs', 'active_jobs', 'inactive_jobs'] %}hidden{% endif %}>
+
+                    <li>
+                        <a href="{{ url_for('company_jobs') }}"
+                           class="{% if request.endpoint == 'company_jobs' %}active{% endif %}">
+                            <i class="fa-solid fa-list"></i>
+                            <span>All Jobs</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('active_jobs') }}"
+                           class="{% if request.endpoint == 'active_jobs' %}active{% endif %}">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Active Jobs</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('inactive_jobs') }}"
+                           class="{% if request.endpoint == 'inactive_jobs' %}active{% endif %}">
+                            <i class="fa-solid fa-circle-pause"></i>
+                            <span>Inactive Jobs</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="{{ url_for('company_applicants') }}"
+                   class="{% if request.endpoint == 'company_applicants' %}active{% endif %}">
+                    <i class="fa-solid fa-users"></i>
+                    <span>All Applications</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('shortlisted_students') }}"
+                   class="{% if request.endpoint == 'shortlisted_students' %}active{% endif %}">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>Shortlisted</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('rejected_students') }}"
+                   class="{% if request.endpoint == 'rejected_students' %}active{% endif %}">
+                    <i class="fa-solid fa-user-xmark"></i>
+                    <span>Rejected</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('company_profile') }}"
+                   class="{% if request.endpoint == 'company_profile' %}active{% endif %}">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Company Profile</span>
+                </a>
+            </li>
+
+            <li class="sidebar-logout">
+                <a href="{{ url_for('company_logout') }}">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.getElementById("manageJobsToggle");
+    const submenu = document.getElementById("manageJobsSubmenu");
+
+    if (!toggle || !submenu) return;
+
+    toggle.addEventListener("click", function () {
+        const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+        toggle.setAttribute("aria-expanded", String(!isOpen));
+        submenu.hidden = isOpen;
+
+        const parent = toggle.closest(".sidebar-section");
+        if (parent) {
+            parent.classList.toggle("submenu-open", !isOpen);
+        }
+    });
+});
+</script>
+
+</aside>
+
+<style>
+/* ==========================================================
+   COMPANY SIDEBAR - PROFESSIONAL MANAGE JOBS NAVIGATION
+   ========================================================== */
+
+.sidebar-section {
+    margin: 6px 0;
+    padding: 0;
+}
+
+/* Manage Jobs uses exactly the same left alignment as the
+   normal sidebar menu items. */
+.sidebar-section-title {
+    width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 22px 10px 22px;
+    border: 0;
+    border-radius: 10px;
+    color: rgba(255,255,255,.72);
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    text-align: left;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.sidebar-section-title > span {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+
+.sidebar-section-title > span i {
+    width: 18px;
+    flex: 0 0 18px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.sidebar-section-title > i {
+    flex: 0 0 auto;
+}
+
+.sidebar-section-title:hover {
+    color: #fff;
+    background: rgba(255,255,255,.07);
+}
+
+.sidebar-section-title > span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-section-title > span i {
+    font-size: 14px;
+}
+
+.sidebar-section-title > i {
+    font-size: 10px;
+    opacity: .65;
+    transition: transform .22s ease;
+}
+
+.sidebar-section.submenu-open .submenu-arrow {
+    transform: rotate(180deg);
+}
+
+.sidebar-submenu {
+    list-style: none;
+    margin: 2px 0 8px 42px;
+    padding: 0 0 0 16px;
+    border-left: 1px solid rgba(255,255,255,.14);
+    animation: submenuOpen .22s ease;
+}
+
+.sidebar-submenu[hidden] {
+    display: none;
+}
+
+@keyframes submenuOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sidebar-submenu li {
+    margin: 2px 0;
+}
+
+.sidebar-submenu a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 42px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    color: rgba(255,255,255,.72);
+    text-decoration: none;
+    font-size: 14px;
+    transition: .2s ease;
+}
+
+.sidebar-submenu a i {
+    width: 18px;
+    text-align: center;
+    font-size: 13px;
+    opacity: .85;
+}
+
+.sidebar-submenu a:hover {
+    color: #fff;
+    background: rgba(255,255,255,.08);
+    transform: translateX(2px);
+}
+
+.sidebar-submenu a.active {
+    color: #fff;
+    background: rgba(255,255,255,.13);
+    box-shadow: inset 3px 0 0 #fff;
+}
+
+.sidebar-submenu a.active i {
+    opacity: 1;
+}
+
+.sidebar-logout {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.company-logo-placeholder {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(255,255,255,.12);
+    border: 3px solid rgba(255,255,255,.9);
+    font-size: 27px;
+}
+
+.sidebar-subtitle {
+    color: rgba(255,255,255,.55);
+    font-size: 11px;
+    letter-spacing: .04em;
+}
+</style>

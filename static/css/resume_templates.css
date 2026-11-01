@@ -1,0 +1,379 @@
+/* ===========================
+   GOOGLE FONT
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* ===========================
+   BODY
+=========================== */
+
+body.resume-body{
+
+    background:#edf2f7;
+    padding:40px;
+}
+
+/* ===========================
+   MAIN CONTAINER
+=========================== */
+
+.resume-container{
+
+    width:210mm;
+    min-height:297mm;
+
+    margin:auto;
+
+    display:flex;
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.15);
+
+}
+
+/* ===========================
+   LEFT PANEL
+=========================== */
+
+.left-panel{
+
+    width:33%;
+
+    background:linear-gradient(180deg,#0f172a,#1e3a8a);
+
+    color:white;
+
+    padding:35px;
+
+}
+
+/* ===========================
+   PROFILE
+=========================== */
+
+.profile-section{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+.profile-photo{
+
+    width:170px;
+
+    height:170px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:6px solid white;
+
+    box-shadow:0 0 20px rgba(255,255,255,.35);
+
+}
+
+.profile-section h2{
+
+    font-size:28px;
+
+    margin-top:18px;
+
+    font-weight:700;
+
+}
+
+.job-title{
+
+    color:#cbd5e1;
+
+    font-size:16px;
+
+}
+
+/* ===========================
+   SIDEBAR SECTIONS
+=========================== */
+
+.resume-section{
+
+    margin-top:35px;
+
+}
+
+.resume-section h5{
+
+    margin-bottom:18px;
+
+    letter-spacing:2px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+    border-left:4px solid #38bdf8;
+
+    padding-left:12px;
+
+}
+
+.resume-section p{
+
+    margin-bottom:12px;
+
+    font-size:14px;
+
+}
+
+.resume-section i{
+
+    width:25px;
+
+    color:#38bdf8;
+
+}
+
+.resume-section ul{
+
+    list-style:none;
+
+    padding-left:0;
+
+}
+
+.resume-section ul li{
+
+    margin-bottom:12px;
+
+    padding:8px 12px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:8px;
+
+}
+
+/* ===========================
+   RIGHT PANEL
+=========================== */
+
+.right-panel{
+
+    width:67%;
+
+    padding:40px;
+
+    background:white;
+
+}
+
+/* ===========================
+   CONTENT BLOCK
+=========================== */
+
+.resume-content{
+
+    margin-bottom:35px;
+
+}
+
+.resume-content h3{
+
+    color:#1e3a8a;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border-bottom:2px solid #e2e8f0;
+
+    padding-bottom:10px;
+
+}
+
+.resume-content h3 i{
+
+    color:#2563eb;
+
+}
+
+.resume-content p{
+
+    color:#444;
+
+    line-height:28px;
+
+    text-align:justify;
+
+}
+
+/* ===========================
+   TIMELINE CARD
+=========================== */
+
+.timeline{
+
+    background:#f8fafc;
+
+    padding:18px;
+
+    border-left:5px solid #2563eb;
+
+    border-radius:10px;
+
+    margin-bottom:18px;
+
+    transition:.3s;
+
+}
+
+.timeline:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.timeline h5{
+
+    margin-bottom:5px;
+
+    font-weight:700;
+
+    color:#111827;
+
+}
+
+.timeline p{
+
+    margin-bottom:5px;
+
+    color:#555;
+
+}
+
+.timeline small{
+
+    color:#777;
+
+}
+
+/* ===========================
+   LISTS
+=========================== */
+
+.resume-content ul{
+
+    padding-left:20px;
+
+}
+
+.resume-content ul li{
+
+    margin-bottom:10px;
+
+}
+
+/* ===========================
+   HR
+=========================== */
+
+hr{
+
+    border-color:rgba(255,255,255,.3);
+
+}
+
+/* ===========================
+   PRINT
+=========================== */
+
+@page{
+
+    size:A4;
+
+    margin:0;
+
+}
+
+@media print{
+
+    body{
+
+        background:white;
+
+        padding:0;
+
+    }
+
+    .resume-container{
+
+        width:100%;
+
+        min-height:100%;
+
+        border-radius:0;
+
+        box-shadow:none;
+
+    }
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:991px){
+
+.resume-container{
+
+    width:100%;
+
+    flex-direction:column;
+
+}
+
+.left-panel{
+
+    width:100%;
+
+}
+
+.right-panel{
+
+    width:100%;
+
+}
+
+.profile-photo{
+
+    width:130px;
+
+    height:130px;
+
+}
+
+}

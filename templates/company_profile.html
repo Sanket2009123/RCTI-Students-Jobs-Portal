@@ -1,0 +1,552 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Company Profile{% endblock %}
+
+{% block page_title %}Company Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company_profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="company-profile-page"
+     data-logo-url="{{ url_for('static', filename='uploads/company_logos/' + (company['logo'] or 'default.png')) }}"
+     data-default-logo="{{ url_for('static', filename='uploads/company_logos/default.png') }}">
+
+    <!-- PROFILE HERO -->
+    <section class="profile-hero">
+
+        <div class="profile-hero-main">
+
+            <div class="hero-logo">
+                <img
+                    id="heroLogoPreview"
+                    src="{{ url_for('static', filename='uploads/company_logos/' + (company['logo'] or 'default.png')) }}"
+                    alt="{{ company['company_name'] or 'Company' }} Logo"
+                >
+            </div>
+
+            <div class="hero-company-info">
+
+                <span class="hero-kicker">
+                    <i class="fa-solid fa-building"></i>
+                    COMPANY PROFILE
+                </span>
+
+                <h1>{{ company['company_name'] or 'Your Company' }}</h1>
+
+                <p>
+                    Manage your company identity, contact information and public profile.
+                </p>
+
+                <div class="hero-meta">
+
+                    {% if company['email'] %}
+                    <span>
+                        <i class="fa-solid fa-envelope"></i>
+                        {{ company['email'] }}
+                    </span>
+                    {% endif %}
+
+                    {% if company['website'] %}
+                    <span>
+                        <i class="fa-solid fa-globe"></i>
+                        {{ company['website'] }}
+                    </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <a href="{{ url_for('company_dashboard') }}" class="dashboard-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Dashboard
+        </a>
+
+    </section>
+
+
+    <!-- MAIN GRID -->
+    <div class="profile-grid">
+
+        <!-- LEFT: LOGO -->
+        <section class="profile-card logo-card">
+
+            <div class="card-heading">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-image"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">BRAND IDENTITY</span>
+                    <h2>Company Logo</h2>
+                </div>
+            </div>
+
+            <p class="card-description">
+                Upload a professional logo to represent your company across the portal.
+            </p>
+
+
+            <form
+                action="{{ url_for('company_profile') }}"
+                method="POST"
+                enctype="multipart/form-data"
+                id="logoForm">
+
+                <div class="logo-upload-area">
+
+                    <div class="large-logo-preview">
+                        <img
+                            id="logoPreview"
+                            src="{{ url_for('static', filename='uploads/company_logos/' + (company['logo'] or 'default.png')) }}"
+                            alt="Company logo"
+                        >
+                    </div>
+
+                    <div class="upload-content">
+
+                        <h3>Upload your logo</h3>
+
+                        <p>
+                            Choose an image from anywhere on your computer.
+                        </p>
+
+                        <label for="logo" class="upload-button">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            Choose Logo
+                        </label>
+
+                        <input
+                            type="file"
+                            id="logo"
+                            name="logo"
+                            accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+                            hidden
+                        >
+
+                        <span class="file-name" id="fileName">
+                            No file selected
+                        </span>
+
+                        <small>
+                            PNG, JPG, JPEG, WEBP or SVG
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="save-logo-button" id="saveLogoButton">
+                    <i class="fa-solid fa-upload"></i>
+                    Upload & Save Logo
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- RIGHT: PROFILE COMPLETION -->
+        <aside class="profile-card profile-status-card">
+
+            <div class="card-heading">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">PROFILE STATUS</span>
+                    <h2>Company Overview</h2>
+                </div>
+            </div>
+
+
+            <div class="completion-circle">
+                <div>
+                    <strong id="completionValue">0%</strong>
+                    <span>Complete</span>
+                </div>
+            </div>
+
+
+            <div class="completion-text">
+                <h3>Build a stronger profile</h3>
+                <p>
+                    Complete your company information so students can better understand your organization.
+                </p>
+            </div>
+
+
+            <div class="profile-checks">
+
+                <div class="profile-check" data-check="name">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Company name</span>
+                </div>
+
+                <div class="profile-check" data-check="email">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Email address</span>
+                </div>
+
+                <div class="profile-check" data-check="website">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Website</span>
+                </div>
+
+                <div class="profile-check" data-check="phone">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Phone number</span>
+                </div>
+
+                <div class="profile-check" data-check="address">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Address</span>
+                </div>
+
+                <div class="profile-check" data-check="description">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Company description</span>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+
+    <!-- COMPANY INFORMATION -->
+    <section class="profile-card information-card">
+
+        <div class="information-header">
+
+            <div class="card-heading">
+                <div class="heading-icon">
+                    <i class="fa-solid fa-building-circle-check"></i>
+                </div>
+
+                <div>
+                    <span class="section-kicker">COMPANY INFORMATION</span>
+                    <h2>Business Details</h2>
+                    <p>Keep your company information accurate and up to date.</p>
+                </div>
+            </div>
+
+            <span class="secure-label">
+                <i class="fa-solid fa-shield-halved"></i>
+                Secure Profile
+            </span>
+
+        </div>
+
+
+        <form
+            action="{{ url_for('company_profile') }}"
+            method="POST"
+            class="company-info-form"
+            id="companyInfoForm">
+
+            <div class="form-section-title">
+                <span>Basic Information</span>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="company_name">
+                        Company Name
+                        <span>*</span>
+                    </label>
+
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-building"></i>
+                        <input
+                            type="text"
+                            id="company_name"
+                            name="company_name"
+                            value="{{ company['company_name'] or '' }}"
+                            placeholder="Enter company name"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="email">
+                        Email Address
+                        <span>*</span>
+                    </label>
+
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ company['email'] or '' }}"
+                            placeholder="company@example.com"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="website">Company Website</label>
+
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-globe"></i>
+                        <input
+                            type="url"
+                            id="website"
+                            name="website"
+                            value="{{ company['website'] or '' }}"
+                            placeholder="https://www.example.com"
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-phone"></i>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            value="{{ company['phone'] or '' }}"
+                            placeholder="Enter company phone number"
+                        >
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="form-section-title second">
+                <span>Location & About Company</span>
+            </div>
+
+            <div class="form-grid single">
+
+                <div class="form-group">
+                    <label for="address">Company Address</label>
+
+                    <div class="input-wrap textarea-wrap">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <textarea
+                            id="address"
+                            name="address"
+                            rows="3"
+                            placeholder="Enter complete company address">{{ company['address'] or '' }}</textarea>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="description">Company Description</label>
+
+                    <div class="input-wrap textarea-wrap">
+                        <i class="fa-solid fa-align-left"></i>
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="5"
+                            maxlength="1000"
+                            placeholder="Tell students about your company, culture, work and opportunities...">{{ company['description'] or '' }}</textarea>
+                    </div>
+
+                    <div class="character-count">
+                        <span id="descriptionCount">0</span> / 1000 characters
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="form-footer">
+
+                <div class="footer-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Your updated information will be visible where your company profile is displayed.
+                </div>
+
+                <button type="submit" class="save-profile-button">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Company Information
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const logoInput = document.getElementById("logo");
+    const logoPreview = document.getElementById("logoPreview");
+    const heroLogoPreview = document.getElementById("heroLogoPreview");
+    const fileName = document.getElementById("fileName");
+    const description = document.getElementById("description");
+    const descriptionCount = document.getElementById("descriptionCount");
+    const completionValue = document.getElementById("completionValue");
+    const profilePage = document.querySelector(".company-profile-page");
+    const defaultLogo = profilePage
+        ? profilePage.dataset.defaultLogo
+        : "";
+
+    if (logoPreview && defaultLogo) {
+        logoPreview.addEventListener("error", function () {
+            this.src = defaultLogo;
+        });
+    }
+
+    if (heroLogoPreview && defaultLogo) {
+        heroLogoPreview.addEventListener("error", function () {
+            this.src = defaultLogo;
+        });
+    }
+
+    const fields = {
+        name: document.getElementById("company_name"),
+        email: document.getElementById("email"),
+        website: document.getElementById("website"),
+        phone: document.getElementById("phone"),
+        address: document.getElementById("address"),
+        description: description
+    };
+
+
+    /* ======================================================
+       LOGO PREVIEW
+    ====================================================== */
+
+    if (logoInput) {
+
+        logoInput.addEventListener("change", function () {
+
+            const file = this.files && this.files[0];
+
+            if (!file) {
+                fileName.textContent = "No file selected";
+                return;
+            }
+
+            fileName.textContent = file.name;
+
+            if (!file.type.startsWith("image/")) {
+                alert("Please select a valid image file.");
+                this.value = "";
+                fileName.textContent = "No file selected";
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                logoPreview.src = event.target.result;
+                heroLogoPreview.src = event.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+    }
+
+
+    /* ======================================================
+       DESCRIPTION COUNTER
+    ====================================================== */
+
+    function updateDescriptionCount() {
+
+        if (!description || !descriptionCount) {
+            return;
+        }
+
+        descriptionCount.textContent = description.value.length;
+    }
+
+    updateDescriptionCount();
+
+    if (description) {
+        description.addEventListener("input", updateDescriptionCount);
+    }
+
+
+    /* ======================================================
+       PROFILE COMPLETION
+    ====================================================== */
+
+    function updateCompletion() {
+
+        let completed = 0;
+        const total = Object.keys(fields).length;
+
+        Object.keys(fields).forEach(function (key) {
+
+            const field = fields[key];
+            const check = document.querySelector(
+                '.profile-check[data-check="' + key + '"]'
+            );
+
+            const value = field ? field.value.trim() : "";
+            const isComplete = value.length > 0;
+
+            if (isComplete) {
+                completed++;
+            }
+
+            if (check) {
+                check.classList.toggle("complete", isComplete);
+            }
+        });
+
+        const percentage = Math.round((completed / total) * 100);
+
+        if (completionValue) {
+            completionValue.textContent = percentage + "%";
+        }
+
+        const circle = document.querySelector(".completion-circle");
+
+        if (circle) {
+            circle.style.setProperty(
+                "--completion",
+                percentage + "%"
+            );
+        }
+    }
+
+
+    Object.values(fields).forEach(function (field) {
+
+        if (field) {
+            field.addEventListener("input", updateCompletion);
+        }
+
+    });
+
+    updateCompletion();
+
+});
+</script>
+{% endblock %}

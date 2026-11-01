@@ -1,0 +1,763 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Student Jobs | RCTI Students Jobs Portal
+{% endblock %}
+
+{% block page_title %}
+Find Jobs
+{% endblock %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jobs.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="student-jobs-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="jobs-hero">
+
+        <div class="jobs-hero-overlay"></div>
+
+        <div class="hero-decoration hero-decoration-one"></div>
+        <div class="hero-decoration hero-decoration-two"></div>
+
+        <div class="jobs-hero-content">
+
+            <span class="jobs-hero-badge">
+
+                <i class="fa-solid fa-briefcase"></i>
+
+                Student Career Opportunities
+
+            </span>
+
+
+            <h1>
+
+                Find Your Next
+
+                <span>
+                    Career Opportunity
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Discover the latest job opportunities from
+                leading companies and take the next step
+                towards your professional career.
+
+            </p>
+
+
+            <div class="jobs-breadcrumb">
+
+                <a href="{{ url_for('student_dashboard') }}">
+                    Dashboard
+                </a>
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+                <strong>
+                    Jobs
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SEARCH SECTION
+    ====================================================== -->
+
+    <section class="jobs-search-section">
+
+        <div class="jobs-search-card">
+
+
+            <div class="jobs-search-heading">
+
+                <div class="jobs-search-icon">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Search Jobs
+                    </h2>
+
+                    <p>
+                        Find the right opportunity for your skills
+                        and career goals.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SEARCH FORM -->
+
+            <form id="jobSearchForm" class="jobs-search-form" method="GET" action="{{ url_for('student_jobs') }}">
+
+
+                <!-- Search -->
+
+                <div class="job-search-input">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input type="text" id="jobSearchInput" name="search" value="{{ request.args.get('search', '') }}"
+                        placeholder="Search job title, skills or company" autocomplete="off">
+
+                    <button type="button" id="clearJobSearch" class="clear-job-search" aria-label="Clear search">
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- Location -->
+
+                <div class="job-filter-input">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    <select id="jobLocation" name="location">
+
+                        <option value="">
+                            All Locations
+                        </option>
+
+                        <option value="Ahmedabad" {% if request.args.get('location')=='Ahmedabad' %} selected {% endif
+                            %}>
+                            Ahmedabad
+                        </option>
+
+                        <option value="Gandhinagar" {% if request.args.get('location')=='Gandhinagar' %} selected {%
+                            endif %}>
+                            Gandhinagar
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Job Type -->
+
+                <div class="job-filter-input">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                    <select id="jobType" name="job_type">
+
+                        <option value="">
+                            All Job Types
+                        </option>
+
+                        <option value="Full Time" {% if request.args.get('job_type')=='Full Time' %} selected {% endif
+                            %}>
+                            Full Time
+                        </option>
+
+                        <option value="Part Time" {% if request.args.get('job_type')=='Part Time' %} selected {% endif
+                            %}>
+                            Part Time
+                        </option>
+
+                        <option value="Internship" {% if request.args.get('job_type')=='Internship' %} selected {% endif
+                            %}>
+                            Internship
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Search -->
+
+                <button type="submit" class="jobs-search-button">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    Search Jobs
+
+                </button>
+
+            </form>
+
+
+
+            <!-- SEARCH FOOTER -->
+
+            <div class="jobs-search-footer">
+
+
+                <div class="popular-job-searches">
+
+                    <span>
+                        Popular:
+                    </span>
+
+
+                    <button type="button" data-search="Software Developer">
+
+                        Software Developer
+
+                    </button>
+
+
+                    <button type="button" data-search="Web Developer">
+
+                        Web Developer
+
+                    </button>
+
+
+                    <button type="button" data-search="Data Analyst">
+
+                        Data Analyst
+
+                    </button>
+
+
+                    <button type="button" data-search="Python">
+
+                        Python
+
+                    </button>
+
+                </div>
+
+
+                <div class="jobs-result-info">
+
+                    <i class="fa-solid fa-layer-group"></i>
+
+                    <span>
+                        {{ jobs|length }}
+                    </span>
+
+                    Jobs Found
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         JOB RESULTS
+    ====================================================== -->
+
+    <section class="jobs-section">
+
+
+        <div class="jobs-section-header">
+
+            <div>
+
+                <span class="jobs-section-tag">
+                    JOB OPPORTUNITIES
+                </span>
+
+                <h2>
+                    Latest Jobs
+                </h2>
+
+                <p>
+                    Explore opportunities that match your
+                    career interests.
+                </p>
+
+            </div>
+
+
+            <div class="jobs-status">
+
+                <i class="fa-solid fa-circle"></i>
+
+                Opportunities Available
+
+            </div>
+
+        </div>
+
+
+
+        <!-- JOB GRID -->
+
+        <div class="job-grid">
+
+
+            {% if jobs %}
+
+
+            {% for job in jobs %}
+
+            <article class="job-card {% if loop.first %}featured-job{% endif %}" tabindex="0">
+
+
+                <!-- CARD TOP -->
+
+                <div class="job-card-top">
+
+
+                    <div>
+
+                        {% if loop.first %}
+
+                        <span class="featured-badge">
+
+                            <i class="fa-solid fa-star"></i>
+
+                            Featured
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="new-job-badge">
+
+                            <i class="fa-solid fa-circle"></i>
+
+                            Opportunity
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <button type="button" class="save-job" aria-label="Save job" title="Save job">
+
+                        <i class="fa-regular fa-bookmark"></i>
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- JOB HEADER -->
+
+                <div class="job-header">
+
+
+                    <div class="job-logo">
+
+                        <div class="job-logo-placeholder">
+
+                            <i class="fa-solid fa-building"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="job-heading">
+
+                        <h3 class="job-title">
+
+                            {{ job.title }}
+
+                        </h3>
+
+
+                        <p class="company-name">
+
+                            <i class="fa-solid fa-building"></i>
+
+                            {{ job.company_name }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- JOB DETAILS -->
+
+                <div class="job-details">
+
+
+                    <div class="job-detail">
+
+                        <div class="detail-icon">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Location
+                            </span>
+
+                            <strong>
+                                {{ job.location }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="job-detail">
+
+                        <div class="detail-icon">
+
+                            <i class="fa-solid fa-money-bill-wave"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Salary
+                            </span>
+
+                            <strong>
+                                {{ job.salary or "Not disclosed" }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="job-detail">
+
+                        <div class="detail-icon">
+
+                            <i class="fa-solid fa-briefcase"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Job Type
+                            </span>
+
+                            <strong>
+                                {{ job.job_type or "Full Time" }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="job-detail">
+
+                        <div class="detail-icon">
+
+                            <i class="fa-solid fa-graduation-cap"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Career Level
+                            </span>
+
+                            <strong>
+                                Student / Fresher
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TAGS -->
+
+                <div class="job-tags">
+
+                    <span class="job-type">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        {{ job.job_type or "Full Time" }}
+
+                    </span>
+
+
+                    <span class="job-category">
+
+                        <i class="fa-solid fa-user-graduate"></i>
+
+                        Student Opportunity
+
+                    </span>
+
+                </div>
+
+
+
+                <!-- FOOTER -->
+
+                <div class="job-footer">
+
+
+                    <div class="job-posted">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        Open Opportunity
+
+                    </div>
+
+
+                    <a href="{{ url_for('job_details', job_id=job.id) }}" class="apply-btn">
+
+                        View Details
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+            </article>
+
+            {% endfor %}
+
+
+            {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="jobs-empty-state">
+
+                <div class="empty-icon">
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                </div>
+
+
+                <h3>
+                    No Jobs Found
+                </h3>
+
+
+                <p>
+
+                    We couldn't find any jobs matching
+                    your current search. Try another
+                    keyword or remove the filters.
+
+                </p>
+
+
+                <a href="{{ url_for('student_jobs') }}" class="view-all-jobs">
+
+                    <i class="fa-solid fa-rotate-left"></i>
+
+                    View All Jobs
+
+                </a>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+
+        <!-- PAGINATION -->
+
+        {% if jobs %}
+
+        <div class="jobs-pagination">
+
+
+            {% if pagination and pagination.has_prev %}
+
+            <a href="{{ url_for('student_jobs', page=pagination.prev_num, search=request.args.get('search', ''), location=request.args.get('location', ''), job_type=request.args.get('job_type', '')) }}"
+                class="pagination-arrow">
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+                <span>
+                    Previous
+                </span>
+
+            </a>
+
+            {% endif %}
+
+
+
+            <div class="pagination-numbers">
+
+                {% if pagination %}
+
+                {% for page_num in pagination.iter_pages(
+                left_edge=1,
+                right_edge=1,
+                left_current=1,
+                right_current=1
+                ) %}
+
+
+                {% if page_num %}
+
+                <a href="{{ url_for('student_jobs', page=page_num, search=request.args.get('search', ''), location=request.args.get('location', ''), job_type=request.args.get('job_type', '')) }}"
+                    class="pagination-number {% if pagination.page == page_num %}active{% endif %}">
+
+                    {{ page_num }}
+
+                </a>
+
+                {% else %}
+
+                <span class="pagination-dots">
+                    ...
+                </span>
+
+                {% endif %}
+
+
+                {% endfor %}
+
+                {% endif %}
+
+            </div>
+
+
+
+            {% if pagination and pagination.has_next %}
+
+            <a href="{{ url_for('student_jobs', page=pagination.next_num, search=request.args.get('search', ''), location=request.args.get('location', ''), job_type=request.args.get('job_type', '')) }}"
+                class="pagination-arrow">
+
+                <span>
+                    Next
+                </span>
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </a>
+
+            {% endif %}
+
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CTA
+    ====================================================== -->
+
+    <section class="jobs-cta">
+
+        <div class="jobs-cta-content">
+
+
+            <div class="cta-icon">
+
+                <i class="fa-solid fa-rocket"></i>
+
+            </div>
+
+
+            <div class="cta-text">
+
+                <span>
+                    BUILD YOUR CAREER
+                </span>
+
+                <h2>
+                    Your Next Opportunity Could Be Here
+                </h2>
+
+                <p>
+                    Keep exploring new jobs and take the
+                    next step towards your career.
+                </p>
+
+            </div>
+
+
+            <a href="{{ url_for('student_jobs') }}" class="cta-button">
+
+                Explore Jobs
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/jobs.js') }}">
+</script>
+
+{% endblock %}

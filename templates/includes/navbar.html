@@ -1,0 +1,119 @@
+<nav class="navbar">
+
+    <!-- Logo -->
+    <div class="logo">
+
+        <a href="/">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="RCTI Logo">
+        </a>
+
+        <span>RCTI Jobs Portal</span>
+
+    </div>
+
+
+    <!-- Navigation -->
+    <ul class="nav-links">
+
+        <li>
+            <a href="/">Home</a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('all_jobs') }}">Jobs</a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('companies') }}">Companies</a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('about') }}">About</a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </li>
+
+        <!-- Mobile Login/Register -->
+        <li class="mobile-auth">
+
+            <a href="{{ url_for('student_login') }}">
+                <i class="fa-solid fa-user-graduate"></i>
+                Student Login
+            </a>
+
+        </li>
+
+        <li class="mobile-auth">
+
+            <a href="{{ url_for('company_login') }}">
+                <i class="fa-solid fa-building"></i>
+                Company Login
+            </a>
+
+        </li>
+
+    </ul>
+
+
+    <!-- Desktop Buttons -->
+    <div class="nav-buttons">
+
+        <!-- Student -->
+        <div class="dropdown">
+
+            <button class="dropbtn">
+                <i class="fa-solid fa-user-graduate"></i>
+                Student
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="{{ url_for('student_login') }}">
+                    Student Login
+                </a>
+
+                <a href="{{ url_for('student_register') }}">
+                    Student Register
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Company -->
+        <div class="dropdown">
+
+            <button class="dropbtn">
+                <i class="fa-solid fa-building"></i>
+                Company
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="{{ url_for('company_login') }}">
+                    Company Login
+                </a>
+
+                <a href="{{ url_for('company_register') }}">
+                    Company Register
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mobile Menu Button -->
+    <button class="menu-toggle" id="mobileMenuToggle" type="button" aria-label="Open navigation menu"
+        aria-expanded="false">
+
+        <i class="fa-solid fa-bars"></i>
+
+    </button>
+
+</nav>

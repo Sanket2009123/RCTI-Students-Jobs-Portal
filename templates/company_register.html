@@ -1,0 +1,444 @@
+{% extends "base.html" %}
+
+{% block title %}
+Company Registration - RCTI Students Jobs Portal
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="register-page company-register-page">
+
+    <!-- =====================================================
+         LEFT SIDE - COMPANY HERO
+    ====================================================== -->
+
+    <div class="register-hero company-register-hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <!-- BRAND -->
+            <div class="brand-area">
+
+                <div class="brand-icon">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+
+                <div class="brand-text">
+                    <h1>RCTI</h1>
+                    <span>STUDENTS JOBS PORTAL</span>
+                </div>
+
+            </div>
+
+
+            <!-- HERO MAIN -->
+            <div class="hero-main">
+
+                <span class="hero-small-title">
+                    WELCOME TO RCTI
+                </span>
+
+                <h2>
+                    Build Your
+                    <span>Dream Team</span>
+                </h2>
+
+                <p>
+                    Register your company and connect with talented
+                    students, fresh graduates and skilled candidates
+                    ready to start their career journey.
+                </p>
+
+            </div>
+
+
+            <!-- HERO FEATURES -->
+            <div class="hero-features">
+
+                <!-- FEATURE 1 -->
+                <div class="hero-feature">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+
+                    <div>
+                        <strong>Post Job Opportunities</strong>
+
+                        <small>
+                            Publish jobs and internships for students.
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 2 -->
+                <div class="hero-feature">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+                        <strong>Find Skilled Students</strong>
+
+                        <small>
+                            Connect with talented students and freshers.
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 3 -->
+                <div class="hero-feature">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <div>
+                        <strong>Grow Your Company</strong>
+
+                        <small>
+                            Build your team with the right talent.
+                        </small>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECURITY CARD -->
+            <div class="security-card">
+
+                <div class="security-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your Company Data is Safe
+                    </strong>
+
+                    <p>
+                        We care about the security and privacy
+                        of your company information.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RIGHT SIDE - COMPANY REGISTRATION FORM
+    ====================================================== -->
+
+    <div class="register-form-side">
+
+        <div class="register-card company-register-card">
+
+
+            <!-- HEADER -->
+            <div class="register-header">
+
+                <div class="register-title-icon">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+
+                <div>
+
+                    <h2>
+                        Company Registration
+                    </h2>
+
+                    <p>
+                        Create your company account to post jobs
+                        and connect with talented students.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-line"></div>
+
+
+            <!-- =================================================
+                 COMPANY REGISTRATION FORM
+            ================================================== -->
+
+            <form id="companyRegisterForm" action="/company/register" method="POST" novalidate>
+
+                <div class="form-grid">
+
+
+                    <!-- COMPANY NAME -->
+                    <div class="form-field">
+
+                        <label for="companyName">
+                            Company Name
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-building input-icon"></i>
+
+                            <input type="text" id="companyName" name="company_name" class="form-control"
+                                placeholder="Enter Company Name" autocomplete="organization" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HR NAME -->
+                    <div class="form-field">
+
+                        <label for="hrName">
+                            HR Name
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-regular fa-user input-icon"></i>
+
+                            <input type="text" id="hrName" name="hr_name" class="form-control"
+                                placeholder="Enter HR Name" autocomplete="name" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMPANY EMAIL -->
+                    <div class="form-field">
+
+                        <label for="companyEmail">
+                            Company Email
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-regular fa-envelope input-icon"></i>
+
+                            <input type="email" id="companyEmail" name="email" class="form-control"
+                                placeholder="Enter Company Email" autocomplete="email" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+                    <div class="form-field">
+
+                        <label for="companyPhone">
+                            Phone Number
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-phone input-icon"></i>
+
+                            <input type="text" id="companyPhone" name="phone" class="form-control"
+                                placeholder="Enter Phone Number" maxlength="10" inputmode="numeric" autocomplete="tel"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- WEBSITE -->
+                    <div class="form-field">
+
+                        <label for="website">
+                            Company Website
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-globe input-icon"></i>
+
+                            <input type="url" id="website" name="website" class="form-control"
+                                placeholder="https://example.com" autocomplete="url">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ADDRESS -->
+                    <div class="form-field">
+
+                        <label for="address">
+                            Company Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-location-dot input-icon"></i>
+
+                            <input type="text" id="address" name="address" class="form-control"
+                                placeholder="Enter Company Address" autocomplete="street-address" required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+                    <div class="form-field">
+
+                        <label for="companyPassword">
+                            Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <i class="fa-solid fa-lock password-input-icon"></i>
+
+                            <input type="password" id="companyPassword" name="password"
+                                class="form-control password-input" placeholder="Create Password"
+                                autocomplete="new-password" required>
+
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('companyPassword', this)" aria-label="Show password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+                    <div class="form-field">
+
+                        <label for="companyConfirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <i class="fa-solid fa-lock password-input-icon"></i>
+
+                            <input type="password" id="companyConfirmPassword" name="confirm_password"
+                                class="form-control password-input" placeholder="Confirm Password"
+                                autocomplete="new-password" required>
+
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('companyConfirmPassword', this)" aria-label="Show password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- PASSWORD INFO -->
+                <div class="password-info">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    <span>
+                        Password must be at least 6 characters long.
+                    </span>
+
+                </div>
+
+
+                <!-- TERMS -->
+                <div class="terms-box">
+
+                    <input type="checkbox" id="companyTerms" name="terms" required>
+
+                    <label for="companyTerms">
+
+                        I agree to the
+
+                        <a href="#" onclick="return false;">
+                            Terms &amp; Conditions
+                        </a>
+
+                        and
+
+                        <a href="#" onclick="return false;">
+                            Privacy Policy
+                        </a>
+
+                    </label>
+
+                </div>
+
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" id="registerButton" class="register-button company-register-button">
+
+                    <span class="button-content">
+
+                        <i class="fa-solid fa-building-circle-check"></i>
+
+                        <span>
+                            Register Company
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+                <!-- LOGIN -->
+                <div class="login-section">
+
+                    <span>
+                        Already have an account?
+                    </span>
+
+                    <a href="{{ url_for('company_login') }}">
+                        Login here
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

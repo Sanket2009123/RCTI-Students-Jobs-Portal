@@ -1,0 +1,685 @@
+/* ==========================================================
+   COMPANY - REJECTED STUDENTS
+   ========================================================== */
+
+.rejected-page {
+    width: 100%;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 26px 30px 45px;
+    color: #0f172a;
+}
+
+.rejected-page *,
+.rejected-page *::before,
+.rejected-page *::after {
+    box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+
+.rejected-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 19px;
+    padding: 25px 27px;
+    border: 1px solid #f0dcdc;
+    border-radius: 19px;
+    background:
+        radial-gradient(circle at 90% 0%, rgba(220, 38, 38, .10), transparent 27%),
+        linear-gradient(135deg, #ffffff, #fffafa);
+    box-shadow: 0 9px 30px rgba(15, 23, 42, .05);
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.hero-icon {
+    width: 57px;
+    height: 57px;
+    flex: 0 0 57px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    color: #fff;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    box-shadow: 0 9px 22px rgba(220, 38, 38, .20);
+    font-size: 22px;
+}
+
+.hero-kicker,
+.section-kicker,
+.empty-kicker {
+    display: block;
+    color: #dc2626;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .09em;
+}
+
+.hero-kicker {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.rejected-hero h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 27px;
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.rejected-hero p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.back-applications {
+    min-height: 41px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 14px;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    color: #b91c1c;
+    background: #fff5f5;
+    font-size: 10px;
+    font-weight: 750;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: .2s ease;
+}
+
+.back-applications:hover {
+    color: #fff;
+    border-color: #dc2626;
+    background: #dc2626;
+}
+
+
+/* ==========================================================
+   SUMMARY
+   ========================================================== */
+
+.rejected-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
+    margin-bottom: 19px;
+}
+
+.summary-card {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 79px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, .045);
+}
+
+.summary-icon {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    color: #dc2626;
+    background: #fef2f2;
+    font-size: 15px;
+}
+
+.summary-card span {
+    display: block;
+    margin-bottom: 4px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.summary-card strong {
+    color: #0f172a;
+    font-size: 19px;
+    line-height: 1;
+    font-weight: 800;
+}
+
+
+/* ==========================================================
+   MAIN CARD
+   ========================================================== */
+
+.rejected-card {
+    overflow: hidden;
+    border: 1px solid #e1e7ef;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 9px 30px rgba(15, 23, 42, .05);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 22px;
+    border-bottom: 1px solid #e8edf3;
+    background: linear-gradient(180deg, #fff, #fffafa);
+}
+
+.section-kicker {
+    margin-bottom: 4px;
+}
+
+.card-header h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.card-header p {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+.candidate-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 29px;
+    padding: 0 10px;
+    border: 1px solid #fecaca;
+    border-radius: 999px;
+    color: #b91c1c;
+    background: #fff5f5;
+    font-size: 9px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+
+/* ==========================================================
+   TOOLBAR
+   ========================================================== */
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 22px;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.search-box {
+    position: relative;
+    width: 270px;
+}
+
+.search-box i {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    color: #94a3b8;
+    transform: translateY(-50%);
+    font-size: 10px;
+    pointer-events: none;
+}
+
+.search-box input {
+    width: 100%;
+    min-height: 36px;
+    padding: 0 12px 0 32px;
+    border: 1px solid #dbe3ed;
+    border-radius: 9px;
+    outline: none;
+    color: #334155;
+    background: #fff;
+    font-family: inherit;
+    font-size: 10px;
+    transition: .2s ease;
+}
+
+.search-box input:focus {
+    border-color: #f87171;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, .08);
+}
+
+.toolbar-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #b91c1c;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   TABLE
+   ========================================================== */
+
+.rejected-table-wrap {
+    overflow-x: auto;
+}
+
+.rejected-table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+}
+
+.rejected-table thead th {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e8edf3;
+    color: #7c8797;
+    background: #f8fafc;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.rejected-table tbody td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eef2f6;
+    color: #475569;
+    font-size: 10px;
+    vertical-align: middle;
+}
+
+.rejected-table tbody tr {
+    transition: background .18s ease;
+}
+
+.rejected-table tbody tr:hover {
+    background: #fffafa;
+}
+
+.rejected-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* Candidate */
+
+.candidate-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 175px;
+}
+
+.candidate-avatar {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #b91c1c;
+    background: #fee2e2;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.candidate-details {
+    min-width: 0;
+}
+
+.candidate-details strong {
+    display: block;
+    overflow: hidden;
+    color: #1e293b;
+    font-size: 11px;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.candidate-details span {
+    display: block;
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 8px;
+}
+
+
+/* Contact */
+
+.contact-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 180px;
+}
+
+.contact-cell a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+    color: #64748b;
+    font-size: 9px;
+    text-decoration: none;
+}
+
+.contact-cell a:hover {
+    color: #dc2626;
+}
+
+.contact-cell i {
+    width: 12px;
+    flex: 0 0 12px;
+    color: #94a3b8;
+}
+
+.contact-cell span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* Job */
+
+.job-cell {
+    min-width: 160px;
+}
+
+.job-cell strong {
+    display: block;
+    color: #334155;
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.job-cell span {
+    display: block;
+    margin-top: 4px;
+    color: #94a3b8;
+    font-size: 8px;
+}
+
+
+/* Date */
+
+.date-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+.date-cell i {
+    color: #94a3b8;
+}
+
+
+/* Resume */
+
+.resume-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.resume-view,
+.resume-download {
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.resume-view {
+    padding: 0 8px;
+    color: #1d4ed8;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+}
+
+.resume-download {
+    width: 28px;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.resume-missing {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #a1aab7;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+
+/* Status */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 26px;
+    padding: 0 9px;
+    border-radius: 999px;
+    color: #b91c1c;
+    background: #fef2f2;
+    font-size: 8px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+
+/* Shortlist */
+
+.restore-candidate {
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 9px;
+    border: 1px solid #bbf7d0;
+    border-radius: 7px;
+    color: #15803d;
+    background: #f0fdf4;
+    font-size: 8px;
+    font-weight: 750;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: .18s ease;
+}
+
+.restore-candidate:hover {
+    color: #fff;
+    background: #16a34a;
+    border-color: #16a34a;
+}
+
+
+/* ==========================================================
+   EMPTY STATES
+   ========================================================== */
+
+.rejected-empty,
+.search-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 315px;
+    padding: 45px 25px;
+    text-align: center;
+}
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 14px;
+    border-radius: 18px;
+    color: #dc2626;
+    background: #fef2f2;
+    font-size: 25px;
+}
+
+.empty-kicker {
+    margin-bottom: 5px;
+}
+
+.rejected-empty h2,
+.search-empty h3 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.rejected-empty p,
+.search-empty p {
+    max-width: 480px;
+    margin: 7px auto 18px;
+    color: #64748b;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.empty-button {
+    min-height: 39px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 14px;
+    border-radius: 9px;
+    color: #fff;
+    background: #2563eb;
+    font-size: 10px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.empty-button:hover {
+    color: #fff;
+    background: #1d4ed8;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 900px) {
+
+    .rejected-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .rejected-page {
+        padding: 18px 13px 30px;
+    }
+
+    .rejected-hero {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .hero-content {
+        align-items: flex-start;
+    }
+
+    .hero-icon {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+        border-radius: 13px;
+        font-size: 19px;
+    }
+
+    .rejected-hero h1 {
+        font-size: 22px;
+    }
+
+    .rejected-hero p {
+        font-size: 9px;
+        line-height: 1.5;
+    }
+
+    .back-applications {
+        width: 100%;
+    }
+
+    .rejected-card {
+        border-radius: 15px;
+    }
+
+    .card-header,
+    .toolbar {
+        padding: 16px;
+    }
+}
+
+
+@media (max-width: 430px) {
+
+    .rejected-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .rejected-hero h1 {
+        font-size: 20px;
+    }
+
+    .card-header h2 {
+        font-size: 16px;
+    }
+}

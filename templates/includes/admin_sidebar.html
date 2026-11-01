@@ -1,0 +1,123 @@
+<aside class="admin-sidebar">
+
+    <!-- Logo / Title -->
+    <div class="admin-sidebar-header">
+        <div class="admin-logo">
+            <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <div>
+            <h2>Admin Panel</h2>
+            <span>Management Portal</span>
+        </div>
+    </div>
+
+
+    <!-- Navigation -->
+    <nav class="admin-navigation">
+
+        <a href="{{ url_for('admin_dashboard') }}"
+           class="admin-nav-item {% if request.path == '/admin/dashboard' %}active{% endif %}">
+
+            <span class="admin-nav-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </span>
+
+            <span class="admin-nav-text">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('manage_students') }}"
+           class="admin-nav-item {% if request.path == '/admin/students' %}active{% endif %}">
+
+            <span class="admin-nav-icon">
+                <i class="fa-solid fa-user-graduate"></i>
+            </span>
+
+            <span class="admin-nav-text">
+                Manage Students
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('manage_companies') }}"
+           class="admin-nav-item {% if request.path == '/admin/companies' %}active{% endif %}">
+
+            <span class="admin-nav-icon">
+                <i class="fa-solid fa-building"></i>
+            </span>
+
+            <span class="admin-nav-text">
+                Manage Companies
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('manage_jobs') }}"
+           class="admin-nav-item {% if request.path == '/admin/jobs' %}active{% endif %}">
+
+            <span class="admin-nav-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </span>
+
+            <span class="admin-nav-text">
+                Manage Jobs
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('manage_applications') }}"
+           class="admin-nav-item {% if request.path == '/admin/applications' %}active{% endif %}">
+
+            <span class="admin-nav-icon">
+                <i class="fa-solid fa-file-circle-check"></i>
+            </span>
+
+            <span class="admin-nav-text">
+                Manage Applications
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('reports') }}"
+           class="admin-nav-item {% if request.path == '/admin/reports' %}active{% endif %}">
+
+            <span class="admin-nav-icon">
+                <i class="fa-solid fa-chart-pie"></i>
+            </span>
+
+            <span class="admin-nav-text">
+                Reports
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- Bottom Logout -->
+    <div class="admin-sidebar-footer">
+
+        <a href="{{ url_for('admin_logout') }}"
+           class="admin-nav-item logout-item">
+
+            <span class="admin-nav-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+
+            <span class="admin-nav-text">
+                Logout
+            </span>
+
+        </a>
+
+    </div>
+
+</aside>

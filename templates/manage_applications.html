@@ -1,0 +1,227 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Manage Applications
+{% endblock %}
+
+{% block page_title %}
+Manage Applications
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/manage_applications.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Manage Job Applications</h2>
+
+            <p class="text-muted">
+
+                View and manage all student job applications.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Search & Filter -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <input type="text" class="form-control" placeholder="Search Student or Company">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <select class="form-select">
+
+                        <option>All Status</option>
+                        <option>Pending</option>
+                        <option>Shortlisted</option>
+                        <option>Rejected</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <select class="form-select">
+
+                        <option>All Companies</option>
+                        <option>ABC Technologies</option>
+                        <option>XYZ Solutions</option>
+                        <option>PQR Infotech</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <button class="btn btn-primary w-100">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Applications Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Student</th>
+                        <th>Company</th>
+                        <th>Job Title</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                        <th>Resume</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% if applications %}
+
+                    {% for application in applications %}
+
+                    <tr>
+
+                        <td>
+                            {{ application.id }}
+                        </td>
+
+                        <td>
+                            {{ application.firstname }} {{ application.lastname }}
+                        </td>
+
+                        <td>
+                            {{ application.company_name }}
+                        </td>
+
+                        <td>
+                            {{ application.job_title }}
+                        </td>
+
+                        <td>
+                            {{ application.applied_at }}
+                        </td>
+
+                        <td>
+
+                            {% if application.status == "Approved" %}
+
+                            <span class="badge bg-success">
+                                Approved
+                            </span>
+
+                            {% elif application.status == "Rejected" %}
+
+                            <span class="badge bg-danger">
+                                Rejected
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-warning text-dark">
+                                Pending
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="btn btn-info btn-sm">
+                                Resume
+                            </a>
+
+                        </td>
+
+                        <td>
+
+                            <a href="#" class="btn btn-success btn-sm">
+                                Approve
+                            </a>
+
+                            <a href="#" class="btn btn-danger btn-sm">
+                                Reject
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center text-muted py-4">
+
+                            No Applications Yet
+
+                        </td>
+
+                    </tr>
+
+                    {% endif %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/manage_applications.js') }}"></script>
+
+{% endblock %}

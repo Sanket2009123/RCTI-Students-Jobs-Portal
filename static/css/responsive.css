@@ -1,0 +1,391 @@
+/* =====================================================
+   RESPONSIVE CSS
+===================================================== */
+
+/* ==========================
+   Large Devices
+========================== */
+
+@media (max-width:1200px){
+
+.container{
+    width:95%;
+}
+
+.hero-content h1{
+    font-size:56px;
+}
+
+.hero-content p{
+    font-size:20px;
+}
+
+}
+
+/* ==========================
+   Tablets
+========================== */
+
+@media (max-width:992px){
+
+/* Navbar */
+
+.navbar{
+
+    padding:0 20px;
+
+}
+
+.menu-toggle{
+
+    display:block;
+
+}
+
+.nav-links{
+
+    position:absolute;
+
+    top:85px;
+    left:0;
+
+    width:100%;
+
+    background:#1E3A8A;
+
+    flex-direction:column;
+
+    display:none;
+
+    padding:20px 0;
+
+    text-align:center;
+
+}
+
+.nav-links.show{
+
+    display:flex;
+
+}
+
+.nav-buttons{
+
+    display:none;
+
+}
+
+/* Hero */
+
+.hero{
+
+    min-height:80vh;
+
+    padding:60px 20px;
+
+}
+
+.hero-content h1{
+
+    font-size:46px;
+
+}
+
+.hero-content p{
+
+    font-size:18px;
+
+}
+
+/* Search */
+
+.search-box{
+
+    flex-wrap:wrap;
+
+}
+
+/* Stats */
+
+.stats-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+/* Features */
+
+.features-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+/* Categories */
+
+.categories-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+/* Companies */
+
+.company-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+/* Jobs */
+
+.job-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+/* Dashboard */
+
+.sidebar{
+
+    left:-260px;
+
+}
+
+.sidebar.show{
+
+    left:0;
+
+}
+
+.main-content{
+
+    margin-left:0;
+
+}
+
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media (max-width:768px){
+
+.hero-content h1{
+
+    font-size:34px;
+
+}
+
+.hero-content p{
+
+    font-size:16px;
+
+}
+
+/* Buttons */
+
+.hero-buttons{
+
+    flex-direction:column;
+
+}
+
+.hero-btn,
+.resume-btn{
+
+    width:100%;
+    max-width:320px;
+
+}
+
+/* Search */
+
+.search-box{
+
+    flex-direction:column;
+
+}
+
+.search-box input,
+.search-box button{
+
+    width:100%;
+    max-width:350px;
+
+}
+
+/* Grid */
+
+.stats-grid,
+.features-grid,
+.categories-grid,
+.company-grid,
+.job-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+/* Footer */
+
+.footer{
+
+    padding:50px 25px;
+
+}
+
+.footer-container{
+
+    grid-template-columns:1fr;
+
+    text-align:center;
+
+}
+
+.footer-logo{
+
+    justify-content:center;
+
+}
+
+.social-icons{
+
+    justify-content:center;
+
+}
+
+}
+
+/* ==========================
+   Small Mobile
+========================== */
+
+@media (max-width:480px){
+
+.hero{
+
+    padding:40px 15px;
+
+}
+
+.hero-content h1{
+
+    font-size:28px;
+
+}
+
+.hero-content p{
+
+    font-size:15px;
+
+}
+
+.section-title h2{
+
+    font-size:28px;
+
+}
+
+.section-title p{
+
+    font-size:15px;
+
+}
+
+.btn,
+.hero-btn,
+.resume-btn{
+
+    width:100%;
+
+}
+
+.card{
+
+    padding:20px;
+
+}
+
+}
+/* ==========================================================
+   GLOBAL RESPONSIVE SAFETY
+========================================================== */
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+input,
+select,
+textarea,
+button {
+    max-width: 100%;
+}
+
+
+.container,
+.container-fluid {
+    width: 100%;
+}
+
+
+@media (max-width: 768px) {
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+
+    table {
+        width: 100%;
+    }
+
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    body {
+        font-size: 14px;
+    }
+
+
+    h1 {
+        font-size: 30px;
+    }
+
+
+    h2 {
+        font-size: 25px;
+    }
+
+
+    h3 {
+        font-size: 21px;
+    }
+
+
+    .btn {
+        max-width: 100%;
+    }
+
+}

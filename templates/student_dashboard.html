@@ -1,0 +1,778 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Student Dashboard
+{% endblock %}
+
+{% block page_title %}
+Student Dashboard
+{% endblock %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student_dashboard.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="student-dashboard">
+
+
+            <!-- ======================================================
+         WELCOME HERO
+    ======================================================= -->
+
+            <section class="dashboard-welcome">
+
+                <div class="welcome-background"></div>
+
+                <div class="welcome-content">
+
+                    <div class="welcome-text">
+
+                        <span class="welcome-label">
+
+                            <i class="fa-solid fa-sparkles"></i>
+
+                            Student Portal
+
+                        </span>
+
+
+                        <h1>
+
+                            Welcome back,
+                            <span>
+                                {{ session.student_name }}
+                            </span>
+
+                            👋
+
+                        </h1>
+
+
+                        <p>
+
+                            Explore new opportunities, track your
+                            applications and build your career with
+                            RCTI Students Jobs Portal.
+
+                        </p>
+
+
+                        <div class="welcome-actions">
+
+                            <a href="{{ url_for('student_jobs') }}" class="welcome-primary-btn">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                Find Jobs
+
+                            </a>
+
+
+                            <button type="button" class="welcome-secondary-btn" id="quickRefresh">
+
+                                <i class="fa-solid fa-rotate"></i>
+
+                                Refresh
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="welcome-visual">
+
+                        <div class="visual-circle visual-circle-one"></div>
+
+                        <div class="visual-circle visual-circle-two"></div>
+
+                        {% if student and student["profile_photo"] %}
+                            <img
+                                src="{{ url_for(
+                                    'student_profile_photo',
+                                    filename=student['profile_photo']
+                                ) }}"
+                                alt="{{ student['fullname'] or 'Student' }}"
+                                class="student-img">
+                        {% else %}
+                            <img
+                                src="{{ url_for(
+                                    'student_profile_photo',
+                                    filename='default.png'
+                                ) }}"
+                                alt="Student"
+                                class="student-img">
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ======================================================
+         STATISTICS
+    ======================================================= -->
+
+            <section class="dashboard-stats">
+
+
+                <!-- Available Jobs -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+
+                        <i class="fa-solid fa-briefcase"></i>
+
+                    </div>
+
+
+                    <div class="stat-content">
+
+                        <span>
+                            Available Jobs
+                        </span>
+
+                        <strong class="stat-number" data-value="{{ total_jobs }}">
+
+                            {{ total_jobs }}
+
+                        </strong>
+
+                        <small>
+
+                            <i class="fa-solid fa-arrow-up"></i>
+
+                            Opportunities available
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat-arrow">
+
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Applied Jobs -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+
+                        <i class="fa-solid fa-file-circle-check"></i>
+
+                    </div>
+
+
+                    <div class="stat-content">
+
+                        <span>
+                            Applied Jobs
+                        </span>
+
+                        <strong class="stat-number" data-value="{{ applied_jobs }}">
+
+                            {{ applied_jobs }}
+
+                        </strong>
+
+                        <small>
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                            Your applications
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat-arrow">
+
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Resume -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+
+                        <i class="fa-solid fa-file-arrow-up"></i>
+
+                    </div>
+
+
+                    <div class="stat-content">
+
+                        <span>
+                            Resume
+                        </span>
+
+                        <strong class="resume-status-value">
+
+                            {{ resume_status }}
+
+                        </strong>
+
+                        <small>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Profile document
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat-arrow">
+
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Profile -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+
+                        <i class="fa-solid fa-user-check"></i>
+
+                    </div>
+
+
+                    <div class="stat-content">
+
+                        <span>
+                            Profile Status
+                        </span>
+
+                        <strong>
+                            Active
+                        </strong>
+
+                        <small>
+
+                            <i class="fa-solid fa-shield-check"></i>
+
+                            Account is active
+
+                        </small>
+
+                    </div>
+
+
+                    <div class="stat-arrow">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ======================================================
+         MAIN DASHBOARD GRID
+    ======================================================= -->
+
+            <section class="dashboard-main-grid">
+
+
+                <!-- ==================================================
+             QUICK ACTIONS
+        =================================================== -->
+
+                <div class="dashboard-panel quick-actions-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                GET STARTED
+                            </span>
+
+                            <h2>
+                                Quick Actions
+                            </h2>
+
+                        </div>
+
+                        <div class="panel-header-icon">
+
+                            <i class="fa-solid fa-bolt"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-actions-grid">
+
+
+                        <a href="{{ url_for('student_jobs') }}" class="quick-action blue-action">
+
+                            <div class="quick-action-icon">
+
+                                <i class="fa-solid fa-briefcase"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Find Jobs
+                                </strong>
+
+                                <span>
+                                    Explore opportunities
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right action-arrow"></i>
+
+                        </a>
+
+
+                        <a href="{{ url_for('my_applications') }}" class="quick-action green-action">
+
+                            <div class="quick-action-icon">
+
+                                <i class="fa-solid fa-file-circle-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    My Applications
+                                </strong>
+
+                                <span>
+                                    Track your applications
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right action-arrow"></i>
+
+                        </a>
+
+
+                        <a href="{{ url_for('upload_resume') }}" class="quick-action orange-action">
+
+                            <div class="quick-action-icon">
+
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Upload Resume
+                                </strong>
+
+                                <span>
+                                    Keep your resume updated
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right action-arrow"></i>
+
+                        </a>
+
+
+                        <a href="{{ url_for('student_profile') }}" class="quick-action purple-action">
+
+                            <div class="quick-action-icon">
+
+                                <i class="fa-solid fa-user-pen"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    My Profile
+                                </strong>
+
+                                <span>
+                                    Manage your information
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right action-arrow"></i>
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==================================================
+             CAREER TIPS
+        =================================================== -->
+
+                <div class="dashboard-panel career-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                CAREER TIP
+                            </span>
+
+                            <h2>
+                                Build Your Future
+                            </h2>
+
+                        </div>
+
+                        <div class="panel-header-icon career-icon">
+
+                            <i class="fa-solid fa-lightbulb"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="career-content">
+
+                        <div class="career-big-icon">
+
+                            <i class="fa-solid fa-rocket"></i>
+
+                        </div>
+
+
+                        <h3>
+                            Stay Ready for Opportunities
+                        </h3>
+
+
+                        <p>
+
+                            Keep your resume updated and regularly
+                            check new job openings to increase your
+                            chances of finding the right opportunity.
+
+                        </p>
+
+
+                        <a href="{{ url_for('student_jobs') }}" class="career-button">
+
+                            Explore Opportunities
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ======================================================
+         LOWER DASHBOARD
+    ======================================================= -->
+
+            <section class="dashboard-lower-grid">
+
+
+                <!-- ==================================================
+             APPLICATION OVERVIEW
+        =================================================== -->
+
+                <div class="dashboard-panel application-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                APPLICATIONS
+                            </span>
+
+                            <h2>
+                                Application Overview
+                            </h2>
+
+                        </div>
+
+
+                        <div class="application-total">
+
+                            <strong>
+                                {{ applied_jobs }}
+                            </strong>
+
+                            <span>
+                                Applied
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="application-overview">
+
+                        <div class="application-icon">
+
+                            <i class="fa-solid fa-file-circle-check"></i>
+
+                        </div>
+
+
+                        <div class="application-info">
+
+                            <h3>
+                                Your Applications
+                            </h3>
+
+                            <p>
+
+                                Keep track of the jobs you have
+                                applied for and stay updated with
+                                your career journey.
+
+                            </p>
+
+
+                            <div class="application-progress">
+
+                                <div class="progress-header">
+
+                                    <span>
+                                        Application activity
+                                    </span>
+
+                                    <strong>
+                                        {{ applied_jobs }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="progress-track">
+
+                                    <div class="progress-fill" data-progress="{{ applied_jobs }}">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==================================================
+             PROFILE STATUS
+        =================================================== -->
+
+                <div class="dashboard-panel profile-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                PROFILE
+                            </span>
+
+                            <h2>
+                                Profile Status
+                            </h2>
+
+                        </div>
+
+                        <div class="profile-status">
+
+                            <i class="fa-solid fa-circle"></i>
+
+                            Active
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-status-content">
+
+                        <div class="profile-avatar">
+
+                            <i class="fa-solid fa-user"></i>
+
+                        </div>
+
+
+                        <div class="profile-details">
+
+                            <h3>
+                                {{ session.student_name }}
+                            </h3>
+
+                            <p>
+                                Student Account
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-items">
+
+
+                        <div class="profile-item">
+
+                            <span>
+
+                                <i class="fa-solid fa-file"></i>
+
+                                Resume
+
+                            </span>
+
+                            <strong>
+                                {{ resume_status }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="profile-item">
+
+                            <span>
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                                Account
+
+                            </span>
+
+                            <strong class="active-text">
+                                Active
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ======================================================
+         DASHBOARD CTA
+    ======================================================= -->
+
+            <section class="dashboard-cta">
+
+                <div class="cta-background"></div>
+
+
+                <div class="cta-content">
+
+                    <div class="cta-icon">
+
+                        <i class="fa-solid fa-rocket"></i>
+
+                    </div>
+
+
+                    <div class="cta-text">
+
+                        <span>
+                            YOUR CAREER STARTS HERE
+                        </span>
+
+                        <h2>
+                            Ready to Find Your Next Opportunity?
+                        </h2>
+
+                        <p>
+                            Explore the latest jobs and take the next
+                            step towards your career.
+                        </p>
+
+                    </div>
+
+
+                    <a href="{{ url_for('student_jobs') }}" class="cta-button">
+
+                        Browse Jobs
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/student_dashboard.js') }}">
+</script>
+
+{% endblock %}

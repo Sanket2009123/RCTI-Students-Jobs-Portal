@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>{{ resume.resume_name }}</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+
+        }
+
+        .resume {
+
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+
+        }
+
+        .sidebar {
+
+            width: 32%;
+            background: #1f3c88;
+            color: white;
+            padding: 35px;
+
+        }
+
+        .content {
+
+            width: 68%;
+            background: white;
+            padding: 40px;
+
+        }
+
+        .profile {
+
+            text-align: center;
+            margin-bottom: 30px;
+
+        }
+
+        .profile h1 {
+
+            font-size: 30px;
+            margin-bottom: 8px;
+
+        }
+
+        .profile h3 {
+
+            font-weight: normal;
+            color: #d9e6ff;
+
+        }
+
+        .section {
+
+            margin-top: 28px;
+
+        }
+
+        .section h2 {
+
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, .4);
+            padding-bottom: 6px;
+
+        }
+
+        .content .section h2 {
+
+            color: #1f3c88;
+            border-bottom: 2px solid #1f3c88;
+
+        }
+
+        ul {
+
+            padding-left: 18px;
+
+        }
+
+        li {
+
+            margin-bottom: 6px;
+
+        }
+
+        .contact p {
+
+            margin-bottom: 8px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="resume">
+
+        <div class="sidebar">
+
+            <div class="profile">
+
+                {% if student.profile_photo %}
+
+                <img src="{{ url_for('static', filename='uploads/profile/' + student.profile_photo) }}" style="width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;">
+
+                {% else %}
+
+                <img src="{{ url_for('static', filename='images/default_user.png') }}" style="width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;">
+
+                {% endif %}
+
+                <h1>{{ student.fullname }}</h1>
+
+                <h3>{{ resume.resume_name }}</h3>
+
+            </div>
+
+            <div class="section contact">
+
+                <h2>
+
+                    Contact
+
+                </h2>
+
+                <p>
+
+                    <strong>Email:</strong><br>
+
+                    {{ student.email }}
+
+                </p>
+
+                <p>
+
+                    <strong>Mobile:</strong><br>
+
+                    {{ student.mobile }}
+
+                </p>
+
+                <p>
+
+                    <strong>Address:</strong><br>
+
+                    {{ student.address }}
+
+                </p>
+
+            </div>
+            <div class="section">
+
+                <h2>
+
+                    Skills
+
+                </h2>
+
+                <ul>
+
+                    {% for skill in skills %}
+
+                    <li>
+
+                        {{ skill.skill }}
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+            <div class="section">
+
+                <h2>
+
+                    Languages
+
+                </h2>
+
+                <ul>
+
+                    {% for lang in languages %}
+
+                    <li>
+
+                        {{ lang.language }}
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+            <div class="section">
+
+                <h2>
+
+                    Professional Links
+
+                </h2>
+
+                {% if resume.linkedin %}
+
+                <p>
+
+                    LinkedIn<br>
+
+                    {{ resume.linkedin }}
+
+                </p>
+
+                {% endif %}
+
+                {% if resume.github %}
+
+                <p>
+
+                    GitHub<br>
+
+                    {{ resume.github }}
+
+                </p>
+
+                {% endif %}
+
+                {% if resume.portfolio %}
+
+                <p>
+
+                    Portfolio<br>
+
+                    {{ resume.portfolio }}
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="content">
+            <!-- ========================= -->
+            <!-- Career Objective -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Career Objective</h2>
+
+                <p>
+
+                    {{ resume.objective }}
+
+                </p>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Experience -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Experience</h2>
+
+                {% if experience %}
+
+                {% for exp in experience %}
+
+                <div style="margin-bottom:20px;">
+
+                    <h3>{{ exp.role }}</h3>
+
+                    <strong>{{ exp.company }}</strong>
+
+                    <br>
+
+                    <small>{{ exp.duration }}</small>
+
+                    <p style="margin-top:8px;">
+
+                        {{ exp.experience_description }}
+
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+                {% else %}
+
+                <p>Fresher</p>
+
+                {% endif %}
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Projects -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Projects</h2>
+
+                {% for project in projects %}
+
+                <div style="margin-bottom:18px;">
+
+                    <h3>{{ project.project_title }}</h3>
+
+                    <strong>{{ project.project_technology }}</strong>
+
+                    <p style="margin-top:8px;">
+
+                        {{ project.project_description }}
+
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Education -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Education</h2>
+
+                {% for edu in education %}
+
+                <div style="margin-bottom:15px;">
+
+                    <strong>{{ edu.degree }}</strong>
+
+                    <br>
+
+                    {{ edu.college }}
+
+                    <br>
+
+                    {{ edu.year }}
+
+                    {% if edu.cgpa %}
+
+                    | CGPA: {{ edu.cgpa }}
+
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Certificates -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Certificates</h2>
+
+                <ul>
+
+                    {% for cert in certificates %}
+
+                    <li>
+
+                        {{ cert.certificate_name }}
+
+                        -
+
+                        {{ cert.certificate_org }}
+
+                        ({{ cert.certificate_year }})
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Achievements -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Achievements</h2>
+
+                <ul>
+
+                    {% for achievement in achievements %}
+
+                    <li>{{ achievement.achievement }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <hr style="margin-top:40px;">
+
+            <div style="text-align:center;color:#777;font-size:12px;">
+
+                Generated by <strong>RCTI Student Jobs Portal</strong>
+
+                <br>
+
+                {{ resume.updated_at if resume.updated_at else resume.created_at }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

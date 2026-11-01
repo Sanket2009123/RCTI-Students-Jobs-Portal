@@ -1,0 +1,17 @@
+Flask
+Werkzeug
+Jinja2
+itsdangerous
+click
+firebase-admin
+python-dotenv
+requests
+google-auth
+google-api-core
+google-cloud-firestore
+Pillow
+reportlab
+WeasyPrint
+gunicorn
+Authlib
+libsql

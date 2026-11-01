@@ -1,0 +1,300 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Post New Job{% endblock %}
+
+{% block page_title %}Post New Job{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/post_job.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="post-job-page">
+
+    <!-- Page Header -->
+    <section class="post-job-header">
+        <div class="post-job-header-icon">
+            <i class="fa-solid fa-briefcase"></i>
+        </div>
+
+        <div>
+            <span class="post-job-kicker">
+                <i class="fa-solid fa-circle-plus"></i>
+                RECRUITMENT
+            </span>
+            <h1>Post a New Job</h1>
+            <p>Create a professional job opening and start receiving applications from students.</p>
+        </div>
+    </section>
+
+    <!-- Form Card -->
+    <section class="post-job-card">
+
+        <div class="form-card-header">
+            <div>
+                <h2>Job Information</h2>
+                <p>Fill in the details below to publish your vacancy.</p>
+            </div>
+
+            <span class="required-note">
+                <span>*</span> Required fields
+            </span>
+        </div>
+
+        <form method="POST" class="post-job-form">
+
+            <!-- Basic Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span class="section-number">01</span>
+                    <div>
+                        <h3>Basic Information</h3>
+                        <p>Tell students about the position.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid two-columns">
+
+                    <div class="form-group">
+                        <label for="title">
+                            Job Title <span>*</span>
+                        </label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <input
+                                id="title"
+                                type="text"
+                                name="title"
+                                placeholder="e.g. Python Developer"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">
+                            Category <span>*</span>
+                        </label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <select id="category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option>Software Development</option>
+                                <option>Web Development</option>
+                                <option>Mobile App Development</option>
+                                <option>UI/UX Design</option>
+                                <option>Data Science</option>
+                                <option>Artificial Intelligence</option>
+                                <option>Cyber Security</option>
+                                <option>Cloud Computing</option>
+                                <option>Networking</option>
+                                <option>IT Support</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Job Details -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span class="section-number">02</span>
+                    <div>
+                        <h3>Job Details</h3>
+                        <p>Specify the location, employment type and requirements.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid two-columns">
+
+                    <div class="form-group">
+                        <label for="location">
+                            Location <span>*</span>
+                        </label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <input
+                                id="location"
+                                type="text"
+                                name="location"
+                                placeholder="e.g. Ahmedabad"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job_type">
+                            Job Type <span>*</span>
+                        </label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-clock"></i>
+                            <select id="job_type" name="job_type" required>
+                                <option value="">Select Job Type</option>
+                                <option>Full Time</option>
+                                <option>Part Time</option>
+                                <option>Internship</option>
+                                <option>Remote</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-grid three-columns">
+
+                    <div class="form-group">
+                        <label for="salary">Salary</label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <input
+                                id="salary"
+                                type="text"
+                                name="salary"
+                                placeholder="₹20,000 - ₹40,000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience">Experience</label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <select id="experience" name="experience">
+                                <option>Fresher</option>
+                                <option>0-1 Year</option>
+                                <option>1-2 Years</option>
+                                <option>2-5 Years</option>
+                                <option>5+ Years</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vacancies">Vacancies</label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-users"></i>
+                            <input
+                                id="vacancies"
+                                type="number"
+                                name="vacancies"
+                                value="1"
+                                min="1">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-grid one-column">
+
+                    <div class="form-group">
+                        <label for="last_date">
+                            Application Last Date <span>*</span>
+                        </label>
+
+                        <div class="input-wrap">
+                            <i class="fa-regular fa-calendar"></i>
+                            <input
+                                id="last_date"
+                                type="date"
+                                name="last_date"
+                                required>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Skills & Description -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span class="section-number">03</span>
+                    <div>
+                        <h3>Skills & Description</h3>
+                        <p>Help candidates understand what you are looking for.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid one-column">
+
+                    <div class="form-group">
+                        <label for="skills">Required Skills</label>
+
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-code"></i>
+                            <input
+                                id="skills"
+                                type="text"
+                                name="skills"
+                                placeholder="Python, Flask, SQL, HTML, CSS">
+                        </div>
+
+                        <small class="field-help">
+                            Separate multiple skills with commas.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">
+                            Job Description <span>*</span>
+                        </label>
+
+                        <div class="textarea-wrap">
+                            <textarea
+                                id="description"
+                                name="description"
+                                rows="7"
+                                placeholder="Write a complete overview of the role, objectives and expectations..."
+                                required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="responsibilities">
+                            Responsibilities
+                        </label>
+
+                        <div class="textarea-wrap">
+                            <textarea
+                                id="responsibilities"
+                                name="responsibilities"
+                                rows="7"
+                                placeholder="Describe the key responsibilities for this role.&#10;&#10;Example:&#10;• Develop and maintain web applications&#10;• Collaborate with the development team&#10;• Test and improve application performance&#10;• Prepare technical documentation"></textarea>
+                        </div>
+
+                        <small class="field-help">
+                            Add the main duties and day-to-day responsibilities for this position.
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+
+                <a href="{{ url_for('company_dashboard') }}" class="cancel-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Cancel
+                </a>
+
+                <button class="publish-btn" type="submit">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Publish Job
+                </button>
+
+            </div>
+
+        </form>
+    </section>
+
+</div>
+
+{% endblock %}

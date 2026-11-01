@@ -1,0 +1,338 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Shortlisted Students{% endblock %}
+
+{% block page_title %}Shortlisted Students{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shortlisted.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="shortlisted-page">
+
+    <!-- HEADER -->
+    <section class="shortlisted-hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fa-solid fa-user-check"></i>
+            </div>
+
+            <div>
+                <span class="hero-kicker">
+                    <i class="fa-solid fa-star"></i>
+                    TALENT SELECTION
+                </span>
+
+                <h1>Shortlisted Students</h1>
+
+                <p>
+                    Manage candidates selected for the next stage of your recruitment process.
+                </p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('company_applicants') }}" class="back-applications">
+            <i class="fa-solid fa-users"></i>
+            All Applications
+        </a>
+    </section>
+
+
+    {% if applicants %}
+
+    <!-- SUMMARY -->
+    <section class="shortlist-summary">
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-user-check"></i>
+            </div>
+            <div>
+                <span>Shortlisted</span>
+                <strong>{{ applicants|length }}</strong>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <div>
+                <span>Selected Applications</span>
+                <strong>{{ applicants|length }}</strong>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <span>Current Status</span>
+                <strong>Accepted</strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CARD -->
+    <section class="shortlisted-card">
+
+        <div class="card-header">
+            <div>
+                <span class="section-kicker">SHORTLIST PIPELINE</span>
+                <h2>Selected Candidates</h2>
+                <p>These candidates have been accepted by your company.</p>
+            </div>
+
+            <div class="candidate-count">
+                <i class="fa-solid fa-users"></i>
+                {{ applicants|length }} candidate{{ '' if applicants|length == 1 else 's' }}
+            </div>
+        </div>
+
+
+        <!-- SEARCH -->
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="shortlistedSearch" placeholder="Search candidate, email or job..."
+                    autocomplete="off">
+            </div>
+
+            <span class="toolbar-status">
+                <i class="fa-solid fa-circle-check"></i>
+                Accepted candidates
+            </span>
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="shortlisted-table-wrap">
+
+            <table class="shortlisted-table" id="shortlistedTable">
+
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Contact</th>
+                        <th>Applied For</th>
+                        <th>Applied Date</th>
+                        <th>Resume</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for applicant in applicants %}
+
+                    <tr class="shortlisted-row"
+                        data-search="{{ applicant.fullname }} {{ applicant.email }} {{ applicant.title }}">
+
+                        <!-- Candidate -->
+                        <td>
+                            <div class="candidate-cell">
+                                <div class="candidate-avatar">
+                                    {{ applicant.fullname[:1]|upper }}
+                                </div>
+
+                                <div class="candidate-details">
+                                    <strong>{{ applicant.fullname }}</strong>
+                                    <span>
+                                        Application #{{ applicant.id }}
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+
+
+                        <!-- Contact -->
+                        <td>
+                            <div class="contact-cell">
+                                <a href="mailto:{{ applicant.email }}">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <span>{{ applicant.email }}</span>
+                                </a>
+
+                                {% if applicant.mobile %}
+                                <a href="tel:{{ applicant.mobile }}">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <span>{{ applicant.mobile }}</span>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+
+
+                        <!-- Job -->
+                        <td>
+                            <div class="job-cell">
+                                <strong>{{ applicant.title }}</strong>
+                                <span>
+                                    <i class="fa-solid fa-briefcase"></i>
+                                    Selected position
+                                </span>
+                            </div>
+                        </td>
+
+
+                        <!-- Date -->
+                        <td>
+                            <span class="date-cell">
+                                <i class="fa-regular fa-calendar"></i>
+                                {{ applicant.apply_date }}
+                            </span>
+                        </td>
+
+
+                        <!-- Resume -->
+                        <td>
+                            {% if applicant.resume %}
+
+                            <div class="resume-actions">
+
+                                <a href="{{ url_for('static', filename='uploads/resume/' + applicant.resume) }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="resume-view"
+                                    title="Open student resume">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                    View Resume
+                                </a>
+
+                                <a href="{{ url_for('static', filename='uploads/resume/' + applicant.resume) }}"
+                                    download
+                                    class="resume-download"
+                                    title="Download student resume">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+
+                            </div>
+
+                            {% else %}
+
+                            <span class="resume-missing"><i class="fa-regular fa-file"></i> Resume not available</span>
+
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Status -->
+                        <td>
+                            <span class="status-badge">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Shortlisted
+                            </span>
+                        </td>
+
+
+                        <!-- Action -->
+                        <td>
+                            <a href="{{ url_for('application_status',
+                                application_id=applicant.id,
+                                status='Rejected') }}" class="remove-shortlist"
+                                onclick="return confirm('Remove this candidate from the shortlist?');">
+                                <i class="fa-solid fa-user-minus"></i>
+                                Remove
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- NO SEARCH RESULT -->
+        <div class="search-empty" id="shortlistSearchEmpty" hidden>
+            <div class="empty-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <h3>No shortlisted candidate found</h3>
+
+            <p>Try searching with another candidate name, email or job title.</p>
+        </div>
+
+    </section>
+
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+    <section class="shortlisted-empty">
+
+        <div class="empty-icon">
+            <i class="fa-solid fa-user-check"></i>
+        </div>
+
+        <span class="empty-kicker">SHORTLIST PIPELINE</span>
+
+        <h2>No Shortlisted Students Yet</h2>
+
+        <p>
+            Candidates you accept from the Applications page will automatically appear here.
+        </p>
+
+        <a href="{{ url_for('company_applicants') }}" class="empty-button">
+            <i class="fa-solid fa-users"></i>
+            View All Applications
+        </a>
+
+    </section>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const input = document.getElementById("shortlistedSearch");
+        const rows = Array.from(document.querySelectorAll(".shortlisted-row"));
+        const empty = document.getElementById("shortlistSearchEmpty");
+
+        if (!input || !rows.length) {
+            return;
+        }
+
+        input.addEventListener("input", function () {
+
+            const value = input.value.trim().toLowerCase();
+            let visible = 0;
+
+            rows.forEach(function (row) {
+
+                const text = (row.dataset.search || "").toLowerCase();
+                const match = !value || text.includes(value);
+
+                row.style.display = match ? "" : "none";
+
+                if (match) {
+                    visible++;
+                }
+            });
+
+            if (empty) {
+                empty.hidden = visible !== 0;
+            }
+        });
+
+    });
+</script>
+{% endblock %}

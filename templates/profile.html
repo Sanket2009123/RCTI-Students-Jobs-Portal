@@ -1,0 +1,258 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block page_title %}
+My Profile
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Left Side -->
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <img src="{{ url_for('static', filename='images/default-profile.png') }}"
+                         class="rounded-circle img-fluid mb-3"
+                         width="170"
+                         alt="Profile">
+
+                    <h3>{{ session.get('user_name','Student') }}</h3>
+
+                    <p class="text-muted">
+                        Computer Engineering Student
+                    </p>
+
+                    <button class="btn btn-primary">
+
+                        Upload Photo
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Right Side -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    <h4>Personal Information</h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Full Name
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="name"
+                                    value="{{ session.get('user_name','') }}">
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Email
+
+                                </label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email">
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Mobile
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="mobile">
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Branch
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    value="Computer Engineering">
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Semester
+
+                                </label>
+
+                                <select class="form-select">
+
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option selected>6</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Passing Year
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    value="2026">
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Skills
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                rows="3"
+                                placeholder="Python, HTML, CSS, Flask, SQL"></textarea>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                About Me
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                rows="4"
+                                placeholder="Write something about yourself"></textarea>
+
+                        </div>
+
+                        <button
+                            class="btn btn-success">
+
+                            Save Changes
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- Resume -->
+
+            <div class="card shadow-sm mt-4">
+
+                <div class="card-header">
+
+                    <h4>Resume</h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+
+                        Upload your latest Resume (PDF)
+
+                    </p>
+
+                    <input
+                        type="file"
+                        class="form-control mb-3">
+
+                    <button
+                        class="btn btn-primary">
+
+                        Upload Resume
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+{% endblock %}

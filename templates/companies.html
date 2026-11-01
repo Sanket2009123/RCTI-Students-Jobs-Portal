@@ -1,0 +1,496 @@
+{% extends "base.html" %}
+
+{% block title %}
+Companies - RCTI Students Jobs Portal
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/companies.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ==========================================================
+     HERO SECTION
+========================================================== -->
+
+<section class="companies-hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-circle hero-circle-one"></div>
+    <div class="hero-circle hero-circle-two"></div>
+
+    <div class="container companies-hero-content">
+
+        <span class="hero-badge">
+            <i class="fa-solid fa-building"></i>
+            Trusted Hiring Partners
+        </span>
+
+        <h1>
+            Explore Top
+            <span>Hiring Companies</span>
+        </h1>
+
+        <p>
+            Discover companies offering internships,
+            fresher opportunities and full-time career
+            opportunities for talented candidates.
+        </p>
+
+        <div class="breadcrumb">
+
+            <a href="{{ url_for('home') }}">
+                <i class="fa-solid fa-house"></i>
+                Home
+            </a>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+            <strong>Companies</strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================================
+     SEARCH SECTION
+========================================================== -->
+
+<section class="company-search-section">
+
+    <div class="container">
+
+        <div class="search-card">
+
+            <div class="search-header">
+
+                <div class="search-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <div>
+
+                    <h2>Find Your Dream Company</h2>
+
+                    <p>
+                        Search companies by name or location
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="search-controls">
+
+                <!-- Company Search -->
+
+                <div class="search-input">
+
+                    <i class="fa-solid fa-building"></i>
+
+                    <input type="text" id="companySearch" placeholder="Search company..." autocomplete="off">
+
+                    <button type="button" id="clearSearch" class="clear-search" aria-label="Clear search">
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- Location -->
+
+                <div class="location-input">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    <select id="companyLocation">
+
+                        <option value="">
+                            All Locations
+                        </option>
+
+                        <option value="Ahmedabad">
+                            Ahmedabad
+                        </option>
+
+                        <option value="Gandhinagar">
+                            Gandhinagar
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Search Button -->
+
+                <button type="button" id="searchCompanyBtn" class="search-button">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <span>Search</span>
+
+                </button>
+
+            </div>
+
+
+            <!-- Search Bottom -->
+
+            <div class="search-footer">
+
+                <div class="popular-searches">
+
+                    <span>Popular:</span>
+
+                    {% if companies %}
+
+                    {% for company in companies[:4] %}
+
+                    <button type="button" data-search="{{ company.company_name }}">
+                        {{ company.company_name }}
+                    </button>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <span>No companies available</span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="company-counter">
+
+                    <i class="fa-solid fa-building"></i>
+
+                    <strong id="companyCount">
+                        {{ companies|length }}
+                    </strong>
+
+                    <span>
+                        Companies
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================================
+     COMPANIES SECTION
+========================================================== -->
+
+<section class="companies-section">
+
+    <div class="container">
+
+
+        <!-- Section Header -->
+
+        <div class="section-header">
+
+            <div>
+
+                <span class="section-tag">
+                    CAREER OPPORTUNITIES
+                </span>
+
+                <h2>
+                    Companies Hiring Talent
+                </h2>
+
+                <p>
+                    Explore registered companies and discover
+                    exciting career opportunities.
+                </p>
+
+            </div>
+
+
+            <div class="verified-badge">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                Registered Companies
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             COMPANY GRID
+        ================================================== -->
+
+        <div class="company-grid" id="companyGrid">
+
+            {% if companies %}
+
+            {% for company in companies %}
+
+            <div class="company-card" data-company="{{ company.company_name }}"
+                data-location="{{ company.address or '' }}">
+
+                <!-- Card Top -->
+
+                <div class="card-top">
+
+                    <span class="hiring-badge">
+
+                        <i class="fa-solid fa-circle"></i>
+
+                        Registered
+
+                    </span>
+
+
+                    <button type="button" class="save-company" aria-label="Save company">
+
+                        <i class="fa-regular fa-bookmark"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- Company Logo -->
+
+                <div class="company-logo">
+
+                    {% if company.logo %}
+
+                    <img src="{{ url_for(
+                                    'static',
+                                    filename='uploads/company_logos/' + company.logo
+                                ) }}" alt="{{ company.company_name }}">
+
+                    {% else %}
+
+                    <i class="fa-solid fa-building"></i>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Company Name -->
+
+                <h3>
+                    {{ company.company_name }}
+                </h3>
+
+
+                <!-- Company Location -->
+
+                <div class="company-location">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    {% if company.address %}
+
+                    {{ company.address }}
+
+                    {% else %}
+
+                    Location not provided
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Company Details -->
+
+                <div class="company-details">
+
+                    {% if company.email %}
+
+                    <span>
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        {{ company.email }}
+
+                    </span>
+
+                    {% endif %}
+
+
+                    {% if company.phone %}
+
+                    <span>
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        {{ company.phone }}
+
+                    </span>
+
+                    {% endif %}
+
+
+                    {% if company.website %}
+
+                    <span>
+
+                        <i class="fa-solid fa-globe"></i>
+
+                        Website Available
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- View Jobs -->
+
+                <a href="{{ url_for('all_jobs') }}" class="view-jobs">
+
+                    View Jobs
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+
+            {% else %}
+
+            <!-- No Registered Companies -->
+
+            <div class="no-companies" id="noRegisteredCompanies">
+
+                <i class="fa-solid fa-building"></i>
+
+                <h3>
+                    No Companies Registered Yet
+                </h3>
+
+                <p>
+                    Registered companies will appear here
+                    once they create an account.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ==================================================
+             NO SEARCH RESULT
+        ================================================== -->
+
+        <div class="no-results" id="noCompanySearchResults" style="display: none;">
+
+            <div class="no-results-icon">
+
+                <i class="fa-solid fa-building-circle-exclamation"></i>
+
+            </div>
+
+            <h3>
+                No Companies Found
+            </h3>
+
+            <p>
+                We couldn't find any company matching
+                your search. Try another company name
+                or location.
+            </p>
+
+            <button type="button" id="resetCompanySearch">
+
+                Reset Search
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================================
+     CTA SECTION
+========================================================== -->
+
+<section class="company-cta">
+
+    <div class="container">
+
+        <div class="cta-content">
+
+            <div class="cta-icon">
+
+                <i class="fa-solid fa-rocket"></i>
+
+            </div>
+
+
+            <div class="cta-text">
+
+                <span>
+                    READY TO START YOUR CAREER?
+                </span>
+
+                <h2>
+                    Find the Right Opportunity for You
+                </h2>
+
+                <p>
+                    Explore available jobs and take the next
+                    step towards your career.
+                </p>
+
+            </div>
+
+
+            <a href="{{ url_for('all_jobs') }}" class="cta-button">
+
+                Explore Jobs
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/companies.js') }}"></script>
+
+{% endblock %}

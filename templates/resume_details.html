@@ -1,0 +1,580 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Details{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row">
+
+        <div class="col-lg-10 mx-auto">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h3 class="mb-0">
+
+                            {{ resume.resume_name }}
+
+                        </h3>
+
+                        <small>
+
+                            Template :
+                            {{ resume.template|title }}
+
+                        </small>
+
+                    </div>
+
+                    <div>
+
+                        <a href="{{ url_for('my_resumes') }}" class="btn btn-light">
+
+                            <i class="fas fa-arrow-left"></i>
+
+                            Back
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+                    <div class="mb-4 d-flex flex-wrap gap-2">
+
+                        <a href="{{ url_for('edit_resume', resume_id=resume.id) }}" class="btn btn-primary">
+
+                            <i class="fas fa-edit"></i>
+
+                            Edit Resume
+
+                        </a>
+
+                        <a href="{{ url_for('download_resume_pdf', resume_id=resume.id) }}" class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            Download PDF
+                        </a>
+                        <a href="{{ url_for('resume_ats', resume_id=resume.id) }}" class="btn btn-warning">
+
+                            <i class="fas fa-chart-line me-2"></i>
+
+                            ATS Score
+
+                        </a>
+                        <a href="{{ url_for('delete_resume', resume_id=resume.id) }}" class="btn btn-outline-danger"
+                            onclick="return confirm('Delete this resume?')">
+
+                            <i class="fas fa-trash"></i>
+
+                            Delete
+
+                        </a>
+
+                    </div>
+
+                    <hr>
+                    <h4 class="text-primary">
+
+                        Personal Information
+
+                    </h4>
+
+                    <table class="table table-bordered">
+
+                        <tr>
+
+                            <th width="200">
+
+                                Full Name
+
+                            </th>
+
+                            <td>
+
+                                {{ student.fullname }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Email
+
+                            </th>
+
+                            <td>
+
+                                {{ student.email }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Mobile
+
+                            </th>
+
+                            <td>
+
+                                {{ student.mobile }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Address
+
+                            </th>
+
+                            <td>
+
+                                {{ student.address }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                    <hr>
+                    <h4 class="text-primary">
+
+                        Career Objective
+
+                    </h4>
+
+                    <p>
+
+                        {{ resume.objective }}
+
+                    </p>
+
+                    <hr>
+                    <!-- ================================= -->
+                    <!-- Education -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Education
+
+                    </h4>
+
+                    {% if education %}
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered">
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>Degree</th>
+                                    <th>College</th>
+                                    <th>Passing Year</th>
+                                    <th>CGPA / Percentage</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for edu in education %}
+
+                                <tr>
+
+                                    <td>{{ edu.degree }}</td>
+
+                                    <td>{{ edu.college }}</td>
+
+                                    <td>{{ edu.passing_year }}</td>
+
+                                    <td>{{ edu.cgpa }}</td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Education Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- ================================= -->
+                    <!-- Skills -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Skills
+
+                    </h4>
+
+                    {% if skills %}
+
+                    <div class="mb-3">
+
+                        {% for skill in skills %}
+
+                        <span class="badge bg-primary me-2 mb-2">
+
+                            {{ skill.skill }}
+
+                        </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Skills Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- ================================= -->
+                    <!-- Projects -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Projects
+
+                    </h4>
+
+                    {% if projects %}
+
+                    {% for project in projects %}
+
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+
+                                {{ project.title }}
+
+                            </h5>
+
+                            <h6 class="text-muted">
+
+                                {{ project.technology }}
+
+                            </h6>
+
+                            <p class="card-text">
+
+                                {{ project.description }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Projects Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+                    <!-- ================================= -->
+                    <!-- Experience -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Work Experience
+
+                    </h4>
+
+                    {% if experience %}
+
+                    {% for exp in experience %}
+
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <h5>
+
+                                {{ exp.role }}
+
+                            </h5>
+
+                            <h6 class="text-muted">
+
+                                {{ exp.company }}
+
+                            </h6>
+
+                            <p>
+
+                                <strong>Duration:</strong>
+
+                                {{ exp.duration }}
+
+                            </p>
+
+                            <p>
+
+                                {{ exp.description }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Experience Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- ================================= -->
+                    <!-- Certificates -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Certificates
+
+                    </h4>
+
+                    {% if certificates %}
+
+                    <ul class="list-group mb-4">
+
+                        {% for cert in certificates %}
+
+                        <li class="list-group-item">
+
+                            <strong>{{ cert.certificate }}</strong>
+
+                            <br>
+
+                            {{ cert.organization }}
+
+                            ({{ cert.year }})
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Certificates Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- ================================= -->
+                    <!-- Languages -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Languages
+
+                    </h4>
+
+                    {% if languages %}
+
+                    {% for lang in languages %}
+
+                    <span class="badge bg-secondary me-2 mb-2">
+
+                        {{ lang.language }}
+
+                    </span>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Languages Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- ================================= -->
+                    <!-- Achievements -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Achievements
+
+                    </h4>
+
+                    {% if achievements %}
+
+                    <ul class="list-group mb-4">
+
+                        {% for achievement in achievements %}
+
+                        <li class="list-group-item">
+
+                            {{ achievement.achievement }}
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Achievements Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- ================================= -->
+                    <!-- Hobbies -->
+                    <!-- ================================= -->
+
+                    <h4 class="text-primary">
+
+                        Hobbies
+
+                    </h4>
+
+                    {% if hobbies %}
+
+                    {% for hobby in hobbies %}
+
+                    <span class="badge bg-dark me-2 mb-2">
+
+                        {{ hobby.hobby }}
+
+                    </span>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <p class="text-muted">
+
+                        No Hobbies Added
+
+                    </p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- ================================= -->
+                    <!-- Resume Information -->
+                    <!-- ================================= -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <p>
+
+                                <strong>Created At:</strong>
+
+                                {{ resume.created_at }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 text-md-end">
+
+                            <p>
+
+                                <strong>Updated At:</strong>
+
+                                {{ resume.updated_at }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

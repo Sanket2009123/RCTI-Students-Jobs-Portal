@@ -1,0 +1,737 @@
+/* =========================================================
+   ADMIN DASHBOARD ONLY
+   Compatible with dashboard.css
+   Does NOT modify sidebar, topbar, or .main-content
+   ========================================================= */
+
+.admin-dashboard {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    padding: 30px 34px 60px;
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 8% 5%, rgba(79, 70, 229, .14), transparent 27%),
+        radial-gradient(circle at 94% 8%, rgba(37, 99, 235, .12), transparent 25%),
+        radial-gradient(circle at 82% 92%, rgba(124, 58, 237, .10), transparent 28%),
+        linear-gradient(135deg, #f8fbff 0%, #f4f7fc 48%, #eef3fb 100%);
+}
+
+.admin-dashboard::before,
+.admin-dashboard::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.admin-dashboard::before {
+    width: 300px;
+    height: 300px;
+    top: 80px;
+    right: -120px;
+    background: rgba(79, 70, 229, .055);
+    filter: blur(2px);
+}
+
+.admin-dashboard::after {
+    width: 240px;
+    height: 240px;
+    left: -110px;
+    bottom: 80px;
+    background: rgba(37, 99, 235, .05);
+    filter: blur(2px);
+}
+
+/* =========================================================
+   WELCOME HEADER
+   ========================================================= */
+
+.admin-dashboard .dashboard-welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 28px;
+}
+
+.admin-dashboard .dashboard-welcome h1 {
+    margin: 0;
+    color: #172033;
+    font-size: clamp(27px, 3vw, 35px);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+.admin-dashboard .dashboard-welcome p {
+    margin: 8px 0 0;
+    color: #718096;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.admin-dashboard .dashboard-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 11px 16px;
+    border: 1px solid rgba(255, 255, 255, .85);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .76);
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, .055);
+    backdrop-filter: blur(14px);
+}
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.admin-dashboard .stat-card {
+    position: relative;
+    min-height: 165px;
+    overflow: hidden;
+    padding: 23px;
+    border: 1px solid rgba(148, 163, 184, .16);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .88);
+    box-shadow: 0 14px 38px rgba(15, 23, 42, .075);
+    backdrop-filter: blur(14px);
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.admin-dashboard .stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(79, 70, 229, .18);
+    box-shadow: 0 22px 48px rgba(15, 23, 42, .12);
+}
+
+.admin-dashboard .stat-card::before {
+    content: "";
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    right: -50px;
+    top: -55px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .055;
+}
+
+.admin-dashboard .stat-card::after {
+    content: "";
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    right: -28px;
+    bottom: -38px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .035;
+}
+
+.admin-dashboard .stat-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-dashboard .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    font-size: 21px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+
+.admin-dashboard .stat-blue { color: #2563eb; }
+.admin-dashboard .stat-green { color: #059669; }
+.admin-dashboard .stat-orange { color: #d97706; }
+.admin-dashboard .stat-red { color: #dc2626; }
+
+.admin-dashboard .stat-blue .stat-icon {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+.admin-dashboard .stat-green .stat-icon {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+}
+
+.admin-dashboard .stat-orange .stat-icon {
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+}
+
+.admin-dashboard .stat-red .stat-icon {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+}
+
+.admin-dashboard .stat-number {
+    position: relative;
+    z-index: 1;
+    margin-top: 20px;
+    color: #172033;
+    font-size: 32px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+.admin-dashboard .stat-title {
+    position: relative;
+    z-index: 1;
+    margin-top: 8px;
+    color: #718096;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-dashboard .stat-link {
+    position: absolute;
+    right: 20px;
+    bottom: 19px;
+    z-index: 2;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.admin-dashboard .stat-link:hover {
+    color: #4f46e5;
+}
+
+/* =========================================================
+   PANELS / CHART CARDS
+   ========================================================= */
+
+.admin-dashboard .dashboard-panel {
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, .16);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .89);
+    box-shadow: 0 14px 38px rgba(15, 23, 42, .07);
+    backdrop-filter: blur(14px);
+    transition: box-shadow .25s ease, transform .25s ease;
+}
+
+.admin-dashboard .dashboard-panel:hover {
+    box-shadow: 0 20px 45px rgba(15, 23, 42, .10);
+}
+
+.admin-dashboard .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 23px;
+    border-bottom: 1px solid rgba(226, 232, 240, .72);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, .86),
+        rgba(248, 250, 252, .55)
+    );
+}
+
+.admin-dashboard .panel-header h4 {
+    margin: 0;
+    color: #172033;
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: -.2px;
+}
+
+.admin-dashboard .panel-header span {
+    color: #8a94a6;
+    font-size: 12px;
+}
+
+.admin-dashboard .panel-body {
+    padding: 23px;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.admin-dashboard .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.admin-dashboard .quick-action {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 82px;
+    padding: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, .16);
+    border-radius: 17px;
+    background: rgba(255, 255, 255, .78);
+    text-decoration: none;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, .04);
+    transition:
+        transform .22s ease,
+        border-color .22s ease,
+        box-shadow .22s ease;
+}
+
+.admin-dashboard .quick-action:hover {
+    transform: translateY(-4px);
+    border-color: rgba(79, 70, 229, .22);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, .09);
+}
+
+.admin-dashboard .quick-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    color: #4f46e5;
+    font-size: 20px;
+}
+
+.admin-dashboard .quick-action h6 {
+    margin: 0;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.admin-dashboard .quick-action small {
+    display: block;
+    margin-top: 4px;
+    color: #8a94a6;
+    font-size: 11px;
+}
+
+/* =========================================================
+   ACTIVITY TABLE
+   ========================================================= */
+
+.admin-dashboard .activity-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-dashboard .activity-table th {
+    padding: 14px 15px;
+    border-bottom: 1px solid #e8edf3;
+    background: #f8fafc;
+    color: #7b8495;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .55px;
+}
+
+.admin-dashboard .activity-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f0f3f7;
+    color: #4b5565;
+    font-size: 13px;
+    background: rgba(255, 255, 255, .55);
+}
+
+.admin-dashboard .activity-table tbody tr {
+    transition: background .18s ease;
+}
+
+.admin-dashboard .activity-table tbody tr:hover td {
+    background: #f8faff;
+}
+
+.admin-dashboard .activity-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-dashboard .activity-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-dashboard .activity-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    color: #4f46e5;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.admin-dashboard .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 11px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-dashboard .status-success {
+    background: #ecfdf5;
+    color: #16834d;
+}
+
+.admin-dashboard .status-warning {
+    background: #fff8e6;
+    color: #b77900;
+}
+
+.admin-dashboard .status-danger {
+    background: #fff0f1;
+    color: #d33d45;
+}
+
+.admin-dashboard .status-info {
+    background: #eef5ff;
+    color: #3168c7;
+}
+
+/* =========================================================
+   CHART AREA
+   ========================================================= */
+
+.admin-dashboard .chart-container {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    padding: 4px;
+}
+
+.admin-dashboard .chart-container canvas {
+    max-width: 100%;
+}
+
+/* =========================================================
+   SELECTS / CONTROLS
+   ========================================================= */
+
+.admin-dashboard select,
+.admin-dashboard .form-select {
+    min-height: 40px;
+    padding: 7px 34px 7px 12px;
+    border: 1px solid #e1e7ef;
+    border-radius: 11px;
+    background-color: rgba(255, 255, 255, .92);
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, .035);
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.admin-dashboard select:focus,
+.admin-dashboard .form-select:focus {
+    border-color: rgba(79, 70, 229, .45);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, .08);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+    .admin-dashboard {
+        padding: 26px 24px 50px;
+    }
+
+    .admin-dashboard .quick-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .admin-dashboard {
+        padding: 24px 20px 45px;
+    }
+
+    .admin-dashboard .dashboard-welcome {
+        align-items: flex-start;
+    }
+
+    .admin-dashboard .stat-card {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-dashboard .dashboard-welcome {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-dashboard .dashboard-date {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-dashboard .quick-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-dashboard .panel-header,
+    .admin-dashboard .panel-body {
+        padding: 18px;
+    }
+
+    .admin-dashboard .chart-container {
+        min-height: 270px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-dashboard {
+        padding: 20px 14px 40px;
+    }
+
+    .admin-dashboard .dashboard-welcome h1 {
+        font-size: 25px;
+    }
+
+    .admin-dashboard .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-dashboard .stat-card {
+        min-height: 145px;
+        padding: 19px;
+    }
+
+    .admin-dashboard .stat-number {
+        font-size: 28px;
+    }
+
+    .admin-dashboard .dashboard-panel {
+        border-radius: 17px;
+    }
+
+    .admin-dashboard .activity-table {
+        min-width: 680px;
+    }
+
+    .admin-dashboard .dashboard-panel:has(.activity-table) {
+        overflow-x: auto;
+    }
+}
+body:has(.admin-dashboard) .main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+}
+/* ==========================================================
+   ADMIN DASHBOARD RESPONSIVE
+========================================================== */
+
+@media (max-width: 992px) {
+
+    .admin-dashboard {
+
+        padding: 25px 20px 50px;
+
+    }
+
+
+    .admin-dashboard .dashboard-welcome {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .admin-dashboard .dashboard-date {
+
+        align-self: flex-start;
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .admin-dashboard {
+
+        padding: 20px 15px 40px;
+
+    }
+
+
+    .admin-dashboard .dashboard-welcome {
+
+        gap: 12px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .admin-dashboard .dashboard-welcome h1 {
+
+        font-size: 26px;
+
+    }
+
+
+    .admin-dashboard .dashboard-welcome p {
+
+        font-size: 13px;
+
+    }
+
+
+    .admin-dashboard .dashboard-date {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+
+    .admin-dashboard .stat-card {
+
+        min-height: 145px;
+
+        padding: 18px;
+
+        border-radius: 16px;
+
+    }
+
+
+    .admin-dashboard .stat-number {
+
+        font-size: 27px;
+
+    }
+
+
+    .admin-dashboard .dashboard-panel {
+
+        border-radius: 16px;
+
+    }
+
+
+    .admin-dashboard .panel-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+
+    .admin-dashboard .stat-card:hover,
+    .admin-dashboard .dashboard-panel:hover {
+
+        transform: none;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .admin-dashboard {
+
+        padding: 15px 10px 30px;
+
+    }
+
+
+    .admin-dashboard .dashboard-welcome h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .admin-dashboard .stat-card {
+
+        min-height: 130px;
+
+        padding: 15px;
+
+    }
+
+
+    .admin-dashboard .stat-icon {
+
+        width: 45px;
+
+        height: 45px;
+
+        font-size: 18px;
+
+    }
+
+
+    .admin-dashboard .stat-number {
+
+        font-size: 24px;
+
+    }
+
+}
+/* ==========================================================
+   ADMIN MOBILE SIDEBAR
+========================================================== */
+
+@media (max-width: 992px) {
+
+    .admin-sidebar {
+
+        width: 250px;
+
+        left: -260px;
+
+        transition: left 0.3s ease;
+
+    }
+
+
+    .admin-sidebar.active {
+
+        left: 0;
+
+    }
+
+}

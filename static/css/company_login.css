@@ -1,0 +1,536 @@
+/* ==========================================================
+   COMPANY LOGIN PAGE
+========================================================== */
+
+/* ==========================================================
+   PAGE BACKGROUND
+========================================================== */
+
+.company-login-page{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:120px 20px 60px;
+
+    background:
+    linear-gradient(rgba(30,58,138,.75),rgba(37,99,235,.75)),
+    url("../images/company-login-bg.jpg") center/cover no-repeat;
+
+}
+
+/* ==========================================================
+   LOGIN CARD
+========================================================== */
+
+.company-login-card{
+
+    width:100%;
+
+    max-width:450px;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(15px);
+
+    -webkit-backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.20);
+
+}
+
+/* ==========================================================
+   COMPANY LOGO
+========================================================== */
+
+.company-logo{
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+}
+
+.company-logo img{
+
+    width:90px;
+
+    height:90px;
+
+    object-fit:contain;
+
+    margin:auto;
+
+}
+
+.company-logo h2{
+
+    color:#fff;
+
+    margin-top:15px;
+
+    font-size:28px;
+
+}
+
+.company-logo p{
+
+    color:#f0f0f0;
+
+    margin-top:8px;
+
+}
+
+/* ==========================================================
+   INPUT GROUP
+========================================================== */
+
+.company-input-group{
+
+    position:relative;
+
+    margin-bottom:20px;
+
+}
+
+.company-input-group i{
+
+    position:absolute;
+
+    left:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#2563EB;
+
+    font-size:18px;
+
+}
+
+.company-input-group input{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:0 50px 0 45px;
+
+    outline:none;
+
+    background:#fff;
+
+    box-sizing:border-box;
+
+}
+/* ================================
+   PASSWORD SHOW / HIDE ICON
+================================ */
+
+.company-input-group .toggle-password{
+
+    position:absolute;
+
+    right:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:32px;
+
+    height:32px;
+
+    border:none;
+
+    background:transparent;
+
+    padding:0;
+
+    margin:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    color:#2563EB;
+
+    z-index:5;
+
+}
+
+.company-input-group .toggle-password i{
+
+    position:static;
+
+    transform:none;
+
+    color:#2563EB;
+
+    font-size:17px;
+
+    pointer-events:none;
+
+}
+
+.company-input-group .toggle-password:hover i{
+
+    color:#1D4ED8;
+
+}
+.company-input-group input:focus{
+
+    box-shadow:0 0 8px rgba(37,99,235,.30);
+
+}
+
+/* ==========================================================
+   OPTIONS
+========================================================== */
+
+.company-options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+.company-options label{
+
+    color:#fff;
+
+    font-size:14px;
+
+}
+
+.company-options input{
+
+    margin-right:6px;
+
+}
+
+.company-options a{
+
+    color:#fff;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+}
+
+.company-options a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ==========================================================
+   LOGIN BUTTON
+========================================================== */
+
+.company-login-btn{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563EB;
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.company-login-btn:hover{
+
+    background:#1D4ED8;
+
+}
+
+/* ==========================================================
+   DIVIDER
+========================================================== */
+
+.company-divider{
+
+    text-align:center;
+
+    color:#fff;
+
+    margin:25px 0;
+
+    position:relative;
+
+}
+
+.company-divider::before,
+
+.company-divider::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    width:40%;
+
+    height:1px;
+
+    background:rgba(255,255,255,.4);
+
+}
+
+.company-divider::before{
+
+    left:0;
+
+}
+
+.company-divider::after{
+
+    right:0;
+
+}
+
+/* ==========================================================
+   REGISTER LINK
+========================================================== */
+
+.company-register{
+
+    text-align:center;
+
+    color:#fff;
+
+}
+
+.company-register a{
+
+    color:#FFD54F;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+}
+
+.company-register a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:768px){
+
+.company-login-card{
+
+    padding:30px 25px;
+
+}
+
+.company-options{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+}
+
+.company-logo img{
+
+    width:75px;
+
+    height:75px;
+
+}
+
+.company-logo h2{
+
+    font-size:24px;
+
+}
+
+}
+.google-btn{
+    width:100%;
+    height:52px;
+    border:none;
+    border-radius:12px;
+    background:#fff;
+    color:#444;
+    font-size:16px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    cursor:pointer;
+    transition:0.3s;
+    margin-top:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.google-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+.google-icon{
+    width:22px;
+    height:22px;
+}
+/* ==============================
+   INPUT BOX
+============================== */
+
+.company-input-group {
+    position: relative;
+    width: 100%;
+}
+
+
+/* Left Icons - Email & Password */
+
+.company-input-group > i {
+    position: absolute;
+
+    left: 22px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #2563eb;
+
+    font-size: 20px;
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+
+/* Input */
+
+.company-input-group input {
+    width: 100%;
+    height: 70px;
+
+    border: none;
+    outline: none;
+
+    border-radius: 16px;
+
+    background: #fff;
+
+    padding-left: 62px;
+    padding-right: 62px;
+
+    font-size: 18px;
+
+    box-sizing: border-box;
+}
+
+
+/* ==============================
+   PASSWORD EYE ICON
+============================== */
+
+.company-input-group .toggle-password {
+
+    position: absolute;
+
+    right: 18px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 5;
+
+    color: #2563eb;
+}
+
+
+/* Eye */
+
+.company-input-group .toggle-password i {
+
+    position: static !important;
+
+    transform: none !important;
+
+    color: #2563eb;
+
+    font-size: 18px;
+
+    margin: 0;
+
+    pointer-events: none;
+}
+
+
+/* Hover */
+
+.company-input-group .toggle-password:hover i {
+    color: #1d4ed8;
+}

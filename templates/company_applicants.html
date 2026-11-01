@@ -1,0 +1,417 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}All Applications{% endblock %}
+
+{% block page_title %}All Applications{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company_applicants.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="applicants-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+    <section class="applicants-hero">
+        <div class="hero-left">
+            <div class="hero-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div>
+                <span class="hero-kicker">
+                    <i class="fa-solid fa-user-group"></i>
+                    CANDIDATE MANAGEMENT
+                </span>
+
+                <h1>All Applications</h1>
+
+                <p>
+                    Review candidates, manage application status and find the right talent for your jobs.
+                </p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('company_jobs') }}" class="hero-secondary-btn">
+            <i class="fa-solid fa-briefcase"></i>
+            Manage Jobs
+        </a>
+    </section>
+
+
+    <!-- =====================================================
+         SUMMARY CARDS
+    ====================================================== -->
+    <section class="application-stats">
+
+        <div class="application-stat total">
+            <div class="stat-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+                <span>Total Applications</span>
+                <strong>{{ applicants|length }}</strong>
+            </div>
+        </div>
+
+        <div class="application-stat pending">
+            <div class="stat-icon">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+                <span>Pending Review</span>
+                <strong>{{ applicants|selectattr('status', 'equalto', 'Pending')|list|length }}</strong>
+            </div>
+        </div>
+
+        <div class="application-stat accepted">
+            <div class="stat-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <span>Shortlisted</span>
+                <strong>{{ applicants|selectattr('status', 'equalto', 'Accepted')|list|length }}</strong>
+            </div>
+        </div>
+
+        <div class="application-stat rejected">
+            <div class="stat-icon">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </div>
+            <div>
+                <span>Rejected</span>
+                <strong>{{ applicants|selectattr('status', 'equalto', 'Rejected')|list|length }}</strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         APPLICATION PANEL
+    ====================================================== -->
+    <section class="applications-panel">
+
+        <div class="panel-header">
+            <div>
+                <span class="panel-kicker">APPLICATION PIPELINE</span>
+                <h2>Candidate Applications</h2>
+                <p>Latest applications are shown first.</p>
+            </div>
+
+            <div class="application-tools">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input
+                        type="search"
+                        id="applicantSearch"
+                        placeholder="Search candidate or job..."
+                        autocomplete="off">
+                </div>
+
+                <select id="statusFilter" class="status-filter" aria-label="Filter applications">
+                    <option value="all">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+        </div>
+
+
+        {% if applicants %}
+
+        <div class="applications-table-wrap">
+
+            <table class="applications-table" id="applicationsTable">
+
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Applied For</th>
+                        <th>Contact</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                        <th>Resume</th>
+                        <th class="actions-column">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for application in applicants %}
+
+                    <tr
+                        class="application-row"
+                        data-status="{{ application.status }}"
+                        data-search="{{ application.fullname }} {{ application.title }} {{ application.email }}">
+
+                        <!-- Candidate -->
+                        <td>
+                            <div class="candidate-cell">
+
+                                <div class="candidate-avatar">
+                                    {{ application.fullname[:1]|upper }}
+                                </div>
+
+                                <div class="candidate-info">
+                                    <strong>{{ application.fullname }}</strong>
+                                    <span>
+                                        Application #{{ application.id }}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </td>
+
+
+                        <!-- Job -->
+                        <td>
+                            <div class="job-cell">
+                                <strong>{{ application.title }}</strong>
+                                <span>
+                                    <i class="fa-solid fa-briefcase"></i>
+                                    Job application
+                                </span>
+                            </div>
+                        </td>
+
+
+                        <!-- Contact -->
+                        <td>
+                            <div class="contact-cell">
+
+                                <a href="mailto:{{ application.email }}">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    {{ application.email }}
+                                </a>
+
+                                {% if application.mobile %}
+                                <a href="tel:{{ application.mobile }}">
+                                    <i class="fa-solid fa-phone"></i>
+                                    {{ application.mobile }}
+                                </a>
+                                {% endif %}
+
+                            </div>
+                        </td>
+
+
+                        <!-- Date -->
+                        <td>
+                            <span class="date-cell">
+                                <i class="fa-regular fa-calendar"></i>
+                                {{ application.apply_date }}
+                            </span>
+                        </td>
+
+
+                        <!-- Status -->
+                        <td>
+                            {% if application.status == "Accepted" %}
+
+                            <span class="status-badge accepted">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Shortlisted
+                            </span>
+
+                            {% elif application.status == "Rejected" %}
+
+                            <span class="status-badge rejected">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                                Rejected
+                            </span>
+
+                            {% else %}
+
+                            <span class="status-badge pending">
+                                <i class="fa-solid fa-clock"></i>
+                                Pending
+                            </span>
+
+                            {% endif %}
+                        </td>
+
+
+                        <!-- Resume -->
+                        <td>
+
+                            {% if application.resume %}
+
+                            <div class="resume-actions">
+                                <a
+                                    href="{{ url_for('static', filename='uploads/resume/' ~ application.resume) }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="resume-btn view"
+                                    title="View resume">
+                                    <i class="fa-solid fa-eye"></i>
+                                    View
+                                </a>
+
+                                <a
+                                    href="{{ url_for('static', filename='uploads/resume/' ~ application.resume) }}"
+                                    download
+                                    class="resume-btn download"
+                                    title="Download resume">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+                            </div>
+
+                            {% else %}
+
+                            <span class="no-resume">
+                                <i class="fa-regular fa-file"></i>
+                                Not uploaded
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- Actions -->
+                        <td class="actions-column">
+
+                            <div class="application-actions">
+
+                                {% if application.status == "Accepted" %}
+                                <a
+                                    href="{{ url_for('schedule_selection', application_id=application.id) }}"
+                                    class="application-action schedule"
+                                    title="Schedule interview or test">
+                                    <i class="fa-solid fa-calendar-plus"></i>
+                                    Schedule
+                                </a>
+                                {% endif %}
+
+                                {% if application.status != "Accepted" %}
+                                <a
+                                    href="{{ url_for('application_status', application_id=application.id, status='Accepted') }}"
+                                    class="application-action accept"
+                                    title="Shortlist candidate">
+                                    <i class="fa-solid fa-check"></i>
+                                    Accept
+                                </a>
+                                {% endif %}
+
+                                {% if application.status != "Rejected" %}
+                                <a
+                                    href="{{ url_for('application_status', application_id=application.id, status='Rejected') }}"
+                                    class="application-action reject"
+                                    title="Reject candidate">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Reject
+                                </a>
+                                {% endif %}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- No search result -->
+        <div class="no-results" id="noSearchResults" hidden>
+            <div class="no-results-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <h3>No applications found</h3>
+            <p>Try changing the search text or status filter.</p>
+        </div>
+
+
+        {% else %}
+
+        <!-- Empty State -->
+        <div class="applications-empty">
+
+            <div class="empty-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+            <span class="empty-kicker">APPLICATION PIPELINE</span>
+
+            <h3>No Applications Yet</h3>
+
+            <p>
+                Applications will appear here when students apply to your company's job postings.
+            </p>
+
+            <a href="{{ url_for('post_job') }}" class="empty-primary-btn">
+                <i class="fa-solid fa-plus"></i>
+                Post a New Job
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput = document.getElementById("applicantSearch");
+    const statusFilter = document.getElementById("statusFilter");
+    const rows = Array.from(document.querySelectorAll(".application-row"));
+    const noResults = document.getElementById("noSearchResults");
+
+    if (!searchInput || !statusFilter || !rows.length) {
+        return;
+    }
+
+    function filterApplications() {
+
+        const searchValue = searchInput.value.trim().toLowerCase();
+        const statusValue = statusFilter.value;
+        let visibleCount = 0;
+
+        rows.forEach(function (row) {
+
+            const text = (row.dataset.search || "").toLowerCase();
+            const status = row.dataset.status || "";
+
+            const matchesSearch = !searchValue || text.includes(searchValue);
+            const matchesStatus =
+                statusValue === "all" || status === statusValue;
+
+            const visible = matchesSearch && matchesStatus;
+
+            row.style.display = visible ? "" : "none";
+
+            if (visible) {
+                visibleCount++;
+            }
+        });
+
+        if (noResults) {
+            noResults.hidden = visibleCount !== 0;
+        }
+    }
+
+    searchInput.addEventListener("input", filterApplications);
+    statusFilter.addEventListener("change", filterApplications);
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,160 @@
+<!-- ==========================================================
+     RCTI STUDENT SIDEBAR
+========================================================== -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student_sidebar.css') }}">
+<aside class="sidebar">
+
+    <!-- ======================================================
+         LOGO / STUDENT PROFILE
+    ======================================================= -->
+
+    <div class="sidebar-logo">
+
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="RCTI Logo">
+
+        <h2>RCTI Portal</h2>
+
+        <div class="student-sidebar-profile">
+
+            {% if student and student["profile_photo"] %}
+
+            <img src="{{ url_for(
+                'student_profile_photo',
+                filename=student['profile_photo']
+            ) }}" alt="Student" class="student-profile-photo">
+
+            {% else %}
+
+            <img src="{{ url_for(
+                'student_profile_photo',
+                filename='default.png'
+            ) }}" alt="Student" class="student-profile-photo">
+
+            {% endif %}
+
+
+            <h5>
+                {{ session.get("student_name", "Student") }}
+            </h5>
+
+            <small>Student</small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================================
+         NAVIGATION
+    ======================================================= -->
+
+    <div class="sidebar-menu">
+
+        <div class="menu-section-title">
+            MAIN MENU
+        </div>
+
+        <ul>
+
+            <!-- Dashboard -->
+            <li>
+                <a href="{{ url_for('student_dashboard') }}"
+                    class="{% if request.endpoint == 'student_dashboard' %}active{% endif %}">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>Dashboard</span>
+
+                </a>
+            </li>
+
+
+            <!-- Jobs -->
+            <li>
+                <a href="{{ url_for('student_jobs') }}"
+                    class="{% if request.endpoint == 'student_jobs' %}active{% endif %}">
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                    <span>Jobs</span>
+
+                </a>
+            </li>
+
+
+            <!-- My Applications -->
+            <li>
+                <a href="{{ url_for('my_applications') }}"
+                    class="{% if request.endpoint == 'my_applications' %}active{% endif %}">
+
+                    <i class="fa-solid fa-file-circle-check"></i>
+
+                    <span>My Applications</span>
+
+                </a>
+            </li>
+
+        </ul>
+
+
+        <div class="menu-section-title career-title">
+            CAREER TOOLS
+        </div>
+
+        <ul>
+
+            <!-- Resume Generator -->
+            <li>
+                <a href="{{ url_for('resume_builder') }}"
+                    class="{% if request.endpoint == 'resume_builder' %}active{% endif %}">
+
+                    <i class="fa-solid fa-file-signature"></i>
+
+                    <span>Resume Generator</span>
+
+                </a>
+            </li>
+
+
+            <!-- Upload Resume -->
+            <li>
+                <a href="{{ url_for('upload_resume') }}"
+                    class="{% if request.endpoint == 'upload_resume' %}active{% endif %}">
+
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                    <span>Upload Resume</span>
+
+                </a>
+            </li>
+
+
+            <!-- Profile -->
+            <li>
+                <a href="{{ url_for('student_profile') }}"
+                    class="{% if request.endpoint == 'student_profile' %}active{% endif %}">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    <span>My Profile</span>
+
+                </a>
+            </li>
+
+        </ul>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('student_logout') }}" class="sidebar-logout-link">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </div>
+</aside>

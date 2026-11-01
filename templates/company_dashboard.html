@@ -1,0 +1,342 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Company Dashboard
+{% endblock %}
+
+{% block page_title %}
+Company Dashboard
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company_dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="company-dashboard">
+
+    <!-- =====================================================
+         HERO / COMPANY BRAND
+    ====================================================== -->
+    <section class="company-hero">
+        <div class="hero-content">
+            <div class="company-brand">
+                <div class="company-logo-wrap">
+                    <img
+                        src="{{ url_for('static', filename='uploads/company_logos/' ~ (company_logo or 'default.png')) }}"
+                        alt="{{ company_name or 'Company' }} Logo"
+                        class="company-logo"
+                        onerror="this.style.display='none';"
+                    >
+                </div>
+
+                <div class="company-brand-text">
+                    <span class="hero-eyebrow">
+                        <i class="fa-solid fa-chart-line"></i>
+                        Company Overview
+                    </span>
+                    <h1>Welcome back, {{ company_name or 'Company' }}!</h1>
+                    <p>Manage your jobs, applications and recruitment activity from one place.</p>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <a href="{{ url_for('company_profile') }}" class="hero-profile-btn">
+                    <i class="fa-solid fa-building"></i>
+                    Company Profile
+                </a>
+                <a href="{{ url_for('company_jobs') }}" class="hero-primary-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Post New Job
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         KPI CARDS
+    ====================================================== -->
+    <section class="dashboard-section">
+        <div class="section-heading">
+            <div>
+                <span class="section-kicker">Performance</span>
+                <h2>Recruitment Overview</h2>
+            </div>
+            <span class="section-note">
+                <i class="fa-regular fa-clock"></i> Live dashboard
+            </span>
+        </div>
+
+        <div class="stats-grid">
+
+            <a href="{{ url_for('company_jobs') }}" class="stat-card stat-blue">
+                <div class="stat-icon"><i class="fa-solid fa-briefcase"></i></div>
+                <div class="stat-info">
+                    <span>Total Jobs</span>
+                    <strong>{{ total_jobs }}</strong>
+                    <small>All posted jobs</small>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('company_applicants') }}" class="stat-card stat-green">
+                <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-info">
+                    <span>Total Applicants</span>
+                    <strong>{{ total_applications }}</strong>
+                    <small>Applications received</small>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('active_jobs') }}" class="stat-card stat-orange">
+                <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-info">
+                    <span>Active Jobs</span>
+                    <strong>{{ active_jobs }}</strong>
+                    <small>Currently hiring</small>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('inactive_jobs') }}" class="stat-card stat-slate">
+                <div class="stat-icon"><i class="fa-solid fa-ban"></i></div>
+                <div class="stat-info">
+                    <span>Inactive Jobs</span>
+                    <strong>{{ inactive_jobs }}</strong>
+                    <small>Not currently active</small>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('shortlisted_students') }}" class="stat-card stat-purple">
+                <div class="stat-icon"><i class="fa-solid fa-user-check"></i></div>
+                <div class="stat-info">
+                    <span>Shortlisted</span>
+                    <strong>{{ shortlisted }}</strong>
+                    <small>Selected candidates</small>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('rejected_students') }}" class="stat-card stat-red">
+                <div class="stat-icon"><i class="fa-solid fa-user-xmark"></i></div>
+                <div class="stat-info">
+                    <span>Rejected</span>
+                    <strong>{{ rejected }}</strong>
+                    <small>Rejected applications</small>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square stat-arrow"></i>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+         QUICK ACTIONS
+    ====================================================== -->
+    <section class="quick-actions-panel">
+        <div class="section-heading compact">
+            <div>
+                <span class="section-kicker">Shortcuts</span>
+                <h2>Quick Actions</h2>
+            </div>
+        </div>
+
+        <div class="action-grid">
+            <a href="{{ url_for('company_jobs') }}" class="action-card action-primary">
+                <span class="action-icon"><i class="fa-solid fa-plus"></i></span>
+                <span>
+                    <strong>Post New Job</strong>
+                    <small>Create a new job opportunity</small>
+                </span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+
+            <a href="{{ url_for('company_applicants') }}" class="action-card">
+                <span class="action-icon"><i class="fa-solid fa-users"></i></span>
+                <span>
+                    <strong>View Applicants</strong>
+                    <small>Review received applications</small>
+                </span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+
+            <a href="{{ url_for('company_profile') }}" class="action-card">
+                <span class="action-icon"><i class="fa-solid fa-building"></i></span>
+                <span>
+                    <strong>Company Profile</strong>
+                    <small>Update company information & logo</small>
+                </span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         RECENT JOBS + COMPANY INFO
+    ====================================================== -->
+    <div class="dashboard-two-column">
+
+        <section class="dashboard-panel">
+            <div class="panel-header">
+                <div>
+                    <span class="section-kicker">Latest</span>
+                    <h2>Recent Job Posts</h2>
+                </div>
+                <a href="{{ url_for('company_jobs') }}" class="view-all-link">
+                    View all <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="job-list">
+                {% if recent_jobs %}
+                    {% for job in recent_jobs %}
+                    <div class="job-row">
+                        <div class="job-row-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <div class="job-row-content">
+                            <strong>{{ job.title }}</strong>
+                            <span>
+                                <i class="fa-solid fa-location-dot"></i>
+                                {{ job.location or 'Location not specified' }}
+                            </span>
+                        </div>
+                        <span class="job-status {{ 'active' if job.status == 'Active' else 'inactive' }}">
+                            {{ job.status }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fa-solid fa-briefcase"></i></div>
+                        <h3>No jobs posted yet</h3>
+                        <p>Create your first job opening to start receiving applications.</p>
+                        <a href="{{ url_for('company_jobs') }}" class="btn-dashboard-primary">
+                            <i class="fa-solid fa-plus"></i> Post New Job
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <aside class="dashboard-panel company-summary">
+            <div class="panel-header">
+                <div>
+                    <span class="section-kicker">Your Company</span>
+                    <h2>Company Profile</h2>
+                </div>
+                <a href="{{ url_for('company_profile') }}" class="edit-profile-link">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
+            </div>
+
+            <div class="profile-summary">
+                <div class="summary-logo">
+                    <img
+                        src="{{ url_for('static', filename='uploads/company_logos/' ~ (company_logo or 'default.png')) }}"
+                        alt="{{ company_name or 'Company' }} Logo"
+                    >
+                </div>
+                <h3>{{ company_name or 'Company' }}</h3>
+                {% if company_email %}
+                    <p><i class="fa-solid fa-envelope"></i> {{ company_email }}</p>
+                {% endif %}
+                <a href="{{ url_for('company_profile') }}" class="profile-btn">
+                    Manage Profile
+                </a>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- =====================================================
+         RECENT APPLICATIONS
+    ====================================================== -->
+    <section class="dashboard-panel applications-panel">
+        <div class="panel-header">
+            <div>
+                <span class="section-kicker">Candidate Activity</span>
+                <h2>Recent Applications</h2>
+            </div>
+            <a href="{{ url_for('company_applicants') }}" class="view-all-link">
+                View all <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        {% if recent_applications %}
+        <div class="table-responsive dashboard-table-wrap">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Job Position</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in recent_applications %}
+                    <tr>
+                        <td>
+                            <div class="candidate-cell">
+                                <span class="candidate-avatar">
+                                    {{ application.fullname[:1]|upper }}
+                                </span>
+                                <strong>{{ application.fullname }}</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="table-job-title">{{ application.title }}</span>
+                        </td>
+                        <td>
+                            <span class="date-cell">
+                                <i class="fa-regular fa-calendar"></i>
+                                {{ application.apply_date }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if application.status == "Accepted" %}
+                                <span class="status-badge accepted">
+                                    <i class="fa-solid fa-circle-check"></i> Accepted
+                                </span>
+                            {% elif application.status == "Rejected" %}
+                                <span class="status-badge rejected">
+                                    <i class="fa-solid fa-circle-xmark"></i> Rejected
+                                </span>
+                            {% else %}
+                                <span class="status-badge pending">
+                                    <i class="fa-solid fa-clock"></i> Pending
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ url_for('company_applicants') }}" class="table-view-btn">
+                                View <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state applications-empty">
+            <div class="empty-icon"><i class="fa-solid fa-users"></i></div>
+            <h3>No applications yet</h3>
+            <p>Applications will appear here when students apply to your jobs.</p>
+        </div>
+        {% endif %}
+    </section>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/company_dashboard.js') }}"></script>
+{% endblock %}

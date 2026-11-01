@@ -1,0 +1,65 @@
+# Firebase private credentials
+firebase/serviceAccountKey.json
+
+# Environment variables
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+
+# Local database
+database.db
+*.db
+
+# Local uploads
+static/uploads/
+# ==========================
+# Firebase private credentials
+# ==========================
+firebase/serviceAccountKey.json
+
+# ==========================
+# Environment variables
+# ==========================
+.env
+.env.*
+
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# ==========================
+# IDE / Editor
+# ==========================
+.vscode/
+.idea/
+
+# ==========================
+# Local database
+# ==========================
+database.db
+*.db
+
+# ==========================
+# Local uploads
+# ==========================
+static/uploads/
+
+# ==========================
+# Windows files
+# ==========================
+*.lnk
+Thumbs.db
+Desktop.ini
+venv
+venv/

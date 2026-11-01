@@ -1,0 +1,290 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}Manage Jobs{% endblock %}
+
+{% block page_title %}Manage Jobs{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/company_dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/manage_jobs.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="manage-jobs-page">
+
+    <!-- ======================================================
+         PAGE HEADER
+         ====================================================== -->
+    <section class="manage-jobs-header">
+        <div class="header-main">
+            <div class="header-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+
+            <div>
+                <span class="header-kicker">
+                    <i class="fa-solid fa-chart-line"></i>
+                    RECRUITMENT MANAGEMENT
+                </span>
+
+                <h1>My Job Posts</h1>
+
+                <p>
+                    View, edit and manage all job opportunities posted by your company.
+                </p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('post_job') }}" class="post-job-btn">
+            <i class="fa-solid fa-plus"></i>
+            Post New Job
+        </a>
+    </section>
+
+
+    <!-- ======================================================
+         SUMMARY
+         ====================================================== -->
+    <section class="jobs-summary">
+
+        <div class="summary-card summary-total">
+            <div class="summary-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+
+            <div>
+                <span>Total Jobs</span>
+                <strong>{{ jobs|length }}</strong>
+            </div>
+        </div>
+
+        <div class="summary-card summary-active">
+            <div class="summary-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <div>
+                <span>Active Jobs</span>
+                <strong>
+                    {{ jobs|selectattr('status', 'equalto', 'Active')|list|length }}
+                </strong>
+            </div>
+        </div>
+
+        <div class="summary-card summary-inactive">
+            <div class="summary-icon">
+                <i class="fa-solid fa-circle-pause"></i>
+            </div>
+
+            <div>
+                <span>Inactive Jobs</span>
+                <strong>
+                    {{ jobs|selectattr('status', 'equalto', 'Inactive')|list|length }}
+                </strong>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ======================================================
+         JOB LIST
+         ====================================================== -->
+    <section class="jobs-panel">
+
+        <div class="panel-top">
+            <div>
+                <span class="panel-kicker">ALL OPPORTUNITIES</span>
+                <h2>Manage Your Jobs</h2>
+            </div>
+
+            {% if jobs %}
+            <span class="jobs-count">
+                {{ jobs|length }} job{{ '' if jobs|length == 1 else 's' }}
+            </span>
+            {% endif %}
+        </div>
+
+
+        {% if jobs %}
+
+        <div class="jobs-list">
+
+            {% for job in jobs %}
+
+            <article class="job-card">
+
+                <!-- Job Identity -->
+                <div class="job-card-main">
+
+                    <div class="job-icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+
+                    <div class="job-identity">
+                        <div class="job-title-row">
+                            <h3>{{ job.title }}</h3>
+
+                            {% if job.status == "Active" %}
+                                <span class="status-badge active">
+                                    <i class="fa-solid fa-circle"></i>
+                                    Active
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fa-solid fa-circle"></i>
+                                    Inactive
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div class="job-meta">
+                            <span>
+                                <i class="fa-solid fa-location-dot"></i>
+                                {{ job.location or 'Location not specified' }}
+                            </span>
+
+                            <span>
+                                <i class="fa-solid fa-layer-group"></i>
+                                {{ job.category or 'Category not specified' }}
+                            </span>
+
+                            <span>
+                                <i class="fa-solid fa-clock"></i>
+                                {{ job.job_type or 'Job type not specified' }}
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Job Details -->
+                <div class="job-details">
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            Salary
+                        </span>
+                        <strong>{{ job.salary or 'Not specified' }}</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-user-tie"></i>
+                            Experience
+                        </span>
+                        <strong>{{ job.experience or 'Not specified' }}</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-users"></i>
+                            Vacancies
+                        </span>
+                        <strong>{{ job.vacancies or '0' }}</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fa-regular fa-calendar"></i>
+                            Last Date
+                        </span>
+                        <strong>{{ job.last_date or 'Not specified' }}</strong>
+                    </div>
+
+                </div>
+
+
+                <!-- Skills -->
+                {% if job.skills %}
+                <div class="job-skills">
+                    <span class="skills-label">
+                        <i class="fa-solid fa-code"></i>
+                        Skills
+                    </span>
+
+                    <span class="skills-text">{{ job.skills }}</span>
+                </div>
+                {% endif %}
+
+
+                <!-- Actions -->
+                <div class="job-card-actions">
+
+                    <a
+                        href="{{ url_for('edit_job', job_id=job.id) }}"
+                        class="job-action edit">
+                        <i class="fa-solid fa-pen"></i>
+                        Edit
+                    </a>
+
+                    {% if job.status == "Active" %}
+
+                    <a
+                        href="{{ url_for('job_status', job_id=job.id, status='Inactive') }}"
+                        class="job-action deactivate">
+                        <i class="fa-solid fa-pause"></i>
+                        Deactivate
+                    </a>
+
+                    {% else %}
+
+                    <a
+                        href="{{ url_for('job_status', job_id=job.id, status='Active') }}"
+                        class="job-action activate">
+                        <i class="fa-solid fa-play"></i>
+                        Activate
+                    </a>
+
+                    {% endif %}
+
+                    <a
+                        href="{{ url_for('delete_job', job_id=job.id) }}"
+                        class="job-action delete"
+                        onclick="return confirm('Are you sure you want to delete this job?')">
+                        <i class="fa-solid fa-trash"></i>
+                        Delete
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <!-- Empty State -->
+        <div class="jobs-empty">
+
+            <div class="empty-icon">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+
+            <h3>No Jobs Posted Yet</h3>
+
+            <p>
+                You have not created any job opening yet.
+                Post your first job to start receiving applications.
+            </p>
+
+            <a href="{{ url_for('post_job') }}" class="empty-post-btn">
+                <i class="fa-solid fa-plus"></i>
+                Post Your First Job
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+{% endblock %}

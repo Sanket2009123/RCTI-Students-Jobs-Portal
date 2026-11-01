@@ -1,0 +1,253 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Manage Jobs
+{% endblock %}
+
+{% block page_title %}
+Manage Jobs
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/admin.css') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/manage_jobs_admin.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Manage Job Posts</h2>
+
+            <p class="text-muted">
+
+                View, edit and control all job postings available on the portal.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Search & Filter -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-5">
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search Job Title">
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <select class="form-select">
+
+                        <option>All Status</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                        <option>Closed</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <button class="btn btn-primary w-100">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Jobs Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th>Salary</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>101</td>
+                        <td>Python Developer</td>
+                        <td>ABC Technologies</td>
+                        <td>Ahmedabad</td>
+                        <td>₹4.5 LPA</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Active
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-warning btn-sm">
+
+                                <i class="fa-solid fa-pen"></i>
+
+                                Edit
+
+                            </button>
+
+                            <button class="btn btn-secondary btn-sm">
+
+                                Deactivate
+
+                            </button>
+
+                            <button class="btn btn-danger btn-sm">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>102</td>
+                        <td>Frontend Developer</td>
+                        <td>XYZ Solutions</td>
+                        <td>Surat</td>
+                        <td>₹5 LPA</td>
+
+                        <td>
+
+                            <span class="badge bg-secondary">
+
+                                Inactive
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </button>
+
+                            <button class="btn btn-success btn-sm">
+
+                                Activate
+
+                            </button>
+
+                            <button class="btn btn-danger btn-sm">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>103</td>
+                        <td>UI/UX Designer</td>
+                        <td>PQR Infotech</td>
+                        <td>Vadodara</td>
+                        <td>₹3.8 LPA</td>
+
+                        <td>
+
+                            <span class="badge bg-dark">
+
+                                Closed
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </button>
+
+                            <button class="btn btn-danger btn-sm">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/manage_jobs_admin.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>{{ resume.resume_name }}</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: 'Segoe UI', sans-serif;
+            background: #eceff3;
+            color: #333;
+
+        }
+
+        .resume {
+
+            width: 900px;
+            margin: 30px auto;
+            background: white;
+            display: flex;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .15);
+
+        }
+
+        .left {
+
+            width: 35%;
+            background: linear-gradient(180deg, #6C63FF, #3F3D56);
+            color: white;
+            padding: 30px;
+
+        }
+
+        .right {
+
+            width: 65%;
+            padding: 35px;
+
+        }
+
+        .photo {
+
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: white;
+            margin: auto;
+            overflow: hidden;
+
+        }
+
+        .photo img {
+
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+        }
+
+        .name {
+
+            text-align: center;
+            margin-top: 20px;
+
+        }
+
+        .name h1 {
+
+            font-size: 28px;
+
+        }
+
+        .name h3 {
+
+            font-weight: normal;
+            color: #ddd;
+
+        }
+
+        .section {
+
+            margin-top: 28px;
+
+        }
+
+        .section h2 {
+
+            font-size: 18px;
+            margin-bottom: 10px;
+
+        }
+
+        .right .section h2 {
+
+            color: #6C63FF;
+            border-bottom: 2px solid #6C63FF;
+            padding-bottom: 5px;
+
+        }
+
+        .left .section h2 {
+
+            border-bottom: 2px solid rgba(255, 255, 255, .4);
+            padding-bottom: 5px;
+
+        }
+
+        .contact p {
+
+            margin-bottom: 8px;
+
+        }
+
+        .skill {
+
+            margin-bottom: 15px;
+
+        }
+
+        .bar {
+
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, .3);
+            border-radius: 10px;
+            overflow: hidden;
+
+        }
+
+        .fill {
+
+            height: 100%;
+            background: #FFD54F;
+
+        }
+
+        .timeline {
+
+            border-left: 3px solid #6C63FF;
+            padding-left: 20px;
+
+        }
+
+        .timeline-item {
+
+            margin-bottom: 20px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="resume">
+
+        <div class="left">
+
+            <div class="photo">
+
+                {% if student.profile_photo %}
+
+                <img src="{{ url_for('static',
+filename='uploads/profile/' + student.profile_photo) }}">
+
+                {% else %}
+
+                <img src="{{ url_for('static',
+filename='images/default_user.png') }}">
+
+                {% endif %}
+
+            </div>
+
+            <div class="name">
+
+                <h1>
+
+                    {{ student.fullname }}
+
+                </h1>
+
+                <h3>
+
+                    {{ resume.resume_name }}
+
+                </h3>
+
+            </div>
+            <div class="section contact">
+
+                <h2>
+
+                    Contact
+
+                </h2>
+
+                <p>
+
+                    📧 {{ student.email }}
+
+                </p>
+
+                <p>
+
+                    📱 {{ student.mobile }}
+
+                </p>
+
+                <p>
+
+                    📍 {{ student.address }}
+
+                </p>
+
+            </div>
+            <div class="section">
+
+                <h2>
+
+                    Skills
+
+                </h2>
+
+                {% for skill in skills %}
+
+                <div class="skill">
+
+                    {{ skill.skill }}
+
+                    <div class="bar">
+
+                        <div class="fill" style="width:80%;"></div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+            <div class="section">
+
+                <h2>
+
+                    Languages
+
+                </h2>
+
+                <ul>
+
+                    {% for lang in languages %}
+
+                    <li>
+
+                        {{ lang.language }}
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="right">
+            <!-- ========================= -->
+            <!-- Career Objective -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Career Objective</h2>
+
+                <p>
+
+                    {{ resume.objective }}
+
+                </p>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Experience Timeline -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Experience</h2>
+
+                <div class="timeline">
+
+                    {% if experience %}
+
+                    {% for exp in experience %}
+
+                    <div class="timeline-item">
+
+                        <h3>{{ exp.role }}</h3>
+
+                        <strong>{{ exp.company }}</strong>
+
+                        <br>
+
+                        <small>{{ exp.duration }}</small>
+
+                        <p style="margin-top:8px;">
+
+                            {{ exp.experience_description }}
+
+                        </p>
+
+                    </div>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <div class="timeline-item">
+
+                        <strong>Fresher</strong>
+
+                        <p>Looking for an opportunity to start my career.</p>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Projects -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Projects</h2>
+
+                {% for project in projects %}
+
+                <div style="margin-bottom:18px;">
+
+                    <h3>{{ project.project_title }}</h3>
+
+                    <strong>{{ project.project_technology }}</strong>
+
+                    <p>
+
+                        {{ project.project_description }}
+
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Education -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Education</h2>
+
+                {% for edu in education %}
+
+                <div style="margin-bottom:15px;">
+
+                    <strong>{{ edu.degree }}</strong>
+
+                    <br>
+
+                    {{ edu.college }}
+
+                    <br>
+
+                    {{ edu.year }}
+
+                    {% if edu.cgpa %}
+
+                    | CGPA : {{ edu.cgpa }}
+
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Certificates -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Certificates</h2>
+
+                <ul>
+
+                    {% for cert in certificates %}
+
+                    <li>
+
+                        {{ cert.certificate_name }}
+
+                        -
+
+                        {{ cert.certificate_org }}
+
+                        ({{ cert.certificate_year }})
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Achievements -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Achievements</h2>
+
+                <ul>
+
+                    {% for achievement in achievements %}
+
+                    <li>{{ achievement.achievement }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- Hobbies -->
+            <!-- ========================= -->
+
+            <div class="section">
+
+                <h2>Hobbies</h2>
+
+                <ul>
+
+                    {% for hobby in hobbies %}
+
+                    <li>{{ hobby.hobby }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <hr style="margin-top:35px;">
+
+            <div style="text-align:center;font-size:12px;color:#666;">
+
+                Generated by <strong>RCTI Student Jobs Portal</strong>
+
+                <br>
+
+                {{ resume.updated_at if resume.updated_at else resume.created_at }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
