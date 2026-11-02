@@ -1,21 +1,14 @@
-import os
-import libsql
+from database.db import get_connection
 
-url = os.getenv("TURSO_DATABASE_URL")
-token = os.getenv("TURSO_AUTH_TOKEN")
+try:
+    conn = get_connection()
 
-if not url or not token:
-    raise RuntimeError(
-        "TURSO_DATABASE_URL or TURSO_AUTH_TOKEN is missing"
-    )
+    result = conn.execute("SELECT 1").fetchone()
 
-conn = libsql.connect(
-    database=url,
-    auth_token=token
-)
+    print("Turso Connected Successfully!")
+    print(result)
 
-result = conn.execute("SELECT 1").fetchone()
+    conn.close()
 
-print("Turso connection successful:", result)
-
-conn.close()
+except Exception as e:
+    print("Connection Failed:", e)
