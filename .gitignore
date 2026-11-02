@@ -63,3 +63,8 @@ Thumbs.db
 Desktop.ini
 venv
 venv/
+
+# ==========================
+# Node modules
+# ==========================
+node_modules/
